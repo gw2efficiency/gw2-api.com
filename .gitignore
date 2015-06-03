@@ -1,0 +1,73 @@
+################################
+### Project specific
+################################
+
+### Generated files ###
+
+
+### Lumen ###
+/lumen.log
+/vendor
+.env
+
+################################
+### IDEs
+################################
+
+### PhPStorm ###
+.idea/
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
+### Eclipse ###
+*.pydevproject
+.project
+.metadata
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+.externalToolBuilders/
+*.launch
+.cproject
+.buildpath
+
+################################
+### Operating Systems
+################################
+
+### Windows ###
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+### OSX ###
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+
+### Linux ###
+.*
+!.gitignore
+*~
+!.gitkeep
