@@ -12,7 +12,9 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        'App\Console\Commands\UpdateItemList',
+        'App\Console\Commands\UpdateItemPrices',
+        'App\Console\Commands\RepopulateItems'
     ];
 
     /**
@@ -23,6 +25,15 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //
+
+        // Update the prices every minute (this overlaps, but always updates the newest prices)
+        $schedule->command('gw2:update-item-prices')->cron('* * * * * *');
+
+        // Repopulate the items from the database every day at 6, in case something broke
+        $schedule->command('gw2:repopulate-items')->daily()->at('6:00');
+
+        // Try and get new items every wednesday at 6 (since tuesday is patch-day)
+        $schedule->command('gw2:update-item-list')->weekly()->wednesdays()->at('6:00');
+
     }
 }

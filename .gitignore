@@ -3,7 +3,7 @@
 ################################
 
 ### Generated files ###
-
+composer.lock
 
 ### Lumen ###
 /lumen.log
