@@ -119,7 +119,7 @@ class ItemsController extends Controller
             $ids = explode(',', $ids);
         }
 
-        $ids = array_unique($ids);
+        $ids = array_values(array_unique($ids));
         return CacheItem::prefixIdentifier($ids);
 
     }

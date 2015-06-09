@@ -15,11 +15,14 @@ class Controller extends BaseController
      */
     protected function apiResponse($content, $age = 0, $content_type = 'application/json')
     {
+
         return (new Response($content, 200))
             ->header('Content-Type', $content_type)
             ->header('Pragma', 'public')
             ->header('Cache-Control', 'max-age=' . $age . ', public')
-            ->header('Expires', gmdate('D, d M Y H:i:s \G\M\T', time() + $age));
+            ->header('Expires', gmdate('D, d M Y H:i:s \G\M\T', time() + $age))
+            ->header('Access-Control-Allow-Origin', '*');
+
     }
 
     /**
