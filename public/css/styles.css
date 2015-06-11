@@ -1,0 +1,93 @@
+body {
+    margin: 0;
+    padding: 0;
+    color: #000;
+    font-weight: 300;
+    font-family: 'Lato';
+    font-size: 18px;
+}
+
+.container {
+    width: 960px;
+    margin: auto;
+}
+
+.container .navigation {
+    width: 260px;
+    float: left;
+    line-height: 30px;
+    position: fixed;
+}
+
+.navigation h2 {
+    margin-top: 100px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.container .content {
+    margin-left: 260px;
+    width: 700px;
+    float: left;
+}
+
+h1 {
+    font-size: 96px;
+    margin-bottom: 40px;
+    font-weight: 100;
+    text-align: center;
+}
+
+h2 {
+    font-size: 26px;
+    margin-bottom: 0;
+    font-weight: 300;
+    text-align: center;
+}
+
+.endpoint {
+    margin-top: 100px;
+}
+
+.endpoint h1 {
+
+    font-size: 44px;
+    line-height: 36px;
+    margin-bottom: 20px;
+    font-weight: 300;
+    text-align: center;
+
+    padding: 20px 0px;
+    background-color: #3c3f41;
+    color: white;
+    font-family: "Source Code Pro";
+
+}
+
+.endpoint h2 {
+    font-size: 32px;
+    text-align: left;
+    margin-top: 40px;
+}
+
+.endpoint .parameters {
+
+}
+
+.endpoint .parameters .required {
+
+}
+
+.endpoint .parameters .optional {
+
+}
+
+.endpoint .example {
+    padding: 10px;
+    background-color: #F0F0F0;
+    font-size: 16px;
+}
+
+.endpoint .example .separator {
+    text-align: center;
+}

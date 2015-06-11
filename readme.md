@@ -1,6 +1,10 @@
-# gw2-api.com
+# GW2-API
 
 Proxy-layer for the official GW2 item, tradingpost and render API (or: yet another gw2spidy)
+
+## Reference
+
+Please visit the homepage for endpoint references: http://gw2-api.com
 
 ## Why?
 
