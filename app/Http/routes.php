@@ -12,7 +12,7 @@
 */
 
 $app->get('/', function () {
-    echo "A pretty page with explanations is on todo list. :)";
+    return view('reference');
 });
 
 $app->get('/item', 'App\Http\Controllers\ItemsController@itemQuery');
@@ -24,6 +24,7 @@ $app->get('/items', 'App\Http\Controllers\ItemsController@itemsQuery');
 $app->post('/items', 'App\Http\Controllers\ItemsController@itemsQuery');
 $app->get('/items/all', 'App\Http\Controllers\TradeableItemsController@items');
 $app->post('/items/all', 'App\Http\Controllers\TradeableItemsController@items');
+$app->get('/items/categories', 'App\Http\Controllers\ItemsController@categories');
 $app->get('/items/{id}', 'App\Http\Controllers\ItemsController@items');
 $app->post('/items/{id}', 'App\Http\Controllers\ItemsController@items');
 

@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Api\Items;
 use App\Models\CacheItem;
 use Redis;
 
@@ -48,6 +49,16 @@ class ItemsController extends Controller
     public function itemQuery()
     {
         return $this->item($this->getInput('id'));
+    }
+
+    /**
+     * Get the item category keys
+     *
+     * @return array
+     */
+    public function categories()
+    {
+        return $this->apiResponse(Items::$categories, 2678400);
     }
 
     /**
