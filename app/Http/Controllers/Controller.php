@@ -21,7 +21,8 @@ class Controller extends BaseController
             ->header('Pragma', 'public')
             ->header('Cache-Control', 'max-age=' . $age . ', public')
             ->header('Expires', gmdate('D, d M Y H:i:s \G\M\T', time() + $age))
-            ->header('Access-Control-Allow-Origin', '*');
+            ->header('Access-Control-Allow-Origin', '*')
+            ->header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
 
     }
 
