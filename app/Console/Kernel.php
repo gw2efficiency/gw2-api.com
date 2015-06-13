@@ -26,8 +26,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
 
-        // Update the prices every minute (this overlaps, but always updates the newest prices)
-        $schedule->command('gw2:update-item-prices')->cron('* * * * * *');
+        // Update the prices every five minutes. This may overlap, but always updates the newest prices.
+        // Updating more frequently doesn't make sense, because prices are cached on GW2 side.
+        $schedule->command('gw2:update-item-prices')->everyFiveMinutes();
 
         // Repopulate the items from the database every day at 6, in case something broke
         $schedule->command('gw2:repopulate-items')->daily()->at('6:00');

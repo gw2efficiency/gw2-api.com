@@ -145,7 +145,7 @@ class Items extends Api
             'ids' => implode(',', $ids)
         ];
 
-        $url = $this->url($this->url . "/commerce/listings", $options);
+        $url = $this->url($this->url . "/commerce/prices", $options);
         $items = $this->json($url);
 
         // Format items
@@ -155,12 +155,12 @@ class Items extends Api
 
             $formatted[$item['id']] = [
                 'buy' => [
-                    'quantity' => array_sum(array_pluck($item['buys'], 'quantity')),
-                    'price' => isset($item['buys'][0]['unit_price']) ? $item['buys'][0]['unit_price'] : 0
+                    'quantity' => $item['buys']['quantity'],
+                    'price' => $item['buys']['unit_price']
                 ],
                 'sell' => [
-                    'quantity' => array_sum(array_pluck($item['sells'], 'quantity')),
-                    'price' => isset($item['sells'][0]['unit_price']) ? $item['sells'][0]['unit_price'] : 0
+                    'quantity' => $item['sells']['quantity'],
+                    'price' => $item['sells']['unit_price']
                 ]
             ];
 
