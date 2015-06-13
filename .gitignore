@@ -9,6 +9,7 @@ composer.lock
 /lumen.log
 /vendor
 .env
+/config
 
 ################################
 ### IDEs
