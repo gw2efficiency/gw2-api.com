@@ -30,11 +30,11 @@ class Kernel extends ConsoleKernel
         // Updating more frequently doesn't make sense, because prices are cached on GW2 side.
         $schedule->command('gw2:update-item-prices')->everyFiveMinutes();
 
+        // Try and get new items every day
+        $schedule->command('gw2:update-item-list')->daily()->at('2:00');
+
         // Repopulate the items from the database every day at 6, in case something broke
         $schedule->command('gw2:repopulate-items')->daily()->at('6:00');
-
-        // Try and get new items every wednesday at 6 (since tuesday is patch-day)
-        $schedule->command('gw2:update-item-list')->weekly()->wednesdays()->at('6:00');
 
     }
 }
