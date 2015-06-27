@@ -40,6 +40,7 @@ class UpdateItemDetails extends Job implements SelfHandling, ShouldBeQueued
         $details['en'] = $api->getDetails($this->id, 'en');
         $details['de'] = $api->getDetails($this->id, 'de');
         $details['fr'] = $api->getDetails($this->id, 'fr');
+        $details['es'] = $api->getDetails($this->id, 'es');
 
         // Save the details in the model after some transformation
         $item = $this->processDetails($item, $details);
@@ -66,10 +67,12 @@ class UpdateItemDetails extends Job implements SelfHandling, ShouldBeQueued
         $item->name_en = $details['en']['name'];
         $item->name_de = $details['de']['name'];
         $item->name_fr = $details['fr']['name'];
+        $item->name_es = $details['es']['name'];
 
         $item->description_en = $this->processDescription($details['en']);
         $item->description_de = $this->processDescription($details['de']);
         $item->description_fr = $this->processDescription($details['fr']);
+        $item->description_es = $this->processDescription($details['es']);
 
         $item->level = $this->processLevel($details['en']);
 
@@ -82,6 +85,8 @@ class UpdateItemDetails extends Job implements SelfHandling, ShouldBeQueued
         $item->vendor_price = $details['en']['vendor_value'];
 
         $item->tradeable = $this->processTradeable($details['en']);
+
+        $item->skin = $this->processSkin($details['en']);
 
         return $item;
 
@@ -186,6 +191,17 @@ class UpdateItemDetails extends Job implements SelfHandling, ShouldBeQueued
 
         return count($item_flags) == 0;
 
+    }
+
+    /**
+     * Get a clean skin id
+     *
+     * @param $item
+     * @return int|null
+     */
+    private function processSkin($item)
+    {
+        return isset($item['default_skin']) ? (int) $item['default_skin'] : null;
     }
 
 }
