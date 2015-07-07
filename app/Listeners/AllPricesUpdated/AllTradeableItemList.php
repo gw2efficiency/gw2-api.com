@@ -15,6 +15,7 @@ class AllTradeableItemList
         'name_en',
         'name_de',
         'name_fr',
+        'name_es',
         'level',
         'rarity',
         'image',
