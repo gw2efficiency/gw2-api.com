@@ -30,6 +30,7 @@ class TradeableItemsController extends Controller
             unset($item['name_en']);
             unset($item['name_de']);
             unset($item['name_fr']);
+            unset($item['name_es']);
 
         }
 

@@ -77,7 +77,7 @@ class Controller extends BaseController
     {
 
         $lang = $this->getInput('lang');
-        return in_array($lang, ['en', 'de', 'fr']) ? $lang : 'en';
+        return in_array($lang, ['en', 'de', 'fr', 'es']) ? $lang : 'en';
 
     }
 

@@ -95,12 +95,14 @@ class ItemsController extends Controller
             unset($item['name_en']);
             unset($item['name_de']);
             unset($item['name_fr']);
+            unset($item['name_es']);
 
             // Rename "description" attribute
             $item['description'] = $item['description_' . $language];
             unset($item['description_en']);
             unset($item['description_de']);
             unset($item['description_fr']);
+            unset($item['description_es']);
 
             // Only return requested attributes
             $item = array_reverse_dot(array_only(array_dot($item), $attributes));
