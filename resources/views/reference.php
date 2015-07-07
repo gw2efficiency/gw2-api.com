@@ -42,7 +42,7 @@
                 </li>
                 <li class="optional">
                     <pre>lang (optional)</pre>
-                    The requested result language, defaulting to english. Available: en, de, fr
+                    The requested result language, defaulting to english. Available: en, de, fr, es
                 </li>
                 <li class="optional">
                     <pre>attributes (optional)</pre>
@@ -191,7 +191,7 @@ GET http://gw2-api.local/item/123
                 </li>
                 <li class="optional">
                     <pre>lang (optional)</pre>
-                    The requested result language, defaulting to english. Available: en, de, fr
+                    The requested result language, defaulting to english. Available: en, de, fr, es
                 </li>
                 <li class="optional">
                     <pre>attributes (optional)</pre>
@@ -286,7 +286,7 @@ GET http://gw2-api.local/items/123,456
             <ul class="parameters">
                 <li class="optional">
                     <pre>lang (optional)</pre>
-                    The requested result language, defaulting to english. Available: en, de, fr
+                    The requested result language, defaulting to english. Available: en, de, fr, es
                 </li>
             </ul>
 
