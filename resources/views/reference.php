@@ -24,6 +24,7 @@
         <a href="#items">/items/{ids}</a><br>
         <a href="#all-items">/items/all</a><br>
         <a href="#categories">/items/categories</a><br>
+        <a href="#autocomplete">/items/autocomplete</a><br>
         <a href="#image">/image/{hash}/{size}</a><br>
     </div>
 
@@ -353,6 +354,42 @@ GET http://gw2-api.local/items/categories
     ],
     ...
 }
+    </pre>
+
+        </section>
+
+        <section class="endpoint">
+            <a name="autocomplete"><h1>/items/autocomplete</h1></a>
+
+            This endpoint returns an array items matching the search query
+
+            <h2>Parameters</h2>
+            <ul class="parameters">
+                <li>
+                    <pre>q</pre>
+                    The term to search for in the item names
+                </li>
+                <li class="optional">
+                    <pre>lang (optional)</pre>
+                    The requested result language, defaulting to english. Available: en, de, fr, es
+                </li>
+            </ul>
+
+            <h2>Example</h2>
+        <pre class="example">
+GET http://gw2-api.local/items/autocomplete?q=Zho
+
+<div class="separator">---</div>
+[
+    {
+        "id": 123,
+        "name": "Zho's Mask",
+        "level": 80,
+        "rarity": 5,
+        "image": "7fec7af0ac62e1f2b8d3b4337c7dbc28"
+    },
+    ...
+]
     </pre>
 
         </section>

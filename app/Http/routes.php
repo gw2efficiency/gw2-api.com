@@ -25,6 +25,7 @@ $app->post('/items', 'App\Http\Controllers\ItemsController@itemsQuery');
 $app->get('/items/all', 'App\Http\Controllers\TradeableItemsController@items');
 $app->post('/items/all', 'App\Http\Controllers\TradeableItemsController@items');
 $app->get('/items/categories', 'App\Http\Controllers\ItemsController@categories');
+$app->get('/items/autocomplete', 'App\Http\Controllers\ItemsController@autocomplete');
 $app->get('/items/{id}', 'App\Http\Controllers\ItemsController@items');
 $app->post('/items/{id}', 'App\Http\Controllers\ItemsController@items');
 

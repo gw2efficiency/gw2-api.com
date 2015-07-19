@@ -2,6 +2,7 @@
 
 use App\Api\Items;
 use App\Models\CacheItem;
+use App\Models\Item;
 use Redis;
 
 class ItemsController extends Controller
@@ -59,6 +60,34 @@ class ItemsController extends Controller
     public function categories()
     {
         return $this->apiResponse(Items::$categories, 2678400);
+    }
+
+    /**
+     * Get matching items for autocompletion stuff
+     *
+     * @return array
+     */
+    public function autocomplete()
+    {
+
+        // Request data
+        $query = $this->getInput('q');
+        $language = $this->requestedLanguage();
+
+        // No search for too short queries
+        if (strlen($query) < 3) {
+            return $this->apiResponse([], 2678400);
+        }
+
+        // Return the items that match the search query
+        $matching = Item::select(['id', 'name_' . $language . ' AS name', 'image', 'rarity', 'level'])
+            ->where('name_' . $language, 'LIKE', '%' . $query . '%')
+            ->take(25)
+            ->get()
+            ->toArray();
+
+        return $this->apiResponse($matching, 86400);
+
     }
 
     /**
