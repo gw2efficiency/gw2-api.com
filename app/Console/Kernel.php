@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         'App\Console\Commands\UpdateItemList',
         'App\Console\Commands\UpdateItemPrices',
-        'App\Console\Commands\RepopulateItems'
+        'App\Console\Commands\RepopulateItems',
+        'App\Console\Commands\RetryFailedJobs'
     ];
 
     /**

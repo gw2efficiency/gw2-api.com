@@ -8,6 +8,7 @@ use App\Models\Item;
 use Carbon\Carbon;
 use Event;
 use App\Api\Items as ItemAPI;
+use Exception;
 
 class UpdateItemPrices extends Command
 {
@@ -49,11 +50,16 @@ class UpdateItemPrices extends Command
 
         foreach ($id_chunks as $ids) {
 
-            $prices = $this->price_api->getPrices($ids);
-            $price_ids = array_keys($prices);
+            try {
 
-            foreach ($price_ids as $id) {
-                $this->updatePricesForItem($id, $prices[$id]);
+                $prices = $this->price_api->getPrices($ids);
+                $price_ids = array_keys($prices);
+
+                foreach ($price_ids as $id) {
+                    $this->updatePricesForItem($id, $prices[$id]);
+                }
+
+            } catch (Exception $e) {
             }
 
         }
