@@ -37,5 +37,8 @@ class Kernel extends ConsoleKernel
         // Repopulate the items from the database every day at 6, in case something broke
         $schedule->command('gw2:repopulate-items')->daily()->at('6:00');
 
+        // Retry everything queued that failed once a week
+        $schedule->command('gw2:retry-failed-jobs')->weekly();
+
     }
 }

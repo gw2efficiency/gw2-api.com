@@ -1,7 +1,5 @@
 <?php namespace App\Console\Commands;
 
-use App\Models\CacheItem;
-use App\Models\Item;
 use App\Console\Command;
 use Illuminate\Support\Facades\DB;
 
