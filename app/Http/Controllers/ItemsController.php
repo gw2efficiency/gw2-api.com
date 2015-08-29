@@ -3,6 +3,7 @@
 use App\Api\Items;
 use App\Models\CacheItem;
 use App\Models\Item;
+use Illuminate\Support\Facades\DB;
 use Redis;
 
 class ItemsController extends Controller
@@ -87,6 +88,30 @@ class ItemsController extends Controller
             ->toArray();
 
         return $this->apiResponse($matching, 86400);
+
+    }
+
+    /**
+     * Get items matching the names exactly
+     *
+     * @return array
+     */
+    public function byName()
+    {
+
+        // Request data
+        $items = $this->getInput('names');
+
+        if (!is_array($items)) {
+            $items = explode(',', $items);
+        }
+
+        $items = array_values(array_unique($items));
+        $language = $this->requestedLanguage();
+
+        // Grab the item ids that match the query
+        $ids = Item::whereIn(DB::raw('CAST(name_' . $language . ' AS BINARY)'), $items)->lists('id');
+        return $this->items($ids);
 
     }
 
