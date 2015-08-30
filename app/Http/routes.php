@@ -28,6 +28,8 @@ $app->get('/items/categories', 'App\Http\Controllers\ItemsController@categories'
 $app->get('/items/autocomplete', 'App\Http\Controllers\ItemsController@autocomplete');
 $app->get('/items/by-name', 'App\Http\Controllers\ItemsController@byName');
 $app->post('/items/by-name', 'App\Http\Controllers\ItemsController@byName');
+$app->get('/items/by-skin', 'App\Http\Controllers\ItemsController@bySkin');
+$app->post('/items/by-skin', 'App\Http\Controllers\ItemsController@bySkin');
 $app->get('/items/{id}', 'App\Http\Controllers\ItemsController@items');
 $app->post('/items/{id}', 'App\Http\Controllers\ItemsController@items');
 

@@ -116,6 +116,24 @@ class ItemsController extends Controller
     }
 
     /**
+     * Get items matching the skin id
+     *
+     * @return array
+     */
+    public function bySkin()
+    {
+
+        // Request data
+        $skin_id = $this->getInput('skin_id');
+
+        // Grab the item ids that match the skin
+        $ids = Item::where('skin', $skin_id)->lists('id');
+
+        return $this->apiResponse($ids);
+
+    }
+
+    /**
      * Request items
      *
      * @param null $ids
