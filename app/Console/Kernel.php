@@ -15,13 +15,14 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\UpdateItemList',
         'App\Console\Commands\UpdateItemPrices',
         'App\Console\Commands\RepopulateItems',
-        'App\Console\Commands\RetryFailedJobs'
+        'App\Console\Commands\RetryFailedJobs',
+        'App\Console\Commands\UpdateWardrobe'
     ];
 
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param  \Illuminate\Console\Scheduling\Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
@@ -33,6 +34,9 @@ class Kernel extends ConsoleKernel
 
         // Try and get new items every day
         $schedule->command('gw2:update-item-list')->daily()->at('2:00');
+
+        // Try and update the wardrobe every day
+        $schedule->command('gw2:update-wardrobe')->daily()->at('4:00');
 
         // Repopulate the items from the database every day at 6, in case something broke
         $schedule->command('gw2:repopulate-items')->daily()->at('6:00');
