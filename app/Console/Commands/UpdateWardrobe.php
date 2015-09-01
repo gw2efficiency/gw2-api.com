@@ -93,7 +93,7 @@ class UpdateWardrobe extends Command
         // Build a return array!
         $return = [];
         foreach ($skins as $skin) {
-            $return[(int) $skin['id']] = array_map('intval', $skin['items']);
+            $return[(int) $skin['id']] = array_values(array_map('intval', array_unique($skin['items'])));
         }
 
         return $return;
@@ -132,7 +132,7 @@ class UpdateWardrobe extends Command
     {
 
         // Grab the names of the remaining skins
-        $names = array_pluck($this->missingItems($skins), 'name');
+        $names = array_pluck($skins, 'name');
 
         // Try to find them
         $name_items = Item::select('name_en', DB::raw("GROUP_CONCAT(DISTINCT id SEPARATOR ',') AS items"))
@@ -148,7 +148,13 @@ class UpdateWardrobe extends Command
                 continue;
             }
 
-            $skin['items'] = explode(',', $name_items[$name]);
+            $skin_items = explode(',', $name_items[$name]);
+
+            if (isset($skin['items'])) {
+                $skin['items'] = array_merge($skin['items'], $skin_items);
+            } else {
+                $skin['items'] = $skin_items;
+            }
 
         }
 
@@ -166,7 +172,7 @@ class UpdateWardrobe extends Command
         };
 
         // Grab the names of the remaining skins
-        $names = array_map($skinName, array_pluck($this->missingItems($skins), 'name'));
+        $names = array_map($skinName, array_pluck($skins, 'name'));
 
         // Try to find them
         $name_items = Item::select('name_en', DB::raw("GROUP_CONCAT(DISTINCT id SEPARATOR ',') AS items"))
@@ -182,7 +188,13 @@ class UpdateWardrobe extends Command
                 continue;
             }
 
-            $skin['items'] = explode(',', $name_items[$name]);
+            $skin_items = explode(',', $name_items[$name]);
+
+            if (isset($skin['items'])) {
+                $skin['items'] = array_merge($skin['items'], $skin_items);
+            } else {
+                $skin['items'] = $skin_items;
+            }
 
         }
 
