@@ -132,7 +132,7 @@ class UpdateWardrobe extends Command
     {
 
         // Grab the names of the remaining skins
-        $names = array_pluck($skins, 'name');
+        $names = array_pluck($this->missingItems($skins), 'name');
 
         // Try to find them
         $name_items = Item::select('name_en', DB::raw("GROUP_CONCAT(DISTINCT id SEPARATOR ',') AS items"))
@@ -148,13 +148,7 @@ class UpdateWardrobe extends Command
                 continue;
             }
 
-            $skin_items = explode(',', $name_items[$name]);
-
-            if (isset($skin['items'])) {
-                $skin['items'] = array_merge($skin['items'], $skin_items);
-            } else {
-                $skin['items'] = $skin_items;
-            }
+            $skin['items'] = explode(',', $name_items[$name]);
 
         }
 
