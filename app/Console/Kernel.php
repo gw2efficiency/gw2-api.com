@@ -16,7 +16,8 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\UpdateItemPrices',
         'App\Console\Commands\RepopulateItems',
         'App\Console\Commands\RetryFailedJobs',
-        'App\Console\Commands\UpdateWardrobe'
+        'App\Console\Commands\UpdateWardrobe',
+        'App\Console\Commands\UpdatePvpLeaderboard'
     ];
 
     /**
@@ -31,6 +32,9 @@ class Kernel extends ConsoleKernel
         // Update the prices every five minutes. This may overlap, but always updates the newest prices.
         // Updating more frequently doesn't make sense, because prices are cached on GW2 side.
         $schedule->command('gw2:update-item-prices')->everyFiveMinutes();
+
+        // Try and update the leaderboard twice a day
+        $schedule->command('gw2:update-pvp-leaderboard')->twiceDaily();
 
         // Try and get new items every day
         $schedule->command('gw2:update-item-list')->daily()->at('2:00');

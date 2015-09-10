@@ -36,3 +36,6 @@ $app->post('/items/{id}', 'App\Http\Controllers\ItemsController@items');
 $app->get('/image/{hash:[a-fA-F0-9]{32}}/{size:64|32|20}', 'App\Http\Controllers\ImageController@show');
 
 $app->get('/skins/resolve', 'App\Http\Controllers\SkinsController@resolve');
+
+$app->get('/leaderboard', 'App\Http\Controllers\LeaderboardController@index');
+$app->get('/leaderboard/{name}', 'App\Http\Controllers\LeaderboardController@byUser');
