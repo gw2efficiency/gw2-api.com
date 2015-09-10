@@ -29,6 +29,8 @@ class LeaderboardController extends Controller
     public function pvpByUser($name)
     {
 
+        $name = urldecode($name);
+
         $collection = Redis::get(UpdatePvpLeaderboard::$key);
         $collection = unserialize($collection);
 
