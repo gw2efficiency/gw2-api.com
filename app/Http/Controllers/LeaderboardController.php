@@ -11,7 +11,7 @@ class LeaderboardController extends Controller
      *
      * @return $this
      */
-    public function index()
+    public function pvpIndex()
     {
 
         $collection = Redis::get(UpdatePvpLeaderboard::$key);
@@ -23,9 +23,10 @@ class LeaderboardController extends Controller
     /**
      * Get a single user
      *
+     * @param $name
      * @return $this
      */
-    public function byUser($name)
+    public function pvpByUser($name)
     {
 
         $collection = Redis::get(UpdatePvpLeaderboard::$key);

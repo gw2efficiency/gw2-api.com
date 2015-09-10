@@ -37,5 +37,5 @@ $app->get('/image/{hash:[a-fA-F0-9]{32}}/{size:64|32|20}', 'App\Http\Controllers
 
 $app->get('/skins/resolve', 'App\Http\Controllers\SkinsController@resolve');
 
-$app->get('/leaderboard', 'App\Http\Controllers\LeaderboardController@index');
-$app->get('/leaderboard/{name}', 'App\Http\Controllers\LeaderboardController@byUser');
+$app->get('/leaderboard/pvp', 'App\Http\Controllers\LeaderboardController@pvpIndex');
+$app->get('/leaderboard/pvp/{name}', 'App\Http\Controllers\LeaderboardController@pvpByUser');
