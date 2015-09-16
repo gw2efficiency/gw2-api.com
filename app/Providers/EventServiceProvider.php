@@ -19,7 +19,8 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\ItemPricesUpdated\LastPriceChange'
         ],
         'App\Events\AllPricesUpdated' => [
-            'App\Listeners\AllPricesUpdated\AllTradeableItemList'
+            'App\Listeners\AllPricesUpdated\AllTradeableItemList',
+            'App\Listeners\AllPricesUpdated\AllTradeableItemPrices'
         ]
     ];
 

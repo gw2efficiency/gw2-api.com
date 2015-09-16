@@ -24,6 +24,8 @@ $app->get('/items', 'App\Http\Controllers\ItemsController@itemsQuery');
 $app->post('/items', 'App\Http\Controllers\ItemsController@itemsQuery');
 $app->get('/items/all', 'App\Http\Controllers\TradeableItemsController@items');
 $app->post('/items/all', 'App\Http\Controllers\TradeableItemsController@items');
+$app->get('/items/all-prices', 'App\Http\Controllers\TradeableItemsController@prices');
+$app->post('/items/all-prices', 'App\Http\Controllers\TradeableItemsController@prices');
 $app->get('/items/categories', 'App\Http\Controllers\ItemsController@categories');
 $app->get('/items/autocomplete', 'App\Http\Controllers\ItemsController@autocomplete');
 $app->get('/items/by-name', 'App\Http\Controllers\ItemsController@byName');

@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Listeners\AllPricesUpdated\AllTradeableItemList;
+use App\Listeners\AllPricesUpdated\AllTradeableItemPrices;
 use App\Models\CacheItem;
 use Redis;
 
@@ -35,6 +36,20 @@ class TradeableItemsController extends Controller
         }
 
         return $this->apiResponse($collection, 86400);
+
+    }
+
+    /**
+     * Get all tradeable item prices
+     *
+     * @return $this
+     */
+    public function prices()
+    {
+
+        $collection = Redis::get(CacheItem::$cache_prefix . AllTradeableItemPrices::$key);
+        $collection = unserialize($collection);
+        return $this->apiResponse($collection, 60 * 60);
 
     }
 
