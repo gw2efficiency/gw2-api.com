@@ -26,9 +26,13 @@ class AllTradeableItemPrices
         $ids = (new Item)->where('tradeable', true)->lists('id');
         $ids = CacheItem::prefixIdentifier($ids);
 
+        Log::info('[AllTradeableItemPrices] Grabbed ids');
+
         // Grab the collection of requested items
         $cached_items = Redis::mget($ids);
         $collection = [];
+
+        Log::info('[AllTradeableItemPrices] Grabbed redis items');
 
         foreach ($cached_items as $item) {
 
@@ -45,6 +49,8 @@ class AllTradeableItemPrices
             ];
 
         }
+
+        Log::info('[AllTradeableItemPrices] Transformed collection');
 
         // Save them into the cache under the specified key
         Redis::set(CacheItem::$cache_prefix . self::$key, serialize($collection));
