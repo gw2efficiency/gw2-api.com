@@ -3,6 +3,7 @@
 use App\Events\AllPricesUpdated;
 use App\Models\CacheItem;
 use App\Models\Item;
+use Log;
 use Redis;
 
 class AllTradeableItemPrices
@@ -18,6 +19,8 @@ class AllTradeableItemPrices
      */
     public function handle(AllPricesUpdated $event)
     {
+
+        Log::info('[AllTradeableItemPrices] Running');
 
         // Get all tradeable items
         $ids = (new Item)->where('tradeable', true)->lists('id');
