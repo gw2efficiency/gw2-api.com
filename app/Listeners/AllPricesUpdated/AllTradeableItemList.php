@@ -38,18 +38,14 @@ class AllTradeableItemList
     public function handle(AllPricesUpdated $event)
     {
 
-        Log::info('[AllTradeableItemList] Running');
+        ini_set('memory_limit', '500M');
 
         // Get all tradeable items
         $ids = (new Item)->where('tradeable', true)->lists('id');
         $ids = CacheItem::prefixIdentifier($ids);
 
-        Log::info('[AllTradeableItemList] Grabbed ids');
-
         // Grab the collection of requested items
         $collection = Redis::mget($ids);
-
-        Log::info('[AllTradeableItemList] Grabbed redis items');
 
         foreach ($collection as &$item) {
 
@@ -64,16 +60,10 @@ class AllTradeableItemList
 
         }
 
-        Log::info('[AllTradeableItemList] Transformed collection');
-
         // Save them into the cache under the specified key
-        try {
-            Redis::set(CacheItem::$cache_prefix . self::$key, serialize($collection));
-        } catch (Exception $e) {
-            Log::error('Something went wrong saving the collection: ' . $e->getMessage());
-        }
+        Redis::set(CacheItem::$cache_prefix . self::$key, serialize($collection));
 
-        Log::info('[AllTradeableItemList] Done');
+        Log::info('[AllTradeableItemList] Saved all tradeable items');
 
     }
 

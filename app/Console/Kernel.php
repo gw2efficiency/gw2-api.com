@@ -31,7 +31,7 @@ class Kernel extends ConsoleKernel
 
         // Update the prices every five minutes. This may overlap, but always updates the newest prices.
         // Updating more frequently doesn't make sense, because prices are cached on GW2 side.
-        $schedule->command('gw2:update-item-prices')->everyFiveMinutes();
+        $schedule->command('gw2:update-item-prices')->everyFiveMinutes()->sendOutputTo('storage/logs/item-prices.log');
 
         // Try and update the leaderboard twice a day
         $schedule->command('gw2:update-pvp-leaderboard')->twiceDaily();
