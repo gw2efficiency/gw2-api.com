@@ -63,6 +63,8 @@ class AllTradeableItemList
         // Save them into the cache under the specified key
         Redis::set(CacheItem::$cache_prefix . self::$key, serialize($collection));
 
+        Log::info('[AllTradeableItemList] Done');
+
     }
 
 }
