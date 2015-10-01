@@ -12,6 +12,8 @@ class UpdateItemDetails extends Job implements SelfHandling, ShouldBeQueued
 
     private $id;
 
+    private $item_blacklist = [20801, 20839, 20802, 20800];
+
     /**
      * Create a new job instance.
      *
@@ -185,6 +187,11 @@ class UpdateItemDetails extends Job implements SelfHandling, ShouldBeQueued
      */
     private function processTradeable($item)
     {
+
+        // Manually throw out old pvp items
+        if (in_array($item['id'], $this->item_blacklist)) {
+            return false;
+        }
 
         $untradeable_flags = ['AccountBound', 'MonsterOnly', 'SoulbindOnAcquire'];
         $item_flags = array_intersect($untradeable_flags, $item['flags']);
