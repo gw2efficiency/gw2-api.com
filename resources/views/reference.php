@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>GW2-API</title>
-    <link href='http://fonts.googleapis.com/css?family=Lato:100,300|Source+Code+Pro:300' rel='stylesheet'
+    <link href='https://fonts.googleapis.com/css?family=Lato:100,300|Source+Code+Pro:300' rel='stylesheet'
           type='text/css'>
     <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -139,7 +139,7 @@
 
             <h2>Example</h2>
         <pre class="example">
-GET http://gw2-api.local/item/123
+GET https://gw2-api.com/item/123
 
 <div class="separator">---</div>
 {
@@ -205,7 +205,7 @@ GET http://gw2-api.local/item/123
 
             <h2>Example</h2>
         <pre class="example">
-GET http://gw2-api.local/items/123,456
+GET https://gw2-api.com/items/123,456
 
 <div class="separator">---</div>
 [
@@ -293,7 +293,7 @@ GET http://gw2-api.local/items/123,456
 
             <h2>Example</h2>
         <pre class="example">
-GET http://gw2-api.local/items/all
+GET https://gw2-api.com/items/all
 
 <div class="separator">---</div>
 [
@@ -330,7 +330,7 @@ GET http://gw2-api.local/items/all
 
             <h2>Example</h2>
         <pre class="example">
-GET http://gw2-api.local/items/categories
+GET https://gw2-api.com/items/categories
 
 <div class="separator">---</div>
 {
@@ -377,7 +377,7 @@ GET http://gw2-api.local/items/categories
 
             <h2>Example</h2>
         <pre class="example">
-GET http://gw2-api.local/items/autocomplete?q=Zho
+GET https://gw2-api.com/items/autocomplete?q=Zho
 
 <div class="separator">---</div>
 [
@@ -414,14 +414,14 @@ GET http://gw2-api.local/items/autocomplete?q=Zho
 
             <h2>Example</h2>
         <pre class="example">
-&lt;img src="http://gw2-api.local/image/7fec7af0ac62e1f2b8d3b4337c7dbc28/64"&gt;
-&lt;img src="http://gw2-api.local/image/7fec7af0ac62e1f2b8d3b4337c7dbc28/32"&gt;
-&lt;img src="http://gw2-api.local/image/7fec7af0ac62e1f2b8d3b4337c7dbc28/20"&gt;
+&lt;img src="https://gw2-api.com/image/7fec7af0ac62e1f2b8d3b4337c7dbc28/64"&gt;
+&lt;img src="https://gw2-api.com/image/7fec7af0ac62e1f2b8d3b4337c7dbc28/32"&gt;
+&lt;img src="https://gw2-api.com/image/7fec7af0ac62e1f2b8d3b4337c7dbc28/20"&gt;
 
 <div class="separator">---</div>
-<img src="http://gw2-api.local/image/7fec7af0ac62e1f2b8d3b4337c7dbc28/64">
-<img src="http://gw2-api.local/image/7fec7af0ac62e1f2b8d3b4337c7dbc28/32">
-<img src="http://gw2-api.local/image/7fec7af0ac62e1f2b8d3b4337c7dbc28/20">
+<img src="https://gw2-api.com/image/7fec7af0ac62e1f2b8d3b4337c7dbc28/64">
+<img src="https://gw2-api.com/image/7fec7af0ac62e1f2b8d3b4337c7dbc28/32">
+<img src="https://gw2-api.com/image/7fec7af0ac62e1f2b8d3b4337c7dbc28/20">
 </pre>
 
         </section>
