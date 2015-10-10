@@ -7,6 +7,8 @@ class Item extends Model
 
     protected $table = 'items';
 
+    protected $fillable = ['craftable'];
+
     public function getCategoryAttribute($value)
     {
         $categories = explode(',', $value);

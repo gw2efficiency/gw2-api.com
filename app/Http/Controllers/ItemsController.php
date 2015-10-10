@@ -74,6 +74,7 @@ class ItemsController extends Controller
         // Request data
         $query = $this->getInput('q');
         $language = $this->requestedLanguage();
+        $craftable = (int) $this->getInput('craftable');
 
         // No search for too short queries
         if (strlen($query) < 3) {
@@ -83,9 +84,13 @@ class ItemsController extends Controller
         // Return the items that match the search query
         $matching = Item::select(['id', 'name_' . $language . ' AS name', 'image', 'rarity', 'level'])
             ->where('name_' . $language, 'LIKE', '%' . $query . '%')
-            ->take(25)
-            ->get()
-            ->toArray();
+            ->take(25);
+
+        if ($craftable == 1) {
+            $matching->where('craftable', true);
+        }
+
+        $matching = $matching->get()->toArray();
 
         return $this->apiResponse($matching, 86400);
 

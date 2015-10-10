@@ -17,7 +17,8 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\RepopulateItems',
         'App\Console\Commands\RetryFailedJobs',
         'App\Console\Commands\UpdateWardrobe',
-        'App\Console\Commands\UpdatePvpLeaderboard'
+        'App\Console\Commands\UpdatePvpLeaderboard',
+        'App\Console\Commands\UpdateRecipes'
     ];
 
     /**
@@ -42,8 +43,11 @@ class Kernel extends ConsoleKernel
         // Try and update the wardrobe every day
         $schedule->command('gw2:update-wardrobe')->daily()->at('4:00');
 
-        // Repopulate the items from the database every day at 6, in case something broke
-        $schedule->command('gw2:repopulate-items')->daily()->at('6:00');
+        // Try and update the recipes every day
+        $schedule->command('gw2:update-wardrobe')->daily()->at('6:00');
+
+        // Repopulate the items from the database every day at 8, in case something broke
+        $schedule->command('gw2:repopulate-items')->daily()->at('8:00');
 
         // Retry everything queued that failed once a week
         $schedule->command('gw2:retry-failed-jobs')->weekly();

@@ -39,5 +39,7 @@ $app->get('/image/{hash:[a-fA-F0-9]{32}}/{size:64|32|20}', 'App\Http\Controllers
 
 $app->get('/skins/resolve', 'App\Http\Controllers\SkinsController@resolve');
 
+$app->get('/recipe/nested/{id}', 'App\Http\Controllers\RecipeController@get');
+
 $app->get('/leaderboard/pvp', 'App\Http\Controllers\LeaderboardController@pvpIndex');
 $app->get('/leaderboard/pvp/{name}', 'App\Http\Controllers\LeaderboardController@pvpByUser');
