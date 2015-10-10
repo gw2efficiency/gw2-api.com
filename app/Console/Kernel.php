@@ -37,8 +37,9 @@ class Kernel extends ConsoleKernel
         // Try and update the leaderboard twice a day
         $schedule->command('gw2:update-pvp-leaderboard')->twiceDaily();
 
-        // Try and get new items every day
+        // Try and get new items every day, and force an update every sunday
         $schedule->command('gw2:update-item-list')->daily()->at('2:00');
+        $schedule->command('gw2:update-item-list --force')->weeklyOn(0, '2:00');
 
         // Try and update the wardrobe every day
         $schedule->command('gw2:update-wardrobe')->daily()->at('4:00');
