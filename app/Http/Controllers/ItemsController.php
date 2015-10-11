@@ -90,6 +90,18 @@ class ItemsController extends Controller
             $matching->where('craftable', true);
         }
 
+        // Order by the best match and then alphabetically
+        // 1) full name
+        // 2) start of the name
+        // 3) middle of the name
+        // 4) end of the name
+        $matching->orderByRaw("CASE
+                                   WHEN name = ? THEN 0
+                                   WHEN name LIKE ? THEN 1
+                                   WHEN name LIKE ? THEN 3
+                                   ELSE 2
+                               END, name", [$query, $query . '%', '%' . $query]);
+
         $matching = $matching->get()->toArray();
 
         return $this->apiResponse($matching, 86400);
