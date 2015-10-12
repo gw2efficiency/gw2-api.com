@@ -35,7 +35,7 @@ class TradeableItemsController extends Controller
 
         }
 
-        return $this->apiResponse($collection, 86400);
+        return $this->apiResponse($collection, 5 * 60);
 
     }
 
