@@ -45,7 +45,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('gw2:update-wardrobe')->daily()->at('4:00');
 
         // Try and update the recipes every day
-        $schedule->command('gw2:update-wardrobe')->daily()->at('6:00');
+        $schedule->command('gw2:update-recipes')->daily()->at('6:00');
 
         // Repopulate the items from the database every day at 8, in case something broke
         $schedule->command('gw2:repopulate-items')->daily()->at('8:00');
