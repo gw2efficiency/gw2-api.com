@@ -71,6 +71,15 @@ class Recipes extends Api
 
         }
 
+        usort($recipe['components'], function ($a, $b) {
+
+            $a_c = isset($a['components']) ? 1 : 0;
+            $b_c = isset($b['components']) ? 1 : 0;
+
+            return $a_c - $b_c;
+
+        });
+
         // Done with the components of this recipe, let's return!
         $recipe = [
             'id' => $recipe['id'],
