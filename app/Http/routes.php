@@ -41,5 +41,7 @@ $app->get('/skins/resolve', 'App\Http\Controllers\SkinsController@resolve');
 
 $app->get('/recipe/nested/{id}', 'App\Http\Controllers\RecipeController@get');
 
+$app->get('/gems/history', 'App\Http\Controllers\GemsController@history');
+
 $app->get('/leaderboard/pvp', 'App\Http\Controllers\LeaderboardController@pvpIndex');
 $app->get('/leaderboard/pvp/{name}', 'App\Http\Controllers\LeaderboardController@pvpByUser');

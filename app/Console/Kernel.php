@@ -18,7 +18,8 @@ class Kernel extends ConsoleKernel
         'App\Console\Commands\RetryFailedJobs',
         'App\Console\Commands\UpdateWardrobe',
         'App\Console\Commands\UpdatePvpLeaderboard',
-        'App\Console\Commands\UpdateRecipes'
+        'App\Console\Commands\UpdateRecipes',
+        'App\Console\Commands\UpdateGemHistory'
     ];
 
     /**
@@ -33,6 +34,9 @@ class Kernel extends ConsoleKernel
         // Update the prices every five minutes. This may overlap, but always updates the newest prices.
         // Updating more frequently doesn't make sense, because prices are cached on GW2 side.
         $schedule->command('gw2:update-item-prices')->everyFiveMinutes()->sendOutputTo('storage/logs/item-prices.log');
+
+        // Grab the gem history every half a hour, since we dont know how long this is cached for
+        $schedule->command('gw2:update-gem-history')->everyThirtyMinutes();
 
         // Try and update the leaderboard twice a day
         $schedule->command('gw2:update-pvp-leaderboard')->twiceDaily();
