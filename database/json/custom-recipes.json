@@ -11,6 +11,167 @@
         ]
     },
     {
+        "name": "Charged Lodestone",
+        "output_item_id": 24305,
+        "output_item_count": 1,
+        "ingredients": [
+            {
+                "count": 2,
+                "item_id": 24304
+            },
+            {
+                "count": 1,
+                "item_id": 19663
+            },
+            {
+                "count": 1,
+                "item_id": 24277
+            },
+            {
+                "count": 1,
+                "item_id": 20799
+            }
+        ]
+    },
+    {
+        "name": "Corrupted Lodestone",
+        "output_item_id": 24340,
+        "output_item_count": 1,
+        "ingredients": [
+            {
+                "count": 2,
+                "item_id": 24339
+            },
+            {
+                "count": 1,
+                "item_id": 19663
+            },
+            {
+                "count": 1,
+                "item_id": 24277
+            },
+            {
+                "count": 1,
+                "item_id": 20799
+            }
+        ]
+    },
+    {
+        "name": "Crystal Lodestone",
+        "output_item_id": 24330,
+        "output_item_count": 1,
+        "ingredients": [
+            {
+                "count": 2,
+                "item_id": 24329
+            },
+            {
+                "count": 1,
+                "item_id": 19663
+            },
+            {
+                "count": 1,
+                "item_id": 24277
+            },
+            {
+                "count": 1,
+                "item_id": 20799
+            }
+        ]
+    },
+    {
+        "name": "Destroyer Lodestone",
+        "output_item_id": 24325,
+        "output_item_count": 1,
+        "ingredients": [
+            {
+                "count": 2,
+                "item_id": 24324
+            },
+            {
+                "count": 1,
+                "item_id": 19663
+            },
+            {
+                "count": 1,
+                "item_id": 24277
+            },
+            {
+                "count": 1,
+                "item_id": 20799
+            }
+        ]
+    },
+    {
+        "name": "Glacial Lodestone",
+        "output_item_id": 24320,
+        "output_item_count": 1,
+        "ingredients": [
+            {
+                "count": 2,
+                "item_id": 24319
+            },
+            {
+                "count": 1,
+                "item_id": 19663
+            },
+            {
+                "count": 1,
+                "item_id": 24277
+            },
+            {
+                "count": 1,
+                "item_id": 20799
+            }
+        ]
+    },
+    {
+        "name": "Molten Lodestone",
+        "output_item_id": 24315,
+        "output_item_count": 1,
+        "ingredients": [
+            {
+                "count": 2,
+                "item_id": 24314
+            },
+            {
+                "count": 1,
+                "item_id": 19663
+            },
+            {
+                "count": 1,
+                "item_id": 24277
+            },
+            {
+                "count": 1,
+                "item_id": 20799
+            }
+        ]
+    },
+    {
+        "name": "Onyx Lodestone",
+        "output_item_id": 24310,
+        "output_item_count": 1,
+        "ingredients": [
+            {
+                "count": 2,
+                "item_id": 24309
+            },
+            {
+                "count": 1,
+                "item_id": 19663
+            },
+            {
+                "count": 1,
+                "item_id": 24277
+            },
+            {
+                "count": 1,
+                "item_id": 20799
+            }
+        ]
+    },
+    {
         "name": "Mystic Artifact",
         "output_item_id": 31083,
         "output_item_count": 1,
