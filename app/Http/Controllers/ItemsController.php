@@ -151,6 +151,65 @@ class ItemsController extends Controller
     }
 
     /**
+     * Get items matching the query parameters
+     *
+     * @return array
+     */
+    public function query()
+    {
+
+        // I want to be able to say "give me the min / max / avg prices of all axes, swords and heavy armor, rare and exotic, except craftable"
+        // I want to be able to say "give me the item ids of all ascended items that are craftable"
+
+        // Request data
+        $categories = $this->getInput('categories');
+        $rarities = $this->getInput('rarities');
+        $craftable = $this->getInput('craftable');
+        $output = $this->getInput('output');
+
+        $items = Item::select();
+
+        if ($categories !== null) {
+            $categories = explode(';', $categories);
+            $items->whereIn('category', $categories);
+        }
+
+        if ($rarities !== null) {
+            $rarities = explode(';', $rarities);
+            $items->whereIn('rarity', $rarities);
+        }
+
+        if ($craftable !== null) {
+            $items->where('craftable', $craftable);
+        }
+
+        $ids = $items->lists('id');
+
+        if ($output !== 'prices') {
+            return $this->apiResponse($ids);
+        }
+
+        $cache_items = array_filter($this->itemRequest($ids), function ($value) { return isset($value['buy']); });
+
+        $buy_prices = array_pluck($cache_items, 'buy.price');
+        $sell_prices = array_pluck($cache_items, 'sell.price');
+
+        return $this->apiResponse([
+            'buy' => [
+                'min' => min($buy_prices),
+                'avg' => round(array_sum($buy_prices) / count($buy_prices)),
+                'max' => max($buy_prices)
+            ],
+            'sell' => [
+                'min' => min($sell_prices),
+                'avg' => round(array_sum($sell_prices) / count($sell_prices)),
+                'max' => max($sell_prices)
+            ]
+        ]);
+
+    }
+
+    /**
      * Request items
      *
      * @param null $ids

@@ -32,6 +32,8 @@ $app->get('/items/by-name', 'App\Http\Controllers\ItemsController@byName');
 $app->post('/items/by-name', 'App\Http\Controllers\ItemsController@byName');
 $app->get('/items/by-skin', 'App\Http\Controllers\ItemsController@bySkin');
 $app->post('/items/by-skin', 'App\Http\Controllers\ItemsController@bySkin');
+$app->get('/items/query', 'App\Http\Controllers\ItemsController@query');
+$app->post('/items/query', 'App\Http\Controllers\ItemsController@query');
 $app->get('/items/{id}', 'App\Http\Controllers\ItemsController@items');
 $app->post('/items/{id}', 'App\Http\Controllers\ItemsController@items');
 
