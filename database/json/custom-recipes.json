@@ -18967,5 +18967,74 @@
                 "item_id": 19663
             }
         ]
+    },
+    {
+        "name": "Nightfury",
+        "output_item_id": 9999999,
+        "output_item_count": 1,
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 67386
+            },
+            {
+                "count": 1,
+                "item_id": 19631
+            },
+            {
+                "count": 1,
+                "item_id": 46746
+            },
+            {
+                "count": 1,
+                "item_id": 76036
+            }
+        ]
+    },
+    {
+        "name": "Preserved Bat Wing",
+        "output_item_id": 76036,
+        "output_item_count": 1,
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 73914
+            },
+            {
+                "count": 250,
+                "item_id": 24320
+            },
+            {
+                "count": 250,
+                "item_id": 73034
+            },
+            {
+                "count": 1,
+                "item_id": 73231
+            }
+        ]
+    },
+    {
+        "name": "Bat Wing",
+        "output_item_id": 73914,
+        "output_item_count": 1,
+        "ingredients": [
+            {
+                "count": 4,
+                "item_id": 73430
+            },
+            {
+                "count": 20,
+                "item_id": 46730
+            },
+            {
+                "count": 120,
+                "item_id": 24295
+            },
+            {
+                "count": 250,
+                "item_id": 19976
+            }
+        ]
     }
 ]
