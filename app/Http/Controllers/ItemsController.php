@@ -166,6 +166,7 @@ class ItemsController extends Controller
         $rarities = $this->getInput('rarities');
         $craftable = $this->getInput('craftable');
         $exclude_name = $this->getInput('exclude_name');
+        $include_name = $this->getInput('include_name');
         $output = $this->getInput('output');
 
         $items = Item::select();
@@ -186,6 +187,10 @@ class ItemsController extends Controller
 
         if ($exclude_name !== null) {
             $items->where('name_en', 'NOT LIKE', '%' . $exclude_name . '%');
+        }
+
+        if ($include_name !== null) {
+            $items->where('name_en', 'LIKE', '%' . $include_name . '%');
         }
 
         $ids = $items->lists('id');
