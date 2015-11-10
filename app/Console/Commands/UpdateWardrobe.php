@@ -58,6 +58,9 @@ class UpdateWardrobe extends Command
             $skins = array_merge($skins, $content);
         }
 
+        // Filter the skins to only include skins that have names
+        $skins = array_filter($skins, function ($x) { return isset($x['name']); });
+
         return $skins;
 
     }
