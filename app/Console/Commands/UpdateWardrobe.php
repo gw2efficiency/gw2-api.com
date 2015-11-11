@@ -41,6 +41,10 @@ class UpdateWardrobe extends Command
         $skins = $this->resolveSkinsToItems($skins);
         $this->infoFinish('Resolving skin ids to items done');
 
+        if (count($skins) < 3500) {
+            throw new Exception('Error updating skins' . print_r($skins, true));
+        }
+
         Redis::set(self::$key, serialize($skins));
 
     }

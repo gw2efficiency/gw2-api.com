@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Event;
 use App\Api\Items as ItemAPI;
 use Exception;
+use Log;
 
 class UpdateItemPrices extends Command
 {
@@ -60,6 +61,7 @@ class UpdateItemPrices extends Command
                 }
 
             } catch (Exception $e) {
+                Log::error('Exception happened while updating prices:', $e->getMessage() . '(' . $e->getLine() . ', ' . $e->getCode() . ')');
             }
 
         }
@@ -78,7 +80,7 @@ class UpdateItemPrices extends Command
         $item = (new CacheItem)->find($id);
 
         // No cache item found :(
-        if (!$item) {
+        if (!$item || !is_array($prices)) {
             return false;
         }
 
