@@ -66,6 +66,10 @@ class UpdateItemDetails extends Job implements SelfHandling, ShouldBeQueued
     private function processDetails($item, $details)
     {
 
+        if (!isset($details['en']['name'])) {
+            throw new \Exception('No name set for item:' . $item);
+        }
+
         $item->name_en = $details['en']['name'];
         $item->name_de = $details['de']['name'];
         $item->name_fr = $details['fr']['name'];
