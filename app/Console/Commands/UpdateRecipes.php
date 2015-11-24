@@ -42,7 +42,7 @@ class UpdateRecipes extends Command
         for ($i = 0; $i != count($recipes); $i++) {
 
             $id = $recipes[$i];
-            $this->info($i . ' of ' . count($recipes) . ' custom recipes...');
+            $this->info($i . ' of ' . count($recipes) . ' custom recipes [' . $id . '] ...');
 
             Redis::set('recipe-' . $id, serialize($recipe_api->getNested($id)));
 
@@ -55,7 +55,7 @@ class UpdateRecipes extends Command
 
         for ($i = 0; $i != count($recipes); $i++) {
 
-            $this->info($i . ' of ' . count($recipes) . ' official recipes...');
+            $this->info($i . ' of ' . count($recipes) . ' official recipes [' . $id . ']...');
 
             $recipe = $recipe_api->getOfficialRecipe($recipes[$i]);
 

@@ -23,11 +23,39 @@ class Recipes extends Api
     public function getCustomRecipes()
     {
 
-        $recipes = $this->json('./database/json/custom-recipes.json');
+        $recipes = $this->json('./database/json/mystic5934-custom-recipes.json');
+        $recipes = $this->cleanupRecipes($recipes);
 
+        // Save in internal structure
         foreach ($recipes as $recipe) {
             $this->custom_recipes[$recipe['output_item_id']] = $recipe;
         }
+
+    }
+
+    private function cleanupRecipes($recipes)
+    {
+
+        foreach ($recipes as $key => $recipe) {
+
+            // Circular dependencies
+            if (in_array($recipe['output_item_id'], array_pluck($recipe['ingredients'], 'item_id'))) {
+                unset($recipes[$key]);
+            }
+
+            // Demotions (globs and vials)
+            if ($recipe['output_item_id'] == 38023 && in_array(38024, array_pluck($recipe['ingredients'], 'item_id'))) {
+                unset($recipes[$key]);
+            }
+
+            // Circular dependency (nougat / skulls)
+            if (in_array($recipe['output_item_id'], [38014, 36060, 36061])) {
+                unset($recipes[$key]);
+            }
+
+        }
+
+        return array_values($recipes);
 
     }
 
@@ -36,13 +64,25 @@ class Recipes extends Api
      *
      * @param     $id
      * @param int $amount
+     * @param int $nesting
      * @return array|bool
+     * @throws \Exception
      */
-    public function getNested($id, $amount = 1)
+    public function getNested($id, $amount = 1, $nesting = 0)
     {
+
+        if ($nesting > 50) {
+            throw new \Exception('Maximum nesting reached, something is going wrong.');
+        }
 
         // Get the official recipe from the API
         $recipe = $this->getRecipe($id);
+
+        if ($recipe) {
+            echo str_repeat("  ", $nesting) . $id . " [" . implode(', ', array_pluck($recipe['components'], 'id')) . "]\n";
+        } else {
+            echo str_repeat("  ", $nesting) . $id . "\n";
+        }
 
         if (!$recipe) {
             return false;
@@ -55,7 +95,7 @@ class Recipes extends Api
 
             // Check if we can craft the sub-component as well, and if yes,
             // generate a proper array for that component!
-            $component_recipe = $this->getNested($component['id'], $component['quantity']);
+            $component_recipe = $this->getNested($component['id'], $component['quantity'], $nesting + 1);
 
             if (!$component_recipe) {
                 continue;
@@ -100,7 +140,7 @@ class Recipes extends Api
     private function getRecipe($id)
     {
 
-        return $this->cache('inofficial-recipe-' . $id, 20 * 60 * 60, function () use ($id) {
+        return $this->cache('nested-recipe-' . $id, 20 * 60 * 60, function () use ($id) {
 
             // It's a custom recipe (e.g. mystic forge)
             if (isset($this->custom_recipes[$id])) {
