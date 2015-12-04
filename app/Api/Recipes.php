@@ -53,6 +53,11 @@ class Recipes extends Api
                 unset($recipes[$key]);
             }
 
+            // Circular dependency (tonics)
+            if (in_array($recipe['output_item_id'], [38116, 38117, 38118, 38119, 38120])) {
+                unset($recipes[$key]);
+            }
+
         }
 
         return array_values($recipes);
