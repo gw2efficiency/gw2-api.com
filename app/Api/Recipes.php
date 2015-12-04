@@ -54,7 +54,7 @@ class Recipes extends Api
             }
 
             // Circular dependency (tonics)
-            if ($recipe['output_item_id'] >= 38116 && $recipe['output_item_id'] <= 38127) {
+            if ($recipe['output_item_id'] >= 38115 && $recipe['output_item_id'] <= 38127) {
                 unset($recipes[$key]);
             }
 
