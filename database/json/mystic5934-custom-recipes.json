@@ -28904,7 +28904,7 @@
         ],
         "name": "Astralaria",
         "output_item_count": 1,
-        "output_item_id": -4,
+        "output_item_id": 76158,
         "type": ""
     },
     {
@@ -28949,7 +28949,7 @@
             },
             {
                 "count": 1,
-                "item_id": -9
+                "item_id": 71173
             },
             {
                 "count": 1,
@@ -29066,7 +29066,7 @@
         ],
         "name": "Nevermore",
         "output_item_count": 1,
-        "output_item_id": -10,
+        "output_item_id": 71383,
         "type": ""
     },
     {
@@ -29084,7 +29084,7 @@
             },
             {
                 "count": 1,
-                "item_id": -6
+                "item_id": 72083
             },
             {
                 "count": 1,
@@ -29094,6 +29094,3732 @@
         "name": "Gift of Astralaria",
         "output_item_count": 1,
         "output_item_id": -5,
+        "type": ""
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 70528
+            },
+            {
+                "count": 1,
+                "item_id": 19678
+            },
+            {
+                "count": 1,
+                "item_id": 71008
+            },
+            {
+                "count": 1,
+                "item_id": 73137
+            }
+        ],
+        "name": "Gift of the Mists",
+        "output_item_count": 1,
+        "output_item_id": 76427,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 67004
+            },
+            {
+                "count": 1,
+                "item_id": 37070
+            },
+            {
+                "count": 1,
+                "item_id": 38023
+            },
+            {
+                "count": 20,
+                "item_id": 24277
+            }
+        ],
+        "name": "Mawdrey (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 67002,
+        "type": "Back"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 2,
+                "item_id": 76530
+            },
+            {
+                "count": 2,
+                "item_id": 70867
+            },
+            {
+                "count": 77,
+                "item_id": 19675
+            },
+            {
+                "count": 250,
+                "item_id": 19976
+            }
+        ],
+        "name": "Mystic Tribute",
+        "output_item_count": 1,
+        "output_item_id": 71820,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 71655
+            },
+            {
+                "count": 1,
+                "item_id": 71787
+            },
+            {
+                "count": 1,
+                "item_id": 73236
+            },
+            {
+                "count": 1,
+                "item_id": 73196
+            }
+        ],
+        "name": "Gift of Condensed Magic",
+        "output_item_count": 1,
+        "output_item_id": 76530,
+        "type": "CraftingMaterial"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 70801
+            },
+            {
+                "count": 1,
+                "item_id": 75299
+            },
+            {
+                "count": 1,
+                "item_id": 71123
+            },
+            {
+                "count": 1,
+                "item_id": 75744
+            }
+        ],
+        "name": "Gift of Condensed Might",
+        "output_item_count": 1,
+        "output_item_id": 70867,
+        "type": "CraftingMaterial"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37009
+            },
+            {
+                "count": 1,
+                "item_id": 38023
+            },
+            {
+                "count": 1,
+                "item_id": 37070
+            },
+            {
+                "count": 250,
+                "item_id": 19721
+            }
+        ],
+        "name": "Book of Secrets (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49370,
+        "type": "Back"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37006
+            },
+            {
+                "count": 1,
+                "item_id": 38023
+            },
+            {
+                "count": 1,
+                "item_id": 37070
+            },
+            {
+                "count": 250,
+                "item_id": 19721
+            }
+        ],
+        "name": "Bowyer's Delight (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49363,
+        "type": "Back"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37004
+            },
+            {
+                "count": 1,
+                "item_id": 38023
+            },
+            {
+                "count": 1,
+                "item_id": 37070
+            },
+            {
+                "count": 250,
+                "item_id": 19721
+            }
+        ],
+        "name": "Endless Quiver (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49369,
+        "type": "Back"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37001
+            },
+            {
+                "count": 1,
+                "item_id": 38023
+            },
+            {
+                "count": 1,
+                "item_id": 37070
+            },
+            {
+                "count": 250,
+                "item_id": 19721
+            }
+        ],
+        "name": "Koss on Koss (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49362,
+        "type": "Back"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37008
+            },
+            {
+                "count": 1,
+                "item_id": 38023
+            },
+            {
+                "count": 1,
+                "item_id": 37070
+            },
+            {
+                "count": 250,
+                "item_id": 19721
+            }
+        ],
+        "name": "Quiver of Swift Flight (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49371,
+        "type": "Back"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37000
+            },
+            {
+                "count": 1,
+                "item_id": 38023
+            },
+            {
+                "count": 1,
+                "item_id": 37070
+            },
+            {
+                "count": 250,
+                "item_id": 19721
+            }
+        ],
+        "name": "Quiver of a Thousand Arrows (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49365,
+        "type": "Back"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37002
+            },
+            {
+                "count": 1,
+                "item_id": 38023
+            },
+            {
+                "count": 1,
+                "item_id": 37070
+            },
+            {
+                "count": 250,
+                "item_id": 19721
+            }
+        ],
+        "name": "Sights Be True (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49367,
+        "type": "Back"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37005
+            },
+            {
+                "count": 1,
+                "item_id": 38023
+            },
+            {
+                "count": 1,
+                "item_id": 37070
+            },
+            {
+                "count": 250,
+                "item_id": 19721
+            }
+        ],
+        "name": "Symon's History of Ascalon (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49366,
+        "type": "Back"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37003
+            },
+            {
+                "count": 1,
+                "item_id": 38023
+            },
+            {
+                "count": 1,
+                "item_id": 37070
+            },
+            {
+                "count": 250,
+                "item_id": 19721
+            }
+        ],
+        "name": "There with Yakkington: A Traveler's Tale (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49364,
+        "type": "Back"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37007
+            },
+            {
+                "count": 1,
+                "item_id": 38023
+            },
+            {
+                "count": 1,
+                "item_id": 37070
+            },
+            {
+                "count": 250,
+                "item_id": 19721
+            }
+        ],
+        "name": "Tome of the Rubicon (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49368,
+        "type": "Back"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37079
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Adelbern's Royal Signet Ring (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49399,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37079
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Adelbern's Royal Signet Ring",
+        "output_item_count": 1,
+        "output_item_id": 71154,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 71154
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Adelbern's Royal Signet Ring (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 76823,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49399
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Adelbern's Royal Signet Ring (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 76823,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37092
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Bagh Nakh (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49407,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37092
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Bagh Nakh",
+        "output_item_count": 1,
+        "output_item_id": 74631,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 74631
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Bagh Nakh (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 75315,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49407
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Bagh Nakh (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 75315,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 39612
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Band of the Brotherhood (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49422,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 39612
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Band of the Brotherhood",
+        "output_item_count": 1,
+        "output_item_id": 73154,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 73154
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Band of the Brotherhood (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 75355,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49422
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Band of the Brotherhood (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 75355,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 39604
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Barbed Signet (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49418,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 39604
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Barbed Signet",
+        "output_item_count": 1,
+        "output_item_id": 76948,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 76948
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Barbed Signet (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 74343,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49418
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Barbed Signet (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 74343,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 39613
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Cirque of Arah (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49423,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 39613
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Cirque of Arah",
+        "output_item_count": 1,
+        "output_item_id": 77227,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 77227
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Cirque of Arah (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 75438,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49423
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Cirque of Arah (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 75438,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37075
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Crystalline Band (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49402,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37075
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Crystalline Band",
+        "output_item_count": 1,
+        "output_item_id": 74440,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 74440
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Crystalline Band (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 76024,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49402
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Crystalline Band (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 76024,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 39596
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Druid's Circle (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49414,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 39596
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Druid's Circle",
+        "output_item_count": 1,
+        "output_item_id": 75273,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 75273
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Druid's Circle (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 73756,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49414
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Druid's Circle (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 73756,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 39600
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Ettinband (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49416,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 39600
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Ettinband",
+        "output_item_count": 1,
+        "output_item_id": 74898,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 74898
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Ettinband (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 76557,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49416
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Ettinband (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 76557,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 67908
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Forgotten Band (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 67909,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 67908
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Forgotten Band",
+        "output_item_count": 1,
+        "output_item_id": 75065,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 75065
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Forgotten Band (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 76504,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 67909
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Forgotten Band (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 76504,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 39597
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Healing Signet (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49415,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 39597
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Healing Signet",
+        "output_item_count": 1,
+        "output_item_id": 71854,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 71854
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Healing Signet (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 72932,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49415
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Healing Signet (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 72932,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37074
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Khilbron's Phylactery (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49401,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37074
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Khilbron's Phylactery",
+        "output_item_count": 1,
+        "output_item_id": 75471,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 75471
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Khilbron's Phylactery (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 70554,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49401
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Khilbron's Phylactery (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 70554,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 39325
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Lost Seal of Usoku (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49395,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 39325
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Lost Seal of Usoku",
+        "output_item_count": 1,
+        "output_item_id": 74610,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 74610
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Lost Seal of Usoku (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 72423,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49395
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Lost Seal of Usoku (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 72423,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 39608
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Lucce Seal (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49420,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 39608
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Lucce Seal",
+        "output_item_count": 1,
+        "output_item_id": 74685,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 74685
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Lucce Seal (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 76936,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49420
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Lucce Seal (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 76936,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37078
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Lunaria, Circle of the Moon (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49412,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37078
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Lunaria, Circle of the Moon",
+        "output_item_count": 1,
+        "output_item_id": 70507,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 70507
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Lunaria, Circle of the Moon (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 76809,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49412
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Lunaria, Circle of the Moon (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 76809,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37082
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Mellaggan's Whorl (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49408,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37082
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Mellaggan's Whorl",
+        "output_item_count": 1,
+        "output_item_id": 72106,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 72106
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Mellaggan's Whorl (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 71065,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49408
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Mellaggan's Whorl (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 71065,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 39601
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Ossa Family Signet Ring (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49417,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 39601
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Ossa Family Signet Ring",
+        "output_item_count": 1,
+        "output_item_id": 74848,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 74848
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Ossa Family Signet Ring (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 72591,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49417
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Ossa Family Signet Ring (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 72591,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37085
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Ouroboros Loop (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49400,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37085
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Ouroboros Loop",
+        "output_item_count": 1,
+        "output_item_id": 71592,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 71592
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Ouroboros Loop (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 73281,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49400
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Ouroboros Loop (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 73281,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 39605
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Palawa Joko's Finger Cuff (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49419,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 39605
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Palawa Joko's Finger Cuff",
+        "output_item_count": 1,
+        "output_item_id": 74188,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 74188
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Palawa Joko's Finger Cuff (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 75943,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49419
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Palawa Joko's Finger Cuff (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 75943,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 67906
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Plague Signet (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 67903,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 67906
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Plague Signet",
+        "output_item_count": 1,
+        "output_item_id": 74483,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 74483
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Plague Signet (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 70695,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 67903
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Plague Signet (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 70695,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 39609
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Purge Signet (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49421,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 39609
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Purge Signet",
+        "output_item_count": 1,
+        "output_item_id": 75997,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 75997
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Purge Signet (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 75029,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49421
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Purge Signet (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 75029,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37077
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Ralena's Band (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49405,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37077
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Ralena's Band",
+        "output_item_count": 1,
+        "output_item_id": 73888,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 73888
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Ralena's Band (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 75175,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49405
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Ralena's Band (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 75175,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37086
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Ring of Red Death (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49403,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37086
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Ring of Red Death",
+        "output_item_count": 1,
+        "output_item_id": 75187,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 75187
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Ring of Red Death (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 75669,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49403
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Ring of Red Death (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 75669,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 39324
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Royal Signet of Doric (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49394,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 39324
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Royal Signet of Doric",
+        "output_item_count": 1,
+        "output_item_id": 76953,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 76953
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Royal Signet of Doric (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 71346,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49394
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Royal Signet of Doric (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 71346,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37090
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Rurik's Royal Signet Ring (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49398,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37090
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Rurik's Royal Signet Ring",
+        "output_item_count": 1,
+        "output_item_id": 70487,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 70487
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Rurik's Royal Signet Ring (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 75156,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49398
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Rurik's Royal Signet Ring (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 75156,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 67902
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Sandford Family Ring (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 67907,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 67902
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Sandford Family Ring",
+        "output_item_count": 1,
+        "output_item_id": 75417,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 75417
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Sandford Family Ring (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 75312,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 67907
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Sandford Family Ring (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 75312,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37091
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Seal of the Khan-Ur (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49409,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37091
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Seal of the Khan-Ur",
+        "output_item_count": 1,
+        "output_item_id": 76947,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 76947
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Seal of the Khan-Ur (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 74744,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49409
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Seal of the Khan-Ur (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 74744,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37093
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Snaff's Gyre (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49411,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37088
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Solaria, Circle of the Sun (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49413,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37088
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Solaria, Circle of the Sun",
+        "output_item_count": 1,
+        "output_item_id": 74081,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 74081
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Solaria, Circle of the Sun (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 73813,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49413
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Solaria, Circle of the Sun (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 73813,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37087
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Vassar's Band (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49404,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37087
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Vassar's Band",
+        "output_item_count": 1,
+        "output_item_id": 76058,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 76058
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Vassar's Band (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 75277,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49404
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Vassar's Band (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 75277,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 67905
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Verata's Seared Ring (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 67904,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 67905
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Verata's Seared Ring",
+        "output_item_count": 1,
+        "output_item_id": 76847,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 76847
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Verata's Seared Ring (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 71726,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 67904
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Verata's Seared Ring (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 71726,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37080
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Vine of the Pale Tree (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49406,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37080
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Vine of the Pale Tree",
+        "output_item_count": 1,
+        "output_item_id": 75090,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 75090
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Attuned Vine of the Pale Tree (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 73560,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49406
+            },
+            {
+                "count": 1,
+                "item_id": 73381
+            },
+            {
+                "count": 1,
+                "item_id": 49424
+            },
+            {
+                "count": 1,
+                "item_id": 20796
+            }
+        ],
+        "name": "Attuned Vine of the Pale Tree (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 73560,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 37083
+            },
+            {
+                "count": 1,
+                "item_id": 38024
+            },
+            {
+                "count": 3,
+                "item_id": 38023
+            },
+            {
+                "count": 5,
+                "item_id": 38014
+            }
+        ],
+        "name": "Yakkington's Ring (Infused)",
+        "output_item_count": 1,
+        "output_item_id": 49410,
+        "type": "Ring"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 72309
+            },
+            {
+                "count": 1,
+                "item_id": 74377
+            },
+            {
+                "count": 1,
+                "item_id": 19626
+            },
+            {
+                "count": 1,
+                "item_id": -12
+            }
+        ],
+        "name": "Ad Infinitum",
+        "output_item_count": 1,
+        "output_item_id": -11,
         "type": ""
     }
 ]
