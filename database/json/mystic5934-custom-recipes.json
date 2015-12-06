@@ -6994,7 +6994,7 @@
     },
     {
         "disciplines": [
-            "SS Node"
+            "Charge"
         ],
         "ingredients": [
             {
@@ -32821,5 +32821,2299 @@
         "output_item_count": 1,
         "output_item_id": -11,
         "type": ""
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 4,
+                "item_id": 76760
+            },
+            {
+                "count": 1,
+                "item_id": 46746
+            }
+        ],
+        "name": "Gift of the Catalyst",
+        "output_item_count": 1,
+        "output_item_id": 76442,
+        "type": "CraftingMaterial"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 250,
+                "item_id": 70820
+            }
+        ],
+        "name": "Gift of Glory",
+        "output_item_count": 1,
+        "output_item_id": 70528,
+        "type": "CraftingMaterial"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 71729
+            },
+            {
+                "count": 1,
+                "item_id": 72926
+            },
+            {
+                "count": 1,
+                "item_id": 46746
+            }
+        ],
+        "name": "Gift of the Raven Spirit",
+        "output_item_count": 1,
+        "output_item_id": 71173,
+        "type": "CraftingMaterial"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 71173
+            },
+            {
+                "count": 1,
+                "item_id": 19623
+            },
+            {
+                "count": 1,
+                "item_id": 76427
+            },
+            {
+                "count": 100,
+                "item_id": 19676
+            }
+        ],
+        "name": "Gift of Nevermore",
+        "output_item_count": 1,
+        "output_item_id": 74300,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Mystic Forge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 76442
+            },
+            {
+                "count": 1,
+                "item_id": 19622
+            },
+            {
+                "count": 1,
+                "item_id": 76427
+            },
+            {
+                "count": 100,
+                "item_id": 19676
+            }
+        ],
+        "name": "Gift of HOPE",
+        "output_item_count": 1,
+        "output_item_id": 77086,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 250,
+                "item_id": 71581
+            }
+        ],
+        "name": "Gift of War",
+        "output_item_count": 1,
+        "output_item_id": 71008,
+        "type": "CraftingMaterial"
+    },
+    {
+        "disciplines": [
+            "Double Click"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 74491
+            }
+        ],
+        "name": "Nightfury",
+        "output_item_count": 1,
+        "output_item_id": 74547,
+        "type": "Shoulders"
+    },
+    {
+        "disciplines": [
+            "Double Click"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 74491
+            }
+        ],
+        "name": "Nightfury",
+        "output_item_count": 1,
+        "output_item_id": 74332,
+        "type": "Shoulders"
+    },
+    {
+        "disciplines": [
+            "Double Click"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 74491
+            }
+        ],
+        "name": "Nightfury",
+        "output_item_count": 1,
+        "output_item_id": 76885,
+        "type": "Shoulders"
+    },
+    {
+        "disciplines": [
+            "Salvage"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 73251
+            }
+        ],
+        "name": "Spirit of the Upper Bound",
+        "output_item_count": 1,
+        "output_item_id": 70642,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Salvage"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 73624
+            }
+        ],
+        "name": "Spirit of the Finite Result",
+        "output_item_count": 1,
+        "output_item_id": 75066,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Charge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 76164
+            }
+        ],
+        "name": "Charged Hammer Head",
+        "output_item_count": 1,
+        "output_item_id": 70775,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Charge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 75321
+            }
+        ],
+        "name": "Charged Torch Head",
+        "output_item_count": 1,
+        "output_item_id": 75197,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Charge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 73874
+            }
+        ],
+        "name": "Charged Rifle Barrel",
+        "output_item_count": 1,
+        "output_item_id": 70900,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Charge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 72009
+            }
+        ],
+        "name": "Charged Warhorn Horn",
+        "output_item_count": 1,
+        "output_item_id": 76013,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Charge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 73944
+            }
+        ],
+        "name": "Charged Axe Blade",
+        "output_item_count": 1,
+        "output_item_id": 76088,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Charge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 76232
+            }
+        ],
+        "name": "Charged Short Bow Stave",
+        "output_item_count": 1,
+        "output_item_id": 75280,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Charge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 77064
+            }
+        ],
+        "name": "Charged Mace Head",
+        "output_item_count": 1,
+        "output_item_id": 72440,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Charge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 75123
+            }
+        ],
+        "name": "Charged Focus Core",
+        "output_item_count": 1,
+        "output_item_id": 74736,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Charge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 70522
+            }
+        ],
+        "name": "Charged Shield Boss",
+        "output_item_count": 1,
+        "output_item_id": 76997,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Charge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 75698
+            }
+        ],
+        "name": "Charged Staff Head",
+        "output_item_count": 1,
+        "output_item_id": 72661,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Charge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 71331
+            }
+        ],
+        "name": "Charged Dagger Blade",
+        "output_item_count": 1,
+        "output_item_id": 72737,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Charge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 72428
+            }
+        ],
+        "name": "Charged Pistol Barrel",
+        "output_item_count": 1,
+        "output_item_id": 71177,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Charge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 71352
+            }
+        ],
+        "name": "Charged Greatsword Blade",
+        "output_item_count": 1,
+        "output_item_id": 72692,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Charge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 71574
+            }
+        ],
+        "name": "Charged Sword Blade",
+        "output_item_count": 1,
+        "output_item_id": 72394,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Charge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 72673
+            }
+        ],
+        "name": "Charged Longbow Stave",
+        "output_item_count": 1,
+        "output_item_id": 75842,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Charge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 74825
+            }
+        ],
+        "name": "Charged Scepter Core",
+        "output_item_count": 1,
+        "output_item_id": 71196,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 71994
+            }
+        ],
+        "name": "Aetherblade Recruitment Form",
+        "output_item_count": 1,
+        "output_item_id": 71281,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 3,
+                "item_id": 71994
+            }
+        ],
+        "name": "Aetherblade Secret Handshake Tutorial Book",
+        "output_item_count": 1,
+        "output_item_id": 75018,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 2,
+                "item_id": 71994
+            }
+        ],
+        "name": "Aetherblade Handbook",
+        "output_item_count": 1,
+        "output_item_id": 75887,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 75439
+            }
+        ],
+        "name": "Molten Alliance Fractal Field Research Paper",
+        "output_item_count": 1,
+        "output_item_id": 76623,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 75439
+            }
+        ],
+        "name": "Thaumanova Fractal Field Research Paper",
+        "output_item_count": 1,
+        "output_item_id": 73929,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Double Click"
+        ],
+        "ingredients": [
+            {
+                "count": 28,
+                "item_id": 73834
+            }
+        ],
+        "name": "Fractal Journal",
+        "output_item_count": 1,
+        "output_item_id": 75439,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 75439
+            }
+        ],
+        "name": "Ascalonian Fractal Field Research Paper",
+        "output_item_count": 1,
+        "output_item_id": 75871,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Charge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49429
+            }
+        ],
+        "name": "Weak Magically Charged Infusion Sample",
+        "output_item_count": 1,
+        "output_item_id": 73755,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Charge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49431
+            }
+        ],
+        "name": "Magically Charged Infusion Sample",
+        "output_item_count": 1,
+        "output_item_id": 77266,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Charge"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 49427
+            }
+        ],
+        "name": "Unstable Magically Charged Infusion Sample",
+        "output_item_count": 1,
+        "output_item_id": 76172,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 2640,
+                "item_id": 1
+            },
+            {
+                "count": 50,
+                "item_id": 46682
+            }
+        ],
+        "name": "Druid's Inscription",
+        "output_item_count": 1,
+        "output_item_id": 74654,
+        "type": "Accessory"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 2640,
+                "item_id": 1
+            },
+            {
+                "count": 50,
+                "item_id": 46682
+            }
+        ],
+        "name": "Herald's Inscription",
+        "output_item_count": 1,
+        "output_item_id": 74227,
+        "type": "Accessory"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 2640,
+                "item_id": 1
+            },
+            {
+                "count": 50,
+                "item_id": 46682
+            }
+        ],
+        "name": "Tempest's Inscription",
+        "output_item_count": 1,
+        "output_item_id": 72685,
+        "type": "Accessory"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 2640,
+                "item_id": 1
+            },
+            {
+                "count": 50,
+                "item_id": 46682
+            }
+        ],
+        "name": "Reaper's Inscription",
+        "output_item_count": 1,
+        "output_item_id": 72982,
+        "type": "Accessory"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 2640,
+                "item_id": 1
+            },
+            {
+                "count": 50,
+                "item_id": 46682
+            }
+        ],
+        "name": "Daredevil's Inscription",
+        "output_item_count": 1,
+        "output_item_id": 73648,
+        "type": "Accessory"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 2640,
+                "item_id": 1
+            },
+            {
+                "count": 50,
+                "item_id": 46682
+            }
+        ],
+        "name": "Chronomancer's Inscription",
+        "output_item_count": 1,
+        "output_item_id": 71809,
+        "type": "Accessory"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 2640,
+                "item_id": 1
+            },
+            {
+                "count": 50,
+                "item_id": 46682
+            }
+        ],
+        "name": "Berserker's Inscription",
+        "output_item_count": 1,
+        "output_item_id": 70784,
+        "type": "Accessory"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 2640,
+                "item_id": 1
+            },
+            {
+                "count": 50,
+                "item_id": 46682
+            }
+        ],
+        "name": "Dragonhunter's Inscription",
+        "output_item_count": 1,
+        "output_item_id": 74849,
+        "type": "Accessory"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 2640,
+                "item_id": 1
+            },
+            {
+                "count": 50,
+                "item_id": 46682
+            }
+        ],
+        "name": "Scrapper's Inscription",
+        "output_item_count": 1,
+        "output_item_id": 71144,
+        "type": "Accessory"
+    },
+    {
+        "disciplines": [
+            "Salvage"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 76890
+            }
+        ],
+        "name": "Reclaimed Metal Plate",
+        "output_item_count": 1,
+        "output_item_id": 74356,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 150,
+                "item_id": 74494
+            },
+            {
+                "count": 150,
+                "item_id": 75012
+            },
+            {
+                "count": 150,
+                "item_id": 20
+            },
+            {
+                "count": 3,
+                "item_id": 74356
+            }
+        ],
+        "name": "Plated Hammer",
+        "output_item_count": 1,
+        "output_item_id": 75838,
+        "type": "Hammer"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 100,
+                "item_id": 74494
+            },
+            {
+                "count": 100,
+                "item_id": 75012
+            },
+            {
+                "count": 100,
+                "item_id": 20
+            },
+            {
+                "count": 2,
+                "item_id": 74356
+            }
+        ],
+        "name": "Plated Torch",
+        "output_item_count": 1,
+        "output_item_id": 70807,
+        "type": "Torch"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 100,
+                "item_id": 74494
+            },
+            {
+                "count": 100,
+                "item_id": 75012
+            },
+            {
+                "count": 100,
+                "item_id": 20
+            },
+            {
+                "count": 2,
+                "item_id": 74356
+            }
+        ],
+        "name": "Plated Scepter",
+        "output_item_count": 1,
+        "output_item_id": 71595,
+        "type": "Scepter"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 100,
+                "item_id": 74494
+            },
+            {
+                "count": 100,
+                "item_id": 75012
+            },
+            {
+                "count": 100,
+                "item_id": 20
+            },
+            {
+                "count": 2,
+                "item_id": 74356
+            }
+        ],
+        "name": "Plated Focus",
+        "output_item_count": 1,
+        "output_item_id": 73285,
+        "type": "Focus"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 100,
+                "item_id": 74494
+            },
+            {
+                "count": 100,
+                "item_id": 75012
+            },
+            {
+                "count": 100,
+                "item_id": 20
+            },
+            {
+                "count": 2,
+                "item_id": 74356
+            }
+        ],
+        "name": "Plated Warhorn",
+        "output_item_count": 1,
+        "output_item_id": 76294,
+        "type": "Warhorn"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 100,
+                "item_id": 74494
+            },
+            {
+                "count": 100,
+                "item_id": 75012
+            },
+            {
+                "count": 100,
+                "item_id": 20
+            },
+            {
+                "count": 2,
+                "item_id": 74356
+            }
+        ],
+        "name": "Plated Dagger",
+        "output_item_count": 1,
+        "output_item_id": 74231,
+        "type": "Dagger"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 100,
+                "item_id": 74494
+            },
+            {
+                "count": 100,
+                "item_id": 75012
+            },
+            {
+                "count": 100,
+                "item_id": 20
+            },
+            {
+                "count": 2,
+                "item_id": 74356
+            }
+        ],
+        "name": "Plated Pistol",
+        "output_item_count": 1,
+        "output_item_id": 70831,
+        "type": "Pistol"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 150,
+                "item_id": 74494
+            },
+            {
+                "count": 150,
+                "item_id": 75012
+            },
+            {
+                "count": 150,
+                "item_id": 20
+            },
+            {
+                "count": 3,
+                "item_id": 74356
+            }
+        ],
+        "name": "Plated Rifle",
+        "output_item_count": 1,
+        "output_item_id": 73714,
+        "type": "Rifle"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 150,
+                "item_id": 74494
+            },
+            {
+                "count": 150,
+                "item_id": 75012
+            },
+            {
+                "count": 150,
+                "item_id": 20
+            },
+            {
+                "count": 3,
+                "item_id": 74356
+            }
+        ],
+        "name": "Plated Longbow",
+        "output_item_count": 1,
+        "output_item_id": 75120,
+        "type": "LongBow"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 150,
+                "item_id": 74494
+            },
+            {
+                "count": 150,
+                "item_id": 75012
+            },
+            {
+                "count": 150,
+                "item_id": 20
+            },
+            {
+                "count": 3,
+                "item_id": 74356
+            }
+        ],
+        "name": "Plated Staff",
+        "output_item_count": 1,
+        "output_item_id": 76987,
+        "type": "Staff"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 100,
+                "item_id": 74494
+            },
+            {
+                "count": 100,
+                "item_id": 75012
+            },
+            {
+                "count": 100,
+                "item_id": 20
+            },
+            {
+                "count": 2,
+                "item_id": 74356
+            }
+        ],
+        "name": "Plated Shield",
+        "output_item_count": 1,
+        "output_item_id": 71628,
+        "type": "Shield"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 100,
+                "item_id": 74494
+            },
+            {
+                "count": 100,
+                "item_id": 75012
+            },
+            {
+                "count": 100,
+                "item_id": 20
+            },
+            {
+                "count": 2,
+                "item_id": 74356
+            }
+        ],
+        "name": "Plated Sword",
+        "output_item_count": 1,
+        "output_item_id": 74044,
+        "type": "Sword"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 100,
+                "item_id": 74494
+            },
+            {
+                "count": 100,
+                "item_id": 75012
+            },
+            {
+                "count": 100,
+                "item_id": 20
+            },
+            {
+                "count": 2,
+                "item_id": 74356
+            }
+        ],
+        "name": "Plated Axe",
+        "output_item_count": 1,
+        "output_item_id": 71109,
+        "type": "Axe"
+    },
+    {
+        "disciplines": [
+            "Buy"
+        ],
+        "ingredients": [
+            {
+                "count": 150,
+                "item_id": 74494
+            },
+            {
+                "count": 150,
+                "item_id": 75012
+            },
+            {
+                "count": 150,
+                "item_id": 20
+            },
+            {
+                "count": 3,
+                "item_id": 74356
+            }
+        ],
+        "name": "Plated Greatsword",
+        "output_item_count": 1,
+        "output_item_id": 74558,
+        "type": "Greatsword"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 70807
+            },
+            {
+                "count": 1,
+                "item_id": 74027
+            },
+            {
+                "count": 1,
+                "item_id": 73972
+            },
+            {
+                "count": 1,
+                "item_id": 75571
+            }
+        ],
+        "name": "Machined Torch",
+        "output_item_count": 1,
+        "output_item_id": 73506,
+        "type": "Torch"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 74044
+            },
+            {
+                "count": 1,
+                "item_id": 72110
+            },
+            {
+                "count": 1,
+                "item_id": 76673
+            },
+            {
+                "count": 1,
+                "item_id": 72514
+            }
+        ],
+        "name": "Machined Sword",
+        "output_item_count": 1,
+        "output_item_id": 75917,
+        "type": "Sword"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 73714
+            },
+            {
+                "count": 1,
+                "item_id": 74141
+            },
+            {
+                "count": 1,
+                "item_id": 71460
+            },
+            {
+                "count": 1,
+                "item_id": 76050
+            }
+        ],
+        "name": "Machined Rifle",
+        "output_item_count": 1,
+        "output_item_id": 76811,
+        "type": "Rifle"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 71628
+            },
+            {
+                "count": 1,
+                "item_id": 71902
+            },
+            {
+                "count": 1,
+                "item_id": 71253
+            },
+            {
+                "count": 1,
+                "item_id": 71871
+            }
+        ],
+        "name": "Machined Shield",
+        "output_item_count": 1,
+        "output_item_id": 71808,
+        "type": "Shield"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 71109
+            },
+            {
+                "count": 1,
+                "item_id": 73799
+            },
+            {
+                "count": 1,
+                "item_id": 70550
+            },
+            {
+                "count": 1,
+                "item_id": 74608
+            }
+        ],
+        "name": "Machined Axe",
+        "output_item_count": 1,
+        "output_item_id": 74999,
+        "type": "Axe"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 75120
+            },
+            {
+                "count": 1,
+                "item_id": 76308
+            },
+            {
+                "count": 1,
+                "item_id": 76373
+            },
+            {
+                "count": 1,
+                "item_id": 73650
+            }
+        ],
+        "name": "Machined Longbow",
+        "output_item_count": 1,
+        "output_item_id": 74535,
+        "type": "LongBow"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 75838
+            },
+            {
+                "count": 1,
+                "item_id": 73513
+            },
+            {
+                "count": 1,
+                "item_id": 74853
+            },
+            {
+                "count": 1,
+                "item_id": 73786
+            }
+        ],
+        "name": "Machined Hammer",
+        "output_item_count": 1,
+        "output_item_id": 75792,
+        "type": "Hammer"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 76987
+            },
+            {
+                "count": 1,
+                "item_id": 74758
+            },
+            {
+                "count": 1,
+                "item_id": 76382
+            },
+            {
+                "count": 1,
+                "item_id": 74732
+            }
+        ],
+        "name": "Machined Staff",
+        "output_item_count": 1,
+        "output_item_id": 72877,
+        "type": "Staff"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 74558
+            },
+            {
+                "count": 1,
+                "item_id": 72903
+            },
+            {
+                "count": 1,
+                "item_id": 77195
+            },
+            {
+                "count": 1,
+                "item_id": 75947
+            }
+        ],
+        "name": "Machined Greatsword",
+        "output_item_count": 1,
+        "output_item_id": 71647,
+        "type": "Greatsword"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 76294
+            },
+            {
+                "count": 1,
+                "item_id": 76684
+            },
+            {
+                "count": 1,
+                "item_id": 73727
+            },
+            {
+                "count": 1,
+                "item_id": 75497
+            }
+        ],
+        "name": "Machined Warhorn",
+        "output_item_count": 1,
+        "output_item_id": 75523,
+        "type": "Warhorn"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 70831
+            },
+            {
+                "count": 1,
+                "item_id": 74461
+            },
+            {
+                "count": 1,
+                "item_id": 74891
+            },
+            {
+                "count": 1,
+                "item_id": 71270
+            }
+        ],
+        "name": "Machined Pistol",
+        "output_item_count": 1,
+        "output_item_id": 75774,
+        "type": "Pistol"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 74231
+            },
+            {
+                "count": 1,
+                "item_id": 76684
+            },
+            {
+                "count": 1,
+                "item_id": 73727
+            },
+            {
+                "count": 1,
+                "item_id": 75497
+            }
+        ],
+        "name": "Machined Dagger",
+        "output_item_count": 1,
+        "output_item_id": 74286,
+        "type": "Dagger"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 75966
+            }
+        ],
+        "name": "Essence of Illumination",
+        "output_item_count": 1,
+        "output_item_id": 72142,
+        "type": "CraftingMaterial"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 75632
+            }
+        ],
+        "name": "Essence of Gloom",
+        "output_item_count": 1,
+        "output_item_id": 76379,
+        "type": "CraftingMaterial"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 72910
+            }
+        ],
+        "name": "Essence of the Ooze",
+        "output_item_count": 1,
+        "output_item_id": 72331,
+        "type": "CraftingMaterial"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 71269
+            }
+        ],
+        "name": "Essence of Concoctions",
+        "output_item_count": 1,
+        "output_item_id": 76806,
+        "type": "CraftingMaterial"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 74180
+            }
+        ],
+        "name": "Essence of the Wild Spirit",
+        "output_item_count": 1,
+        "output_item_id": 72934,
+        "type": "CraftingMaterial"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 72243
+            }
+        ],
+        "name": "Essence of Love",
+        "output_item_count": 1,
+        "output_item_id": 75228,
+        "type": "CraftingMaterial"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 76989
+            },
+            {
+                "count": 1,
+                "item_id": 71887
+            },
+            {
+                "count": 1,
+                "item_id": 76705
+            }
+        ],
+        "name": "Essence of Natural Protection",
+        "output_item_count": 1,
+        "output_item_id": 70658,
+        "type": "CraftingMaterial"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 70879
+            },
+            {
+                "count": 1,
+                "item_id": 77151
+            },
+            {
+                "count": 1,
+                "item_id": 71527
+            },
+            {
+                "count": 1,
+                "item_id": 70914
+            }
+        ],
+        "name": "Essence of Industry",
+        "output_item_count": 1,
+        "output_item_id": 74544,
+        "type": "CraftingMaterial"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 23706
+            },
+            {
+                "count": 1,
+                "item_id": 23330
+            },
+            {
+                "count": 1,
+                "item_id": 23591
+            },
+            {
+                "count": 1,
+                "item_id": 74277
+            }
+        ],
+        "name": "Essence of Artistry",
+        "output_item_count": 1,
+        "output_item_id": 75769,
+        "type": "CraftingMaterial"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 6,
+                "item_id": 75143
+            },
+            {
+                "count": 6,
+                "item_id": 76398
+            },
+            {
+                "count": 1,
+                "item_id": 76000
+            },
+            {
+                "count": 1,
+                "item_id": 73494
+            }
+        ],
+        "name": "Essence of Rainbows",
+        "output_item_count": 1,
+        "output_item_id": 74378,
+        "type": "CraftingMaterial"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 70580
+            },
+            {
+                "count": 1,
+                "item_id": 76329
+            },
+            {
+                "count": 1,
+                "item_id": 75039
+            },
+            {
+                "count": 1,
+                "item_id": 76918
+            }
+        ],
+        "name": "Solution: Finite Result",
+        "output_item_count": 1,
+        "output_item_id": 70435,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 75816
+            },
+            {
+                "count": 1,
+                "item_id": 76417
+            },
+            {
+                "count": 1,
+                "item_id": 72905
+            },
+            {
+                "count": 1,
+                "item_id": 75477
+            }
+        ],
+        "name": "Solution: Upper Bound",
+        "output_item_count": 1,
+        "output_item_id": 73201,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 74878
+            },
+            {
+                "count": 1,
+                "item_id": 70980
+            },
+            {
+                "count": 1,
+                "item_id": 74889
+            },
+            {
+                "count": 1,
+                "item_id": 71427
+            }
+        ],
+        "name": "Solution: Unbound",
+        "output_item_count": 1,
+        "output_item_id": 75469,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 71561
+            },
+            {
+                "count": 1,
+                "item_id": 72367
+            },
+            {
+                "count": 1,
+                "item_id": 73319
+            },
+            {
+                "count": 1,
+                "item_id": 31100
+            }
+        ],
+        "name": "The North Wind",
+        "output_item_count": 1,
+        "output_item_id": 73037,
+        "type": "Warhorn"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 73163
+            },
+            {
+                "count": 1,
+                "item_id": 71785
+            },
+            {
+                "count": 1,
+                "item_id": 72073
+            },
+            {
+                "count": 1,
+                "item_id": 31094
+            }
+        ],
+        "name": "Ydalir",
+        "output_item_count": 1,
+        "output_item_id": 69817,
+        "type": "LongBow"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 75725
+            },
+            {
+                "count": 1,
+                "item_id": 70864
+            },
+            {
+                "count": 1,
+                "item_id": 73340
+            },
+            {
+                "count": 1,
+                "item_id": 31091
+            }
+        ],
+        "name": "Glint's Bastion",
+        "output_item_count": 1,
+        "output_item_id": 75482,
+        "type": "Shield"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 73483
+            },
+            {
+                "count": 1,
+                "item_id": 70501
+            },
+            {
+                "count": 1,
+                "item_id": 70587
+            },
+            {
+                "count": 1,
+                "item_id": 31097
+            }
+        ],
+        "name": "Fix-r-Upper",
+        "output_item_count": 1,
+        "output_item_id": 69932,
+        "type": "Hammer"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 70816
+            },
+            {
+                "count": 1,
+                "item_id": 77253
+            },
+            {
+                "count": 1,
+                "item_id": 71067
+            },
+            {
+                "count": 1,
+                "item_id": 31086
+            }
+        ],
+        "name": "Dark Harvest",
+        "output_item_count": 1,
+        "output_item_id": 69893,
+        "type": "Greatsword"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 71718
+            },
+            {
+                "count": 1,
+                "item_id": 70430
+            },
+            {
+                "count": 1,
+                "item_id": 73245
+            },
+            {
+                "count": 1,
+                "item_id": 31092
+            }
+        ],
+        "name": "Bo",
+        "output_item_count": 1,
+        "output_item_id": 69984,
+        "type": "Staff"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 71097
+            },
+            {
+                "count": 1,
+                "item_id": 74559
+            },
+            {
+                "count": 1,
+                "item_id": 72263
+            },
+            {
+                "count": 1,
+                "item_id": 31091
+            }
+        ],
+        "name": "Horologicus",
+        "output_item_count": 1,
+        "output_item_id": 74858,
+        "type": "Shield"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 71685
+            },
+            {
+                "count": 1,
+                "item_id": 70942
+            },
+            {
+                "count": 1,
+                "item_id": 76433
+            },
+            {
+                "count": 1,
+                "item_id": 31099
+            }
+        ],
+        "name": "Wild Abandon",
+        "output_item_count": 1,
+        "output_item_id": 74918,
+        "type": "Torch"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 75863
+            },
+            {
+                "count": 1,
+                "item_id": 75070
+            },
+            {
+                "count": 1000,
+                "item_id": 67787
+            },
+            {
+                "count": 400,
+                "item_id": 69812
+            }
+        ],
+        "name": "Expertise in Harpoon Gun Crafting",
+        "output_item_count": 1,
+        "output_item_id": 71277,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 73008
+            },
+            {
+                "count": 1,
+                "item_id": 76791
+            },
+            {
+                "count": 1000,
+                "item_id": 67787
+            },
+            {
+                "count": 400,
+                "item_id": 69812
+            }
+        ],
+        "name": "Expertise in Spear Crafting",
+        "output_item_count": 1,
+        "output_item_id": 74822,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 75931
+            },
+            {
+                "count": 1,
+                "item_id": 76187
+            },
+            {
+                "count": 3,
+                "item_id": 45885
+            },
+            {
+                "count": 5,
+                "item_id": 13259
+            }
+        ],
+        "name": "Expertise in Scepter Crafting",
+        "output_item_count": 1,
+        "output_item_id": 72995,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 75634
+            },
+            {
+                "count": 1,
+                "item_id": 75594
+            },
+            {
+                "count": 1,
+                "item_id": 71751
+            },
+            {
+                "count": 250,
+                "item_id": 73924
+            }
+        ],
+        "name": "Expertise in Short Bow Crafting",
+        "output_item_count": 1,
+        "output_item_id": 76682,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 76018
+            },
+            {
+                "count": 1,
+                "item_id": 74900
+            },
+            {
+                "count": 1,
+                "item_id": 71818
+            },
+            {
+                "count": 250,
+                "item_id": 74917
+            }
+        ],
+        "name": "Expertise in Advanced Pistol Crafting",
+        "output_item_count": 1,
+        "output_item_id": 75982,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 76068
+            },
+            {
+                "count": 1,
+                "item_id": 76019
+            },
+            {
+                "count": 1,
+                "item_id": 76122
+            },
+            {
+                "count": 250,
+                "item_id": 71087
+            }
+        ],
+        "name": "Expertise in Runed Staff Crafting",
+        "output_item_count": 1,
+        "output_item_id": 73955,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 76869
+            },
+            {
+                "count": 1,
+                "item_id": 75547
+            },
+            {
+                "count": 1,
+                "item_id": 74690
+            },
+            {
+                "count": 250,
+                "item_id": 73954
+            }
+        ],
+        "name": "Expertise in Sword Crafting",
+        "output_item_count": 1,
+        "output_item_id": 73473,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 74318
+            },
+            {
+                "count": 1,
+                "item_id": 71293
+            },
+            {
+                "count": 1,
+                "item_id": 75045
+            },
+            {
+                "count": 250,
+                "item_id": 73564
+            }
+        ],
+        "name": "Expertise in Dagger Crafting",
+        "output_item_count": 1,
+        "output_item_id": 76460,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 73252
+            },
+            {
+                "count": 1,
+                "item_id": 76869
+            },
+            {
+                "count": 1,
+                "item_id": 76464
+            },
+            {
+                "count": 250,
+                "item_id": 76386
+            }
+        ],
+        "name": "Expertise in Nightsword Crafting",
+        "output_item_count": 1,
+        "output_item_id": 77089,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 72545
+            },
+            {
+                "count": 1,
+                "item_id": 74993
+            },
+            {
+                "count": 1,
+                "item_id": 74701
+            },
+            {
+                "count": 250,
+                "item_id": 71087
+            }
+        ],
+        "name": "Expertise in Staff Crafting",
+        "output_item_count": 1,
+        "output_item_id": 77139,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 76791
+            },
+            {
+                "count": 1,
+                "item_id": 73588
+            },
+            {
+                "count": 1,
+                "item_id": 72578
+            },
+            {
+                "count": 250,
+                "item_id": 71922
+            }
+        ],
+        "name": "Expertise in Hammer Crafting",
+        "output_item_count": 1,
+        "output_item_id": 73804,
+        "type": "Trophy"
+    },
+    {
+        "disciplines": [
+            "Achievement"
+        ],
+        "ingredients": [
+            {
+                "count": 1,
+                "item_id": 72101
+            },
+            {
+                "count": 1,
+                "item_id": 76945
+            },
+            {
+                "count": 1,
+                "item_id": 71619
+            },
+            {
+                "count": 250,
+                "item_id": 76386
+            }
+        ],
+        "name": "Expertise in Daysword Crafting",
+        "output_item_count": 1,
+        "output_item_id": 70798,
+        "type": "Trophy"
     }
 ]
