@@ -23,7 +23,7 @@ class Recipes extends Api
     public function getCustomRecipes()
     {
 
-        $recipes = $this->json('./database/json/mystic5934-custom-recipes.json');
+        $recipes = $this->json('https://raw.githubusercontent.com/queicherius/gw2-mystic-forge-recipes/master/recipes.json');
         $recipes = $this->cleanupRecipes($recipes);
 
         // Save in internal structure
