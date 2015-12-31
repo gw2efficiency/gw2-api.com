@@ -38,6 +38,22 @@ class Recipes extends Api
 
         foreach ($recipes as $key => $recipe) {
 
+            // Currency items as output
+            if ($recipe['output_item_id'] < 0) {
+                unset($recipes[$key]);
+            }
+
+            // Currency items as ingredients
+            foreach ($recipe['ingredients'] as $i => $ingredient) {
+                if ($ingredient['item_id'] < 0) {
+                    unset($recipe['ingredients'][$i]);
+                }
+            }
+
+            if (count($recipe['ingredients']) == 0) {
+                unset($recipes[$key]);
+            }
+
             // Circular dependencies
             if (in_array($recipe['output_item_id'], array_pluck($recipe['ingredients'], 'item_id'))) {
                 unset($recipes[$key]);
