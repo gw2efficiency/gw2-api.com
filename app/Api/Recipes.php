@@ -36,20 +36,21 @@ class Recipes extends Api
     private function cleanupRecipes($recipes)
     {
 
-        foreach ($recipes as $key => $recipe) {
+        foreach ($recipes as $key => &$recipe) {
 
             // Currency items as output
-            if ($recipe['output_item_id'] < 0) {
+            if ($recipe['output_item_id'] <= 0) {
                 unset($recipes[$key]);
             }
 
             // Currency items as ingredients
             foreach ($recipe['ingredients'] as $i => $ingredient) {
-                if ($ingredient['item_id'] < 0) {
+                if ($ingredient['item_id'] <= 0) {
                     unset($recipe['ingredients'][$i]);
                 }
             }
 
+            $recipe['ingredients'] = array_values($recipe['ingredients']);
             if (count($recipe['ingredients']) == 0) {
                 unset($recipes[$key]);
             }
