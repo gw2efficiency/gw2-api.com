@@ -33,17 +33,19 @@ class Kernel extends ConsoleKernel
 
         // Update the prices every five minutes. This may overlap, but always updates the newest prices.
         // Updating more frequently doesn't make sense, because prices are cached on GW2 side.
-        $schedule->command('gw2:update-item-prices')->everyFiveMinutes()->sendOutputTo('storage/logs/item-prices.log');
+        $schedule->command('gw2:update-item-prices')
+            ->everyFiveMinutes()
+            ->sendOutputTo('storage/logs/item-prices.log')
+            ->withoutOverlapping();
 
-        // Grab the gem history every half a hour, since we dont know how long this is cached for
+        // Grab the gem history every half a hour, since we don't know how long this is cached for
         $schedule->command('gw2:update-gem-history')->everyThirtyMinutes();
 
         // Try and update the leaderboard twice a day
         $schedule->command('gw2:update-pvp-leaderboard')->twiceDaily();
 
-        // Try and get new items every day, and force an update every sunday
+        // Try and get new items every day
         $schedule->command('gw2:update-item-list')->daily()->at('2:00');
-        $schedule->command('gw2:update-item-list --force')->weeklyOn(0, '2:00');
 
         // Try and update the wardrobe every day
         $schedule->command('gw2:update-wardrobe')->daily()->at('4:00');
@@ -51,7 +53,7 @@ class Kernel extends ConsoleKernel
         // Try and update the recipes every day
         $schedule->command('gw2:update-recipes')->daily()->at('6:00');
 
-        // Repopulate the items from the database every day at 8, in case something broke
+        // Repopulate the items from the database every day, in case something broke
         $schedule->command('gw2:repopulate-items')->daily()->at('8:00');
 
         // Retry everything queued that failed once a week
