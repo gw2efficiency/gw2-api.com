@@ -32,6 +32,7 @@ class UpdateItemList extends Command
     protected function getOptions()
     {
         return [
+            ['id', null, InputOption::VALUE_REQUIRED, 'Force the command to update a single item'],
             ['force', null, InputOption::VALUE_NONE, 'Force the command to update all items']
         ];
     }
@@ -44,25 +45,42 @@ class UpdateItemList extends Command
     public function fire()
     {
 
-        $api = new ItemAPI();
-
-        // Get the list of all available items and see which
-        // ones are not in the database yet
-        $available_ids = $api->getList();
-
-        if (!$this->option('force')) {
-            $existing_ids = Item::lists('id');
-            $available_ids = array_diff($available_ids, $existing_ids);
-        }
-
-        $this->info('Updating ' . count($available_ids) . ' items');
+        // Get the ids of the items to update
+        $ids = $this->getIds();
+        $this->info('Updating ' . count($ids) . ' items');
 
         // For each new item, add a queue to grab the detail stuff
-        foreach ($available_ids as $id) {
+        foreach ($ids as $id) {
             Queue::push(new UpdateItemDetails($id));
         }
 
         $this->info('Done adding queue entries');
+
+    }
+
+    private function getIds()
+    {
+
+        // Force update of a single item
+        $id = $this->option('id');
+        if ($id) {
+            return [$id];
+        }
+
+        $api = new ItemAPI();
+
+        // Get the list of all available items
+        $available_ids = $api->getList();
+
+        // Force an update of all items
+        if ($this->option('force')) {
+            return $available_ids;
+        }
+
+        // Filter the ids by what we have in the database
+        $existing_ids = Item::lists('id');
+        $available_ids = array_diff($available_ids, $existing_ids);
+        return $available_ids;
 
     }
 

@@ -59,5 +59,8 @@ class Kernel extends ConsoleKernel
         // Retry everything queued that failed once a week
         $schedule->command('gw2:retry-failed-jobs')->weekly();
 
+        // Force item updates every week to get changes into the cache
+        $schedule->command('gw2:update-item-list --force')->weekly();
+
     }
 }
