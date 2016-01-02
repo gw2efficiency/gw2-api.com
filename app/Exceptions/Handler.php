@@ -2,6 +2,7 @@
 
 use Exception;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
+use Raven_Client;
 
 class Handler extends ExceptionHandler {
 
@@ -24,6 +25,11 @@ class Handler extends ExceptionHandler {
      */
     public function report(Exception $e)
     {
+        if (env('SENTRY', false)) {
+            $client = new Raven_Client(env('SENTRY'));
+            $client->captureException($e);
+        }
+
         return parent::report($e);
     }
 
