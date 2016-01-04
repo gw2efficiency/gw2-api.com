@@ -55,7 +55,6 @@ class UpdateItemList extends Command
         }
 
         $this->info('Done adding queue entries');
-
     }
 
     private function getIds()
@@ -81,7 +80,5 @@ class UpdateItemList extends Command
         $existing_ids = Item::lists('id');
         $available_ids = array_diff($available_ids, $existing_ids);
         return $available_ids;
-
     }
-
 }

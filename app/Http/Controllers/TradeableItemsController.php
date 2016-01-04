@@ -32,11 +32,9 @@ class TradeableItemsController extends Controller
             unset($item['name_de']);
             unset($item['name_fr']);
             unset($item['name_es']);
-
         }
 
         return $this->apiResponse($collection, 5 * 60);
-
     }
 
     /**
@@ -46,11 +44,8 @@ class TradeableItemsController extends Controller
      */
     public function prices()
     {
-
         $collection = Redis::get(CacheItem::$cache_prefix . AllTradeableItemPrices::$key);
         $collection = unserialize($collection);
         return $this->apiResponse($collection, 60 * 60);
-
     }
-
 }

@@ -19,7 +19,6 @@ class AllTradeableItemPrices
      */
     public function handle(AllPricesUpdated $event)
     {
-
         ini_set('memory_limit', '500M');
 
         // Get all tradeable items
@@ -31,7 +30,6 @@ class AllTradeableItemPrices
         $collection = [];
 
         foreach ($cached_items as $item) {
-
             $item = unserialize($item);
 
             if (!isset($item['sell']['price'])) {
@@ -43,14 +41,11 @@ class AllTradeableItemPrices
                 'id' => $item['id'],
                 'price' => $item['sell']['price'] > $item['buy']['price'] ? $item['sell']['price'] : $item['buy']['price']
             ];
-
         }
 
         // Save them into the cache under the specified key
         Redis::set(CacheItem::$cache_prefix . self::$key, serialize($collection));
 
         Log::info('[AllTradeableItemPrices] Saved all tradeable items prices');
-
     }
-
 }

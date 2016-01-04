@@ -1,6 +1,7 @@
 <?php
 
-class ExampleTest extends TestCase {
+class ExampleTest extends TestCase
+{
 
     /**
      * A basic test example.
@@ -13,5 +14,4 @@ class ExampleTest extends TestCase {
 
         $this->assertResponseOk();
     }
-
 }

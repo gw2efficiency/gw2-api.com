@@ -15,7 +15,6 @@ class Controller extends BaseController
      */
     protected function apiResponse($content, $age = 0, $content_type = 'application/json')
     {
-
         return (new Response($content, 200))
             ->header('Content-Type', $content_type)
             ->header('Pragma', 'public')
@@ -23,7 +22,6 @@ class Controller extends BaseController
             ->header('Expires', gmdate('D, d M Y H:i:s \G\M\T', time() + $age))
             ->header('Access-Control-Allow-Origin', '*')
             ->header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-
     }
 
     /**
@@ -53,19 +51,15 @@ class Controller extends BaseController
 
         // Try to get input from php://input, which some JS frameworks use
         try {
-
             $request = json_decode(file_get_contents('php://input'), true);
 
             if (isset($request[$key])) {
                 return $request[$key];
             }
-
         } catch (Exception $e) {
-
         }
 
         return null;
-
     }
 
     /**
@@ -75,10 +69,7 @@ class Controller extends BaseController
      */
     protected function requestedLanguage()
     {
-
         $lang = $this->getInput('lang');
         return in_array($lang, ['en', 'de', 'fr', 'es']) ? $lang : 'en';
-
     }
-
 }

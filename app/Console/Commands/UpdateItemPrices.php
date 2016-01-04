@@ -37,7 +37,6 @@ class UpdateItemPrices extends Command
      */
     public function fire()
     {
-
         $this->price_api = new ItemAPI();
 
         // Get all tradeable items
@@ -50,27 +49,22 @@ class UpdateItemPrices extends Command
         $id_chunks = array_chunk($tradeable_ids, 100);
 
         foreach ($id_chunks as $ids) {
-
             try {
-
                 $prices = $this->price_api->getPrices($ids);
                 $price_ids = array_keys($prices);
 
                 foreach ($price_ids as $id) {
                     $this->updatePricesForItem($id, $prices[$id]);
                 }
-
             } catch (Exception $e) {
                 Log::error('Exception happened while updating prices:', $e->getMessage() . '(' . $e->getLine() . ', ' . $e->getCode() . ')');
             }
-
         }
 
         $this->infoFinish('Updating prices done');
 
         // Trigger an event for post-processor to hook into
         Event::fire(new AllPricesUpdated());
-
     }
 
     private function updatePricesForItem($id, $prices)
@@ -105,7 +99,5 @@ class UpdateItemPrices extends Command
         // Save the item back into cache
         $item->last_update = Carbon::now()->toIso8601String();
         $item->save();
-
     }
-
 }

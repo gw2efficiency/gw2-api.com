@@ -127,7 +127,6 @@ class Items extends Api
 
     public function getDetails($id, $language = 'en')
     {
-
         $options = [
             'lang' => $language
         ];
@@ -135,12 +134,10 @@ class Items extends Api
         $url = $this->url($this->url . '/items/' . $id, $options);
 
         return $this->json($url);
-
     }
 
     public function getPrices($ids)
     {
-
         $options = [
             'ids' => implode(',', $ids)
         ];
@@ -152,7 +149,6 @@ class Items extends Api
         $formatted = [];
 
         foreach ($items as $item) {
-
             $formatted[$item['id']] = [
                 'buy' => [
                     'quantity' => $item['buys']['quantity'],
@@ -163,11 +159,8 @@ class Items extends Api
                     'price' => $item['sells']['unit_price']
                 ]
             ];
-
         }
 
         return $formatted;
-
     }
-
 }

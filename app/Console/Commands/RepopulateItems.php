@@ -28,7 +28,6 @@ class RepopulateItems extends Command
      */
     public function fire()
     {
-
         $database_items = (new Item)->get();
 
         $this->infoStart('Repopulating ' . count($database_items) . ' items');
@@ -38,7 +37,5 @@ class RepopulateItems extends Command
         }
 
         $this->infoFinish('Done repopulating!');
-
     }
-
 }

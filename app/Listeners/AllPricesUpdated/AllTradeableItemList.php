@@ -37,7 +37,6 @@ class AllTradeableItemList
      */
     public function handle(AllPricesUpdated $event)
     {
-
         ini_set('memory_limit', '500M');
 
         // Get all tradeable items
@@ -48,7 +47,6 @@ class AllTradeableItemList
         $collection = Redis::mget($ids);
 
         foreach ($collection as &$item) {
-
             $item = unserialize($item);
 
             if (!$item) {
@@ -57,14 +55,11 @@ class AllTradeableItemList
 
             // Only save a few keys, so we don't blow up the redis storage D:
             $item = array_reverse_dot(array_only(array_dot($item), $this->keys));
-
         }
 
         // Save them into the cache under the specified key
         Redis::set(CacheItem::$cache_prefix . self::$key, serialize($collection));
 
         Log::info('[AllTradeableItemList] Saved all tradeable items');
-
     }
-
 }

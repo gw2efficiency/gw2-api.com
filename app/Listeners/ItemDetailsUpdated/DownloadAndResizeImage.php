@@ -16,7 +16,6 @@ class DownloadAndResizeImage
      */
     public function handle(ItemDetailsUpdated $event)
     {
-
         $item = $event->item;
 
         // Hash the name and use it as our image name
@@ -39,7 +38,5 @@ class DownloadAndResizeImage
         Storage::put('images/' . $image_hash . '-20.png', $image->resize(20, 20)->encode('png', 100));
 
         return $item;
-
     }
-
 }

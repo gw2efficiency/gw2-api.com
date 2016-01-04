@@ -13,11 +13,8 @@ class SkinsController extends Controller
      */
     public function resolve()
     {
-
         $collection = Redis::get(UpdateWardrobe::$key);
         $collection = unserialize($collection);
         return $this->apiResponse($collection, 86400);
-
     }
-
 }

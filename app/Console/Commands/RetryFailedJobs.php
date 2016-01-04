@@ -27,7 +27,6 @@ class RetryFailedJobs extends Command
      */
     public function fire()
     {
-
         $failed_jobs = DB::table('failed_jobs')->lists('id');
 
         $this->info('Retrying ' . count($failed_jobs) . ' failed jobs...');
@@ -37,7 +36,5 @@ class RetryFailedJobs extends Command
         }
 
         $this->info('Done.');
-
     }
-
 }

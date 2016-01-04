@@ -105,7 +105,6 @@ class ItemsController extends Controller
         $matching = $matching->get()->toArray();
 
         return $this->apiResponse($matching, 86400);
-
     }
 
     /**
@@ -129,7 +128,6 @@ class ItemsController extends Controller
         // Grab the item ids that match the query
         $ids = Item::whereIn(DB::raw('CAST(name_' . $language . ' AS BINARY)'), $items)->lists('id');
         return $this->items($ids);
-
     }
 
     /**
@@ -147,7 +145,6 @@ class ItemsController extends Controller
         $ids = Item::where('skin', $skin_id)->lists('id');
 
         return $this->apiResponse($ids);
-
     }
 
     /**
@@ -216,7 +213,6 @@ class ItemsController extends Controller
                 'max' => max($sell_prices)
             ]
         ]);
-
     }
 
     /**
@@ -241,7 +237,6 @@ class ItemsController extends Controller
         $collection = Redis::mget($ids);
 
         foreach ($collection as &$item) {
-
             $item = unserialize($item);
 
             if (!$item) {
@@ -264,11 +259,9 @@ class ItemsController extends Controller
 
             // Only return requested attributes
             $item = array_reverse_dot(array_only(array_dot($item), $attributes));
-
         }
 
         return $collection;
-
     }
 
     /**
@@ -279,7 +272,6 @@ class ItemsController extends Controller
      */
     private function requestedIdentifiers($ids)
     {
-
         $ids = $this->getInput('ids', $ids);
 
         if (!$ids) {
@@ -292,7 +284,6 @@ class ItemsController extends Controller
 
         $ids = array_values(array_unique($ids));
         return CacheItem::prefixIdentifier($ids);
-
     }
 
     /**
@@ -302,7 +293,6 @@ class ItemsController extends Controller
      */
     private function requestedAttributes()
     {
-
         $default = [
             'id',
             'name',
@@ -332,7 +322,5 @@ class ItemsController extends Controller
         }
 
         return $requested;
-
     }
-
 }

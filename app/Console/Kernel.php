@@ -61,6 +61,5 @@ class Kernel extends ConsoleKernel
 
         // Force item updates every week to get changes into the cache
         $schedule->command('gw2:update-item-list --force')->weekly();
-
     }
 }

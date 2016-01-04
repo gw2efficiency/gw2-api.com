@@ -17,5 +17,4 @@ class ImageController extends Controller
         $content = Storage::get('images/' . $hash . '-' . $size . '.png');
         return $this->apiResponse($content, 2678400, 'image/png');
     }
-
 }

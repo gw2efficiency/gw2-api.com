@@ -15,13 +15,11 @@ abstract class Api
      */
     protected function url($url, $query_parameters = [])
     {
-
         if (count($query_parameters) == 0) {
             return $url;
         }
 
         return $url . '?' . urldecode(http_build_query($query_parameters));
-
     }
 
     /**
@@ -68,7 +66,5 @@ abstract class Api
         Redis::setex($key, $minutes, serialize($value));
 
         return $value;
-
     }
-
 }
