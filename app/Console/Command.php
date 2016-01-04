@@ -39,12 +39,9 @@ class Command extends IlluminateCommand
      */
     public function info($string)
     {
-
         $time = Carbon::now()->toTimeString();
         parent::info('[' . $time . '] ' . $string);
 
         Log::info('[' . $this->name . '] ' . $string);
-
     }
-
 }

@@ -19,5 +19,4 @@ class Item extends Model
     {
         $this->attributes['category'] = implode(',', $value);
     }
-
 }

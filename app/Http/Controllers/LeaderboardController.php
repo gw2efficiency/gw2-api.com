@@ -13,11 +13,9 @@ class LeaderboardController extends Controller
      */
     public function pvpIndex()
     {
-
         $collection = Redis::get(UpdatePvpLeaderboard::$key);
         $collection = unserialize($collection);
         return $this->apiResponse($collection, 12 * 60 * 60);
-
     }
 
     /**
@@ -28,7 +26,6 @@ class LeaderboardController extends Controller
      */
     public function pvpByUser($name)
     {
-
         $name = urldecode($name);
 
         $collection = Redis::get(UpdatePvpLeaderboard::$key);
@@ -49,7 +46,5 @@ class LeaderboardController extends Controller
         $json = count($element) == 0 ? 'false' : $element[0];
 
         return $this->apiResponse($json, 12 * 60 * 60);
-
     }
-
 }

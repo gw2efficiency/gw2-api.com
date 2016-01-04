@@ -30,7 +30,6 @@ class UpdateRecipes extends Command
      */
     public function fire()
     {
-
         $craftable_items = [];
 
         $recipe_api = new Recipes();
@@ -40,21 +39,18 @@ class UpdateRecipes extends Command
         $recipes = array_keys($recipe_api->custom_recipes);
 
         for ($i = 0; $i != count($recipes); $i++) {
-
             $id = $recipes[$i];
             $this->info($i . ' of ' . count($recipes) . ' custom recipes [' . $id . '] ...');
 
             Redis::set('recipe-' . $id, serialize($recipe_api->getNested($id)));
 
             $craftable_items[] = $id;
-
         }
 
         // Go through all recipes
         $recipes = $recipe_api->getList();
 
         for ($i = 0; $i != count($recipes); $i++) {
-
             $this->info($i . ' of ' . count($recipes) . ' official recipes [' . $id . ']...');
 
             $recipe = $recipe_api->getOfficialRecipe($recipes[$i]);
@@ -67,14 +63,11 @@ class UpdateRecipes extends Command
             Redis::set('recipe-' . $id, serialize($recipe_api->getNested($id)));
 
             $craftable_items[] = $id;
-
         }
 
         // Set the flag for all craftable items in the database,
         // so for the next repopulate they show up! :)
         Item::where('craftable', true)->update(['craftable' => false]);
         Item::whereIn('id', $craftable_items)->update(['craftable' => true]);
-
     }
-
 }

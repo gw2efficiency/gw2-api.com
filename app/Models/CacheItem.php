@@ -23,7 +23,6 @@ class CacheItem implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
      */
     public function find($id)
     {
-
         $this->id = $id;
         $cache_content = Redis::get(self::prefixIdentifier($this->id));
 
@@ -34,7 +33,6 @@ class CacheItem implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
         $this->attributes = unserialize($cache_content);
 
         return $this;
-
     }
 
     /**
@@ -46,12 +44,10 @@ class CacheItem implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
      */
     public function create($id, $attributes)
     {
-
         $this->initialize($id, $attributes);
         $this->save();
 
         return $this;
-
     }
 
     /**
@@ -63,12 +59,10 @@ class CacheItem implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
      */
     public function initialize($id, $attributes)
     {
-
         $this->id = $id;
         $this->attributes = $attributes;
 
         return $this;
-
     }
 
     /**
@@ -80,7 +74,6 @@ class CacheItem implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
      */
     public function createOrUpdate($id, $attributes)
     {
-
         $exists = $this->find($id);
 
         // Item didn't exist yet, add a new one
@@ -91,7 +84,6 @@ class CacheItem implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
         $this->update($attributes);
 
         return $this;
-
     }
 
     /**
@@ -101,10 +93,8 @@ class CacheItem implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
      */
     public function update($attributes)
     {
-
         $this->mergeAttributes($attributes);
         $this->save();
-
     }
 
     /**
@@ -122,10 +112,8 @@ class CacheItem implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
      */
     public function save()
     {
-
         $cache_content = serialize($this->attributes);
         Redis::set(self::prefixIdentifier($this->id), $cache_content);
-
     }
 
     /**
@@ -136,7 +124,6 @@ class CacheItem implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
      */
     public static function prefixIdentifier($identifier)
     {
-
         $prefix = self::$cache_prefix;
 
         if (!is_array($identifier)) {
@@ -146,7 +133,6 @@ class CacheItem implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
         return array_map(function ($value) use ($prefix) {
             return $prefix . $value;
         }, $identifier);
-
     }
 
     /**
@@ -157,13 +143,11 @@ class CacheItem implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
      */
     public function __get($key)
     {
-
         if (array_key_exists($key, $this->attributes)) {
             return $this->attributes[$key];
         }
 
         return null;
-
     }
 
     /**
@@ -253,5 +237,4 @@ class CacheItem implements ArrayAccess, Arrayable, Jsonable, JsonSerializable
     {
         return $this->toArray();
     }
-
 }

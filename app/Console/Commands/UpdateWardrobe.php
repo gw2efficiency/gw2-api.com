@@ -32,7 +32,6 @@ class UpdateWardrobe extends Command
      */
     public function fire()
     {
-
         $this->infoStart('Getting official skin list...');
         $skins = $this->getOfficialSkinList();
         $this->infoFinish('Getting official skin done');
@@ -46,12 +45,10 @@ class UpdateWardrobe extends Command
         }
 
         Redis::set(self::$key, serialize($skins));
-
     }
 
     private function getOfficialSkinList()
     {
-
         $count = count(json_decode(file_get_contents('https://api.guildwars2.com/v2/skins'), true));
         $pages = ceil(($count / 50) - 1);
 
@@ -66,7 +63,6 @@ class UpdateWardrobe extends Command
         $skins = array_filter($skins, function ($x) { return isset($x['name']); });
 
         return $skins;
-
     }
 
     private function resolveSkinsToItems($skins)
@@ -87,14 +83,12 @@ class UpdateWardrobe extends Command
         // Show which skins we are not resolving :(
         $this->info('Not being able to resolve ' . count($this->missingItems($skins)) . ' skins:');
         foreach ($skins as &$skin) {
-
             if (isset($skin['items'])) {
                 continue;
             }
 
             $this->info('   > ' . $skin['name'] . '(' . $skin['id'] . ')');
             $skin['items'] = [];
-
         }
 
         // Build a return array!
@@ -104,7 +98,6 @@ class UpdateWardrobe extends Command
         }
 
         return $return;
-
     }
 
     /**
@@ -113,26 +106,22 @@ class UpdateWardrobe extends Command
      */
     private function resolveItemsBySkinId($skins)
     {
-
         $skin_items = Item::select('skin', DB::raw("GROUP_CONCAT(DISTINCT id SEPARATOR ',') AS items"))
             ->whereIn('skin', array_pluck($skins, 'id'))
             ->groupBy('skin')
             ->lists('items', 'skin');
 
         foreach ($skins as &$skin) {
-
             if (!isset($skin_items[$skin['id']])) {
                 continue;
             }
 
             $skin['items'] = explode(',', $skin_items[$skin['id']]);
-
         }
 
         $this->info('Resolved ' . count($skin_items) . ' skins by skin id...');
 
         return $skins;
-
     }
 
     private function resolveItemsByName($skins)
@@ -148,7 +137,6 @@ class UpdateWardrobe extends Command
             ->lists('items', 'name_en');
 
         foreach ($skins as &$skin) {
-
             $name = $skin['name'];
 
             if (!isset($name_items[$name])) {
@@ -156,18 +144,15 @@ class UpdateWardrobe extends Command
             }
 
             $skin['items'] = explode(',', $name_items[$name]);
-
         }
 
         $this->info('Resolved ' . count($name_items) . ' skins by name lookup...');
 
         return $skins;
-
     }
 
     private function resolveItemsBySkinName($skins)
     {
-
         $skinName = function ($skin) {
             return $skin . ' Skin';
         };
@@ -182,7 +167,6 @@ class UpdateWardrobe extends Command
             ->lists('items', 'name_en');
 
         foreach ($skins as &$skin) {
-
             $name = $skinName($skin['name']);
 
             if (!isset($name_items[$name])) {
@@ -196,22 +180,18 @@ class UpdateWardrobe extends Command
             } else {
                 $skin['items'] = $skin_items;
             }
-
         }
 
         $this->info('Resolved ' . count($name_items) . ' skins by skin name lookup...');
 
         return $skins;
-
     }
 
     private function resolveItemsBySloppyName($skins)
     {
-
         $name_count = 0;
 
         foreach ($skins as &$skin) {
-
             if (isset($skin['items'])) {
                 continue;
             }
@@ -224,22 +204,18 @@ class UpdateWardrobe extends Command
 
             $skin['items'] = $items;
             $name_count++;
-
         }
 
         $this->info('Resolved ' . $name_count . ' skins by sloppy name lookup...');
 
         return $skins;
-
     }
 
     private function resolveItemsByWiki($skins)
     {
-
         $wiki_count = 0;
 
         foreach ($skins as &$skin) {
-
             if (isset($skin['items'])) {
                 continue;
             }
@@ -252,32 +228,24 @@ class UpdateWardrobe extends Command
 
             $skin['items'] = $items;
             $wiki_count++;
-
         }
 
         $this->info('Resolved ' . $wiki_count . ' skins by wiki lookup...');
 
         return $skins;
-
     }
 
     private function resolveSkinFromWiki($name)
     {
-
         try {
-
             $content = file_get_contents('http://wiki.guildwars2.com/api.php?action=query&prop=revisions&rvprop=content&format=json&titles=' . urlencode(trim($name)));
             $wiki_content = array_flatten(json_decode($content, true))[5];
             preg_match("/id = ([\d]*)/", $wiki_content, $matches);
 
             return count($matches) == 0 ? [] : [(int) $matches[1]];
-
         } catch (Exception $e) {
-
             return [];
-
         }
-
     }
 
     /**
@@ -286,11 +254,8 @@ class UpdateWardrobe extends Command
      */
     private function missingItems($skins)
     {
-
         return array_where($skins, function ($key, $value) {
             return !isset($value['items']);
         });
-
     }
-
 }

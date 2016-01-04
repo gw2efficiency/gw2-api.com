@@ -14,14 +14,11 @@ class UpdateCacheItem
      */
     public function handle(ItemDetailsUpdated $event)
     {
-
         $item = $event->item;
 
         $cache_item = new CacheItem();
         $cache_item->createOrUpdate($item->id, $item->toArray());
 
         return $item;
-
     }
-
 }

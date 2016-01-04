@@ -14,13 +14,11 @@ class LastPriceChange
      */
     public function handle(ItemPricesUpdated $event)
     {
-
         $item = $event->item;
         $item->attributes['buy']['last_change'] = $this->getChange($item, 'buy');
         $item->attributes['sell']['last_change'] = $this->getChange($item, 'sell');
 
         return $item;
-
     }
 
     public function getChange($item, $type)
@@ -49,7 +47,5 @@ class LastPriceChange
         $attributes['price'] = $item[$type]['price'] - $item['previous_values'][$type]['price'];
 
         return $attributes;
-
     }
-
 }

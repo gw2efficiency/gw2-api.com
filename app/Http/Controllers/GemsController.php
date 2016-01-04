@@ -13,11 +13,8 @@ class GemsController extends Controller
      */
     public function history()
     {
-
         $collection = Redis::get(UpdateGemHistory::$key);
         $collection = unserialize($collection);
         return $this->apiResponse($collection, 12 * 60 * 60);
-
     }
-
 }
