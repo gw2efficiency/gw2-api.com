@@ -35,8 +35,7 @@ class Kernel extends ConsoleKernel
         // Updating more frequently doesn't make sense, because prices are cached on GW2 side.
         $schedule->command('gw2:update-item-prices')
             ->everyFiveMinutes()
-            ->sendOutputTo('storage/logs/item-prices.log')
-            ->withoutOverlapping();
+            ->sendOutputTo('storage/logs/item-prices.log');
 
         // Grab the gem history every half a hour, since we don't know how long this is cached for
         $schedule->command('gw2:update-gem-history')->everyThirtyMinutes();

@@ -37,6 +37,7 @@ class UpdateItemPrices extends Command
      */
     public function fire()
     {
+        set_time_limit(10 * 60);
         $this->price_api = new ItemAPI();
 
         // Get all tradeable items
