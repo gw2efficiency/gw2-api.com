@@ -25,7 +25,6 @@
         <a href="#all-items">/items/all</a><br>
         <a href="#categories">/items/categories</a><br>
         <a href="#autocomplete">/items/autocomplete</a><br>
-        <a href="#image">/image/{hash}/{size}</a><br>
     </div>
 
     <div class="content">
@@ -391,38 +390,6 @@ GET https://gw2-api.com/items/autocomplete?q=Zho
     ...
 ]
     </pre>
-
-        </section>
-
-        <section class="endpoint">
-            <a name="image"><h1>/image/{hash}/{size}</h1></a>
-
-            This endpoint is used to retrieve an image by a hash identifier returned by one of the item endpoints.
-            The image gets updated on content updates and is cached on the user side for one month.
-
-            <h2>Parameters</h2>
-            <ul class="parameters">
-                <li class="required">
-                    <pre>hash (required)</pre>
-                    A single image hash returned by one of the item endpoints.
-                </li>
-                <li class="required">
-                    <pre>size (required)</pre>
-                    One of the available sizes: 64, 32, 20
-                </li>
-            </ul>
-
-            <h2>Example</h2>
-        <pre class="example">
-&lt;img src="https://gw2-api.com/image/7fec7af0ac62e1f2b8d3b4337c7dbc28/64"&gt;
-&lt;img src="https://gw2-api.com/image/7fec7af0ac62e1f2b8d3b4337c7dbc28/32"&gt;
-&lt;img src="https://gw2-api.com/image/7fec7af0ac62e1f2b8d3b4337c7dbc28/20"&gt;
-
-<div class="separator">---</div>
-<img src="https://gw2-api.com/image/7fec7af0ac62e1f2b8d3b4337c7dbc28/64">
-<img src="https://gw2-api.com/image/7fec7af0ac62e1f2b8d3b4337c7dbc28/32">
-<img src="https://gw2-api.com/image/7fec7af0ac62e1f2b8d3b4337c7dbc28/20">
-</pre>
 
         </section>
     </div>

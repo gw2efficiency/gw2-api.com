@@ -12,7 +12,6 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         'App\Events\ItemDetailsUpdated' => [
-            'App\Listeners\ItemDetailsUpdated\DownloadAndResizeImage',
             'App\Listeners\ItemDetailsUpdated\UpdateCacheItem'
         ],
         'App\Events\ItemPricesUpdated' => [
