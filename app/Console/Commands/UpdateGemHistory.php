@@ -41,7 +41,5 @@ class UpdateGemHistory extends Command
         ];
 
         Redis::set(self::$key, serialize($transformed));
-
     }
-
 }

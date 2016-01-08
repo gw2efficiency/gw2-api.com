@@ -22,7 +22,6 @@ class Recipes extends Api
      */
     public function getCustomRecipes()
     {
-
         $recipes = $this->json('https://raw.githubusercontent.com/queicherius/gw2-mystic-forge-recipes/master/recipes.json');
         $recipes = $this->cleanupRecipes($recipes);
 
@@ -30,12 +29,10 @@ class Recipes extends Api
         foreach ($recipes as $recipe) {
             $this->custom_recipes[$recipe['output_item_id']] = $recipe;
         }
-
     }
 
     private function cleanupRecipes($recipes)
     {
-
         foreach ($recipes as $key => &$recipe) {
 
             // Currency items as output
@@ -74,11 +71,9 @@ class Recipes extends Api
             if ($recipe['output_item_id'] >= 38115 && $recipe['output_item_id'] <= 38127) {
                 unset($recipes[$key]);
             }
-
         }
 
         return array_values($recipes);
-
     }
 
     /**
@@ -92,7 +87,6 @@ class Recipes extends Api
      */
     public function getNested($id, $amount = 1, $nesting = 0)
     {
-
         if ($nesting > 50) {
             throw new \Exception('Maximum nesting reached, something is going wrong.');
         }
@@ -130,7 +124,6 @@ class Recipes extends Api
                 'output' => $component_recipe['quantity'],
                 'components' => $component_recipe['components']
             ];
-
         }
 
         usort($recipe['components'], function ($a, $b) {
@@ -150,7 +143,6 @@ class Recipes extends Api
         ];
 
         return $recipe;
-
     }
 
     /**
@@ -161,7 +153,6 @@ class Recipes extends Api
      */
     private function getRecipe($id)
     {
-
         return $this->cache('nested-recipe-' . $id, 20 * 60 * 60, function () use ($id) {
 
             // It's a custom recipe (e.g. mystic forge)
@@ -179,7 +170,6 @@ class Recipes extends Api
             return $this->transformRecipe($this->getOfficialRecipe($recipe));
 
         });
-
     }
 
     /**
@@ -190,14 +180,12 @@ class Recipes extends Api
      */
     public function searchRecipeByOutput($item_id)
     {
-
         return $this->cache('official-recipe-search-' . $item_id, 20 * 60 * 60, function () use ($item_id) {
 
             $query = $this->json('https://api.guildwars2.com/v2/recipes/search?output=' . $item_id);
             return isset($query[0]) ? $query[0] : false;
 
         });
-
     }
 
     /**
@@ -208,13 +196,11 @@ class Recipes extends Api
      */
     public function getOfficialRecipe($recipe)
     {
-
         return $this->cache('official-recipe-' . $recipe, 20 * 60 * 60, function () use ($recipe) {
 
             return $this->json('https://api.guildwars2.com/v2/recipes/' . $recipe);
 
         });
-
     }
 
     /**
@@ -225,13 +211,11 @@ class Recipes extends Api
      */
     private function transformRecipe($recipe)
     {
-
         return [
             'id' => $recipe['output_item_id'],
             'output' => $recipe['output_item_count'],
             'components' => $this->transformIngredients($recipe['ingredients'])
         ];
-
     }
 
     /**
@@ -242,7 +226,6 @@ class Recipes extends Api
      */
     private function transformIngredients($ingredients)
     {
-
         foreach ($ingredients as &$ingredient) {
             $ingredient = [
                 'id' => $ingredient['item_id'],
@@ -251,7 +234,5 @@ class Recipes extends Api
         }
 
         return $ingredients;
-
     }
-
 }

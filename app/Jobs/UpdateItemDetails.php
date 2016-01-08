@@ -29,7 +29,6 @@ class UpdateItemDetails extends Job implements SelfHandling, ShouldBeQueued
      */
     public function handle()
     {
-
         $api = new ItemAPI();
         $item = Item::findOrNew($this->id);
 
@@ -53,7 +52,6 @@ class UpdateItemDetails extends Job implements SelfHandling, ShouldBeQueued
         // Save the item after post processing
         $item = array_pop($response);
         $item->save();
-
     }
 
     /**
@@ -65,7 +63,6 @@ class UpdateItemDetails extends Job implements SelfHandling, ShouldBeQueued
      */
     private function processDetails($item, $details)
     {
-
         if (!isset($details['en']['name'])) {
             throw new \Exception('No name set for item:' . $item);
         }
@@ -95,7 +92,6 @@ class UpdateItemDetails extends Job implements SelfHandling, ShouldBeQueued
         $item->skin = $this->processSkin($details['en']);
 
         return $item;
-
     }
 
     /**
@@ -106,13 +102,11 @@ class UpdateItemDetails extends Job implements SelfHandling, ShouldBeQueued
      */
     private function processDescription($item)
     {
-
         if (!isset($item['description']) || $item['description'] == '') {
             return null;
         }
 
         return strip_tags($item['description']);
-
     }
 
     /**
@@ -134,7 +128,6 @@ class UpdateItemDetails extends Job implements SelfHandling, ShouldBeQueued
      */
     private function processRarity($item)
     {
-
         $rarity_map = [
             'Junk' => 0,
             'Basic' => 1,
@@ -147,7 +140,6 @@ class UpdateItemDetails extends Job implements SelfHandling, ShouldBeQueued
         ];
 
         return $rarity_map[$item['rarity']];
-
     }
 
     /**
@@ -158,7 +150,6 @@ class UpdateItemDetails extends Job implements SelfHandling, ShouldBeQueued
      */
     private function processCategory($item)
     {
-
         $category_map = ItemAPI::$categories;
         $categories = [];
 
@@ -180,7 +171,6 @@ class UpdateItemDetails extends Job implements SelfHandling, ShouldBeQueued
         $categories[] = $main_category[1][$item['details']['type']];
 
         return $categories;
-
     }
 
     /**
@@ -201,7 +191,6 @@ class UpdateItemDetails extends Job implements SelfHandling, ShouldBeQueued
         $item_flags = array_intersect($untradeable_flags, $item['flags']);
 
         return count($item_flags) == 0;
-
     }
 
     /**
@@ -214,5 +203,4 @@ class UpdateItemDetails extends Job implements SelfHandling, ShouldBeQueued
     {
         return isset($item['default_skin']) ? (int) $item['default_skin'] : null;
     }
-
 }

@@ -7,9 +7,8 @@ class ItemPricesUpdated
 
     public $item;
 
-    function __construct(CacheItem $item)
+    public function __construct(CacheItem $item)
     {
         $this->item = $item;
     }
-
 }

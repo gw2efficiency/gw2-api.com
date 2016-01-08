@@ -29,7 +29,6 @@ class EventServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
         $events = $this->app['events'];
 
         foreach ($this->listen as $event => $listeners) {
@@ -37,7 +36,5 @@ class EventServiceProvider extends ServiceProvider
                 $events->listen($event, $listener);
             }
         }
-
     }
-
 }

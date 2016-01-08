@@ -7,9 +7,8 @@ class ItemDetailsUpdated
 
     public $item;
 
-    function __construct(Item $item)
+    public function __construct(Item $item)
     {
         $this->item = $item;
     }
-
 }
