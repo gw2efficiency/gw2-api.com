@@ -13,7 +13,8 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        'Symfony\Component\HttpKernel\Exception\HttpException'
+        'Symfony\Component\HttpKernel\Exception\HttpException',
+        'UnexpectedValueException'
     ];
 
     /**
@@ -26,12 +27,12 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $e)
     {
+        parent::report($e);
+
         if (env('SENTRY', false)) {
             $client = new Raven_Client(env('SENTRY'));
             $client->captureException($e);
         }
-
-        return parent::report($e);
     }
 
     /**
