@@ -1,5 +1,7 @@
 <?php namespace App\Api;
 
+use App\Models\Item;
+
 class Recipes extends Api
 {
 
@@ -198,8 +200,28 @@ class Recipes extends Api
     {
         return $this->cache('official-recipe-' . $recipe, 20 * 60 * 60, function () use ($recipe) {
 
-            return $this->json('https://api.guildwars2.com/v2/recipes/' . $recipe);
+            $json = $this->json('https://api.guildwars2.com/v2/recipes/' . $recipe);
 
+            if ($json['guild_ingredients']) {
+                foreach ($json['guild_ingredients'] as $guild_ingredient) {
+                    array_push($json['ingredients'], [
+                        'item_id' => $this->resolveGuildIngredient($guild_ingredient['upgrade_id']),
+                        'count' => $guild_ingredient['count']
+                    ]);
+                }
+            }
+
+            return $json;
+
+        });
+    }
+
+    public function resolveGuildIngredient($upgradeId)
+    {
+        return $this->cache('guild-ingredient-id-' . $upgradeId, 20 * 60 * 60, function () use ($upgradeId) {
+            $upgrade = $this->json('https://api.guildwars2.com/v2/guild/upgrades/' . $upgradeId);
+            $item = Item::where('name_en', $upgrade['name'])->pluck('id');
+            return $item;
         });
     }
 
