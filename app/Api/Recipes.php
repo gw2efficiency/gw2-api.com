@@ -202,7 +202,7 @@ class Recipes extends Api
 
             $json = $this->json('https://api.guildwars2.com/v2/recipes/' . $recipe);
 
-            if ($json['guild_ingredients']) {
+            if (isset($json['guild_ingredients'])) {
                 foreach ($json['guild_ingredients'] as $guild_ingredient) {
                     array_push($json['ingredients'], [
                         'item_id' => $this->resolveGuildIngredient($guild_ingredient['upgrade_id']),
