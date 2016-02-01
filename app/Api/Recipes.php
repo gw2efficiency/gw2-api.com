@@ -93,6 +93,10 @@ class Recipes extends Api
             throw new \Exception('Maximum nesting reached, something is going wrong.');
         }
 
+        if ($id === null) {
+            return false;
+        }
+
         // Get the official recipe from the API
         $recipe = $this->getRecipe($id);
 
