@@ -23,11 +23,11 @@ I wanted to this data for a tradingpost section on https://gw2efficiency.com/, b
 Now, gw2efficiency still depends on this project and gets item data from https://gw2-api.com, even tho the official API
 has gotten many more endpoints and a lot of things could be requested directly from it. Sadly in the way this page was written in PHP, it takes way too many resources to serve the millions of requests it gets every day. 
 
-To fix this, and to try out the other node modules for gw2efficiency in a production environment, this project will get rewritten in node.js with performance in mind.
+To fix this, and to try out the other node modules for gw2efficiency in a production environment, this project will get rewritten in node.js with resource management and performance in mind.
 
 **Future**
 
-In the future, this project will not stay online, but instead be integrated into gw2efficiency directly. The code of this module will still stay online, but it will not be used in production anymore.
+In the future, https://gw2-api.com will stay online, but it will not be used in production anymore. Instead, it will be integrated into gw2efficiency directly.
 
 ## Roadmap
 
