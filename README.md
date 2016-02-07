@@ -5,9 +5,9 @@
 
 > Proxy-layer for the official GuildWars 2 API.
 
-## Why?
+## Why? / History
 
-> You can find the old php version before the rewrite under the [v0.1 release tag](https://github.com/queicherius/gw2-api/tree/v0.1).
+> You can find the old PHP version before the rewrite under the [v0.1 release tag](https://github.com/queicherius/gw2-api/tree/v0.1).
 
 **Past**
 
