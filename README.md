@@ -7,7 +7,6 @@
 
 ## Why?
 
-> **Where did the PHP version go?**
 > You can find the old php version before the rewrite under the [v0.1 release tag](https://github.com/queicherius/gw2-api/tree/v0.1).
 
 **Past**
@@ -28,7 +27,7 @@ To fix this, and to try out the other node modules for gw2efficiency in a produc
 
 **Future**
 
-In the future, this project will not stay online, but instead be integrated into gw2efficiency directly.
+In the future, this project will not stay online, but instead be integrated into gw2efficiency directly. The code of this module will still stay online, but it will not be used in production anymore.
 
 ## Roadmap
 
