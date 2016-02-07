@@ -3,7 +3,7 @@
 [![Travis](https://img.shields.io/travis/gw2efficiency/gw2-api.com.svg?style=flat-square)](https://travis-ci.org/gw2efficiency/gw2-api.com)
 [![Coveralls](https://img.shields.io/coveralls/gw2efficiency/gw2-api.com/master.svg?style=flat-square)](https://coveralls.io/github/gw2efficiency/gw2-api.com?branch=master)
 
-> Sources for https://gw2-api.com // Proxy-layer for the official GuildWars 2 API.
+> Proxy-layer for the official GuildWars 2 API. // https://gw2-api.com
 
 ## Why?
 
