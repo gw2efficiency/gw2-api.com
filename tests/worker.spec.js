@@ -40,7 +40,7 @@ describe('abstract worker', function () {
     }, 125)
   })
 
-  it('can execute and log a successful task', async () => {
+  it('can execute and log a successful task with passed time', async () => {
     let context
     let callback = function () {
       context = this
@@ -71,7 +71,7 @@ describe('abstract worker', function () {
     expect(ms).to.be.above(9)
   })
 
-  it('can execute and log a failed task', async () => {
+  it('can execute and log a failed task with passed time', async () => {
     let callback = function () {
       return new Promise((resolve, reject) => {
         setTimeout(() => reject({stack: 'something went wrong'}), 10)
