@@ -43,20 +43,20 @@ In the future, [gw2-api.com](https://gw2-api.com) will stay online, but it will 
 
 ## Endpoints
 
-- [ ] /item
-- [ ] /item/:id
-- [ ] /items
-- [ ] /items/all
-- [ ] /items/all-prices
-- [ ] /items/categories
-- [ ] /items/autocomplete
-- [ ] /items/by-name
-- [ ] /items/by-skin
-- [ ] /items/query
-- [ ] /items/:ids
-- [ ] /skins/resolve
-- [ ] /recipe/nested/:id
-- [X] /gems/history
+- [ ] `/item`
+- [ ] `/item/:id`
+- [ ] `/items`
+- [ ] `/items/all`
+- [ ] `/items/all-prices`
+- [ ] `/items/categories`
+- [ ] `/items/autocomplete`
+- [ ] `/items/by-name`
+- [ ] `/items/by-skin`
+- [ ] `/items/query`
+- [ ] `/items/:ids`
+- [ ] `/skins/resolve`
+- [ ] `/recipe/nested/:id`
+- [X] `/gems/history`
 
 ## Tests
 
