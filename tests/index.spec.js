@@ -42,7 +42,7 @@ describe('server', () => {
   })
 
   it('calls GemController.handler for the /gem/history url', (done) => {
-    client.get('/gems/history', function (err) {
+    client.get('/gems/history', err => {
       if (err) throw err
       expect(gemControllerHandler).to.equal(1)
       done()

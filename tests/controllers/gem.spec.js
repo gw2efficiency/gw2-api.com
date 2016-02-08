@@ -5,8 +5,8 @@ const rewire = require('rewire')
 const Module = rewire('../../src/controllers/gem.js')
 
 describe('controllers > GemController', () => {
-  var worker
-  var cache
+  let worker
+  let cache
   beforeEach(() => {
     cache = {gemPriceHistory: {}}
     worker = new Module(cache)

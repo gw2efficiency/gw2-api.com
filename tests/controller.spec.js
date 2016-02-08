@@ -4,8 +4,8 @@ const rewire = require('rewire')
 const Module = rewire('../src/controller.js')
 
 describe('abstract controller', () => {
-  var controller
-  var cache
+  let controller
+  let cache
   beforeEach(() => {
     cache = {foo: 'bar'}
     controller = new Module(cache)

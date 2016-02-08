@@ -10,9 +10,9 @@ Module.__set__('logger', loggerMock)
 describe('abstract worker', function () {
   this.timeout(5000)
 
-  var worker
-  var api
-  var cache
+  let worker
+  let api
+  let cache
   beforeEach(() => {
     api = {fiz: 'buz'}
     cache = {foo: 'bar'}

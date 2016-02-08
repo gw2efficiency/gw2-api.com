@@ -8,7 +8,7 @@ const logger = rewire('../src/logger.js')
 let consoleMock = {log: sinon.spy()}
 logger.__set__('console', consoleMock)
 
-describe('logger', function () {
+describe('logger', () => {
   beforeEach(() => {
     consoleMock.log.reset()
   })

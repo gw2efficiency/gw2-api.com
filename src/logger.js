@@ -13,13 +13,13 @@ function error (string) {
 }
 
 function prefix () {
-  var date = new Date()
+  let date = new Date()
   let leadingZero = x => x > 9 ? x : '0' + x
 
-  var month = leadingZero(date.getMonth() + 1)
-  var day = leadingZero(date.getDate())
-  var hours = leadingZero(date.getHours())
-  var minutes = leadingZero(date.getMinutes())
+  let month = leadingZero(date.getMonth() + 1)
+  let day = leadingZero(date.getDate())
+  let hours = leadingZero(date.getHours())
+  let minutes = leadingZero(date.getMinutes())
 
   return '[' + day + '/' + month + ' ' + hours + ':' + minutes + '] '
 }

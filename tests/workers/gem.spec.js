@@ -8,9 +8,9 @@ const loggerMock = {success: sinon.spy()}
 Module.__set__('logger', loggerMock)
 
 describe('workers > GemWorker', () => {
-  var worker
-  var api
-  var cache
+  let worker
+  let api
+  let cache
   beforeEach(() => {
     api = sinon.spy()
     cache = {}
