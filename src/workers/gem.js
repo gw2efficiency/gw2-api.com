@@ -1,11 +1,12 @@
 const AbstractWorker = require('../worker.js')
+const logger = require('../logger.js')
 const scraping = require('gw2api-scraping')
 
 class GemWorker extends AbstractWorker {
   async initialize () {
     await this.execute(this.loadGemPriceHistory)
     this.schedule(this.loadGemPriceHistory, 30 * 60)
-    this.logSuccess('Initialized GemWorker')
+    logger.success('Initialized GemWorker')
   }
 
   async loadGemPriceHistory () {

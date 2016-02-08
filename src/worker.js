@@ -1,4 +1,4 @@
-const chalk = require('chalk')
+const logger = require('./logger.js')
 
 class AbstractWorker {
   constructor (api, cache) {
@@ -13,42 +13,17 @@ class AbstractWorker {
 
   // Wrap a worker function in logging / error handling and execute it
   async execute (callback) {
+    let start = new Date()
     let description = this.constructor.name + ' > ' + callback.name
-    let task = this.logTask(description)
+    logger.info('Starting task: ' + description)
     try {
       await callback.call(this)
-      task.done()
+      let ms = new Date() - start
+      logger.success('Finished task: ' + description + ' [' + ms + 'ms]')
     } catch (e) {
-      task.error(e.message)
+      let ms = new Date() - start
+      logger.error('Failed task: ' + description + ' [' + ms + 'ms]\n' + e.stack)
     }
-  }
-
-  // Log start, success and error messages for a task
-  logTask (description) {
-    this.logInfo('Starting task: ' + description)
-    let start = new Date()
-    return {
-      done: () => {
-        let ms = new Date() - start
-        this.logSuccess('Finished task: ' + description + ' [' + ms + 'ms]')
-      },
-      error: (message) => {
-        let ms = new Date() - start
-        this.logError('Failed task: ' + description + ' ' + message + ' [' + ms + 'ms]')
-      }
-    }
-  }
-
-  logInfo (string) {
-    console.log(chalk.gray(string))
-  }
-
-  logSuccess (string) {
-    console.log(chalk.green(string))
-  }
-
-  logError (string) {
-    console.log(chalk.bold.red(string))
   }
 }
 

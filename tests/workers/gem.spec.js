@@ -4,6 +4,9 @@ const sinon = require('sinon')
 const rewire = require('rewire')
 const Module = rewire('../../src/workers/gem.js')
 
+const loggerMock = {success: sinon.spy()}
+Module.__set__('logger', loggerMock)
+
 describe('workers > GemWorker', () => {
   var worker
   var api
@@ -12,8 +15,6 @@ describe('workers > GemWorker', () => {
     api = sinon.spy()
     cache = {}
     worker = new Module(api, cache)
-    // Overwrite the log, so we don't have console outputs
-    worker.logSuccess = sinon.spy()
   })
 
   it('initializes correctly', async () => {
@@ -21,11 +22,13 @@ describe('workers > GemWorker', () => {
     worker.schedule = sinon.spy()
 
     await worker.initialize()
+
     expect(worker.execute.calledOnce).to.equal(true)
     expect(worker.execute.args[0][0].name).to.equal('loadGemPriceHistory')
     expect(worker.schedule.calledOnce).to.equal(true)
     expect(worker.schedule.args[0][0].name).to.equal('loadGemPriceHistory')
     expect(worker.schedule.args[0][1]).to.be.an.integer
+    expect(loggerMock.success.calledOnce).to.equal(true)
   })
 
   it('loads the gem price history', async () => {
