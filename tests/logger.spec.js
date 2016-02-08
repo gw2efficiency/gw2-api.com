@@ -34,10 +34,10 @@ describe('logger', () => {
     expect(consoleMock.log.args[0][0]).to.contain(logger.__get__('prefix')())
   })
 
-  it('prefixes messages with the date and time', async () => {
+  it('prefixes messages with the date and time in utc', async () => {
     mockdate.set('Sat Nov 17 2014 05:07:00 GMT+0100 (GMT)')
     logger.info('happy times')
-    expect(consoleMock.log.args[0][0]).to.contain('17/11 05:07')
+    expect(consoleMock.log.args[0][0]).to.contain('17/11 04:07')
     mockdate.reset()
   })
 })

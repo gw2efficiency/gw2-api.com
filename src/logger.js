@@ -16,10 +16,10 @@ function prefix () {
   let date = new Date()
   let leadingZero = x => x > 9 ? x : '0' + x
 
-  let month = leadingZero(date.getMonth() + 1)
-  let day = leadingZero(date.getDate())
-  let hours = leadingZero(date.getHours())
-  let minutes = leadingZero(date.getMinutes())
+  let month = leadingZero(date.getUTCMonth() + 1)
+  let day = leadingZero(date.getUTCDate())
+  let hours = leadingZero(date.getUTCHours())
+  let minutes = leadingZero(date.getUTCMinutes())
 
   return '[' + day + '/' + month + ' ' + hours + ':' + minutes + '] '
 }
