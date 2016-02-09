@@ -16,8 +16,13 @@ node build/server.js
 
 To keep the node process running, look into a process manager like [pm2](https://github.com/Unitech/pm2).
 
+## Tests
 
-## Why? / History
+```
+npm test
+```
+
+## History and reasoning of this module
 
 > You can find the old PHP version before the rewrite under the [v0.1 release tag](https://github.com/queicherius/gw2-api/tree/v0.1).
 
@@ -60,6 +65,230 @@ In the future, [gw2-api.com](https://gw2-api.com) will stay online, but it will 
 
 ## Endpoints
 
+### `/item/:id`
+
+This endpoint returns a single item.
+
+**Parameters**
+
+- `id`: An item id, either in the url or as a GET/POST parameter
+- `lang` (optional): The requested language (defaults to english)
+
+```js
+{
+  "id": 123,
+  "name": "Zho's Mask",
+  "level": 80,
+  "rarity": 5,
+  "image": "https://...",
+  "category": [
+    0,
+    3
+  ],
+  "vendor_price": 330,
+  "buy": {
+    "quantity": 94,
+    "price": 4852,
+    "last_change": {
+      "time": "2015-06-09T05:55:44+0000",
+      "quantity": 1,
+      "price": 1
+    }
+  },
+  "sell": {
+    "quantity": 378,
+    "price": 7635,
+    "last_change": {
+      "time": "2015-06-09T00:04:59+0000",
+      "quantity": 16,
+      "price": -140
+    }
+  },
+  "last_update": "2015-06-09T05:55:44+0000"
+}
+```
+
+### `/items/:ids`
+
+This endpoint returns an array of items.
+
+**Parameters**
+
+- `ids`: An array or a comma separated list of one or more item ids, either in the url or as a GET/POST parameter
+- `lang` (optional): The requested language (defaults to english)
+
+```js
+[
+  {
+    "id": 123, 
+    "name": "Zho's Mask", 
+    // like /item/:id ...
+  },
+  // ...
+]
+```
+
+### `/items/all`
+
+This endpoint returns an array of all tradeable items.
+
+**Parameters**
+
+- `lang` (optional): The requested language (defaults to english)
+
+```js
+[
+  {
+    "id": 123, 
+    "name": "Zho's Mask", 
+    // like /item/:id ...
+  },
+  // ...
+]
+```
+
+### `/items/all-prices`
+
+This endpoint returns an array of all tradeable item ids with their prices.
+
+**Parameters**
+
+- `lang` (optional): The requested language (defaults to english)
+
+```js
+[
+  {
+    "id": 123, 
+    "price": 1337
+  },
+  // ...
+]
+```
+
+### `/items/autocomplete`
+
+This endpoint returns an array of items matching the search query.
+
+**Parameters**
+
+- `q`: The term to search for in the item names
+- `lang` (optional): The requested language (defaults to english)
+
+```js
+[
+  {
+    "id": 123,
+    "name": "Zho's Mask",
+    "level": 80,
+    "rarity": 5,
+    "image": "https://..."
+  },
+  // ...
+]
+```
+
+### `/items/by-name`
+
+This endpoint returns an array of all items matching the name exactly.
+
+**Parameters**
+
+- `names`: An array or a comma separated list of one or more item names, as a GET/POST parameter
+- `lang` (optional): The requested language (defaults to english)
+
+```js
+[
+  {
+    "id": 123, 
+    "name": "Zho's Mask", 
+    // like /item/:id ...
+  },
+  // ...
+]
+```
+
+### `/items/by-skin`
+
+This endpoint returns an array of all item ids matching the skin id.
+
+**Parameters**
+
+- `skin_id`: An skin id, as a GET/POST parameter
+
+```js
+[
+  123,
+  124,
+  125,
+  // ...
+]
+```
+
+### `/items/query`
+
+This endpoint returns all items matching the query.
+
+**Parameters**
+
+- `categories`: Semicolon separated list of category ids that the queried items must match
+- `rarities`: Semicolon separated list of rarities that the queried items must match
+- `craftable`: If set, queried items must be craftable
+- `exclude_name`: Queried items must exclude this string in their name
+- `include_name`: Queried items must include this string in their name
+- `output`: If set, returns a object with price information across all matches instead of item ids
+
+```js
+// output not set
+[
+  123,
+  124,
+  125,
+  // ...
+]
+
+// output "prices"
+{
+  "buy": {
+    "min": 123,
+    "avg": 456,
+    "max": 789
+  },
+  "sell": {
+    "min": 123,
+    "avg": 456,
+    "max": 789
+  }
+}
+```
+
+### `/items/categories`
+
+This endpoint returns an array of the item categories that are used as identifiers for the other item endpoints.
+
+```js
+{
+  "Armor": [
+    0,
+    {
+      "Boots": 0,
+      "Coat": 1,
+      "Gloves": 2,
+      "Helm": 3,
+      "HelmAquatic": 4,
+      "Leggings": 5,
+      "Shoulders": 6
+    }
+  ],
+  "Back": [
+    1
+  ],
+  "Bag": [
+    2
+  ],
+  // ...
+}
+```
+
 ### `/gems/history`
 
 This endpoint returns price history data for gold to gems conversion.
@@ -82,12 +311,6 @@ This endpoint returns price history data for gold to gems conversion.
     [1347400800000,1956],
     // ...
   ]
-```
-
-## Tests
-
-```
-npm test
 ```
 
 ## Licence
