@@ -41,7 +41,7 @@ To fix this, and to try out the other node modules for [gw2efficiency.com](https
 
 In the future, [gw2-api.com](https://gw2-api.com) will stay online, but it will not be used in production anymore. Instead, it will be integrated into [gw2efficiency.com](https://gw2efficiency.com/) directly.
 
-## Endpoints
+## Rebuilding
 
 - [ ] `/item`
 - [ ] `/item/:id`
@@ -57,6 +57,32 @@ In the future, [gw2-api.com](https://gw2-api.com) will stay online, but it will 
 - [ ] `/skins/resolve`
 - [ ] `/recipe/nested/:id`
 - [X] `/gems/history`
+
+## Endpoints
+
+### `/gems/history`
+
+This endpoint returns price history data for gold to gems conversion.
+
+```js
+{
+  "gold_to_gem": [
+    [
+      1347314400000, // timestamp in ms
+      2747 // Conversion price (27s 47c per bought gem)
+    ],
+    [1347400800000,2735],
+    // ...
+  ],
+  "gem_to_gold": [
+    [
+      1347314400000, // timestamp in ms
+      1965 // conversion price (19s 65c per sold gem)
+    ],
+    [1347400800000,1956],
+    // ...
+  ]
+```
 
 ## Tests
 
