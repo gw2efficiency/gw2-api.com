@@ -46,11 +46,10 @@ To fix this, and to try out the other node modules for [gw2efficiency.com](https
 
 In the future, [gw2-api.com](https://gw2-api.com) will stay online, but it will not be used in production anymore. Instead, it will be integrated into [gw2efficiency.com](https://gw2efficiency.com/) directly.
 
-## Rebuilding
+## Rebuilding old PHP version in Javascript
 
-- [ ] `/item`
 - [ ] `/item/:id`
-- [ ] `/items`
+- [ ] `/items/:ids`
 - [ ] `/items/all`
 - [ ] `/items/all-prices`
 - [ ] `/items/categories`
@@ -58,7 +57,6 @@ In the future, [gw2-api.com](https://gw2-api.com) will stay online, but it will 
 - [ ] `/items/by-name`
 - [ ] `/items/by-skin`
 - [ ] `/items/query`
-- [ ] `/items/:ids`
 - [ ] `/skins/resolve`
 - [ ] `/recipe/nested/:id`
 - [X] `/gems/history`
