@@ -14,7 +14,7 @@ npm run-script build
 node build/server.js
 ```
 
-To keep the node process running, look into a process manager like [pm2](https://github.com/Unitech/pm2).
+To keep the node process running look into a process manager like [pm2](https://github.com/Unitech/pm2).
 
 ## Tests
 
@@ -48,19 +48,18 @@ In the future, [gw2-api.com](https://gw2-api.com) will stay online, but it will 
 
 ## Rebuilding old PHP version in Javascript
 
-- [ ] **Items**
-  - [ ] `/item/:id`
-  - [ ] `/items/:ids`
-  - [ ] `/items/all`
-  - [ ] `/items/all-prices`
-  - [ ] `/items/categories`
-  - [ ] `/items/autocomplete`
-  - [ ] `/items/by-name`
-  - [ ] `/items/by-skin`
-  - [ ] `/items/query`
-- [ ] **Skins**: `/skins/resolve`
-- [ ] **Recipes**: `/recipe/nested/:id`
-- [X] **Gems**: `/gems/history`
+- [ ] `/item/:id`
+- [ ] `/items/:ids`
+- [ ] `/items/all`
+- [ ] `/items/all-prices`
+- [ ] `/items/categories`
+- [ ] `/items/autocomplete`
+- [ ] `/items/by-name`
+- [ ] `/items/by-skin`
+- [ ] `/items/query`
+- [ ] `/skins/resolve`
+- [ ] `/recipe/nested/:id`
+- [X] `/gems/history`
 
 ## Endpoints
 
