@@ -48,18 +48,22 @@ In the future, [gw2-api.com](https://gw2-api.com) will stay online, but it will 
 
 ## Rebuilding old PHP version in Javascript
 
-- [ ] `/item/:id`
-- [ ] `/items/:ids`
-- [ ] `/items/all`
-- [ ] `/items/all-prices`
-- [ ] `/items/categories`
-- [ ] `/items/autocomplete`
-- [ ] `/items/by-name`
-- [ ] `/items/by-skin`
-- [ ] `/items/query`
-- [ ] `/skins/resolve`
-- [ ] `/recipe/nested/:id`
-- [X] `/gems/history`
+- [ ] **Items**
+  - [ ] `/item/:id`
+  - [ ] `/items/:ids`
+  - [ ] `/items/all`
+  - [ ] `/items/all-prices`
+  - [ ] `/items/categories`
+  - [ ] `/items/autocomplete`
+  - [ ] `/items/by-name`
+  - [ ] `/items/by-skin`
+  - [ ] `/items/query`
+- [ ] **Skins**
+  - [ ] `/skins/resolve`
+- [ ] **Recipes**
+  - [ ] `/recipe/nested/:id`
+- [ ] **Gems**
+  - [X] `/gems/history`
 
 ## Endpoints
 
