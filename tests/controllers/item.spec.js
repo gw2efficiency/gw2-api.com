@@ -77,6 +77,26 @@ describe('controllers > item', () => {
     ])
   })
 
+  it('can get all items prices', () => {
+    let response = {send: sinon.spy(), cache: sinon.spy()}
+    let next = sinon.spy()
+
+    cache.items.en.push({id: 1, name: 'Foo', prices: {buy: {price: 0}, sell: {price: 123}}})
+    cache.items.en.push({id: 2, name: 'Bar', prices: {buy: {price: 456}, sell: {price: 0}}})
+    cache.items.en.push({id: 3, name: 'FooBar'})
+    cache.items.en.push({id: 4, name: 'Herp', prices: {buy: {price: 678}, sell: {price: 910}}})
+
+    controller.handle({params: {ids: 'all-prices'}}, response, next)
+    expect(response.cache.calledOnce).to.equal(true)
+    expect(response.send.calledOnce).to.equal(true)
+    expect(next.calledOnce).to.equal(true)
+    expect(response.send.args[0][0]).to.deep.equal([
+      {id: 1, price: 123},
+      {id: 2, price: 456},
+      {id: 4, price: 910}
+    ])
+  })
+
   it('can get the item categories', () => {
     let response = {send: sinon.spy(), cache: sinon.spy()}
     let next = sinon.spy()

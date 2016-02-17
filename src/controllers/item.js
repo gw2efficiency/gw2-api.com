@@ -27,6 +27,9 @@ class ItemController extends AbstractController {
       case 'all':
         content = this.all(lang)
         break
+      case 'all-prices':
+        content = this.allPrices(lang)
+        break
       case 'categories':
         content = this.categories()
         break
@@ -59,6 +62,15 @@ class ItemController extends AbstractController {
 
   all (lang) {
     return this.cache.items[lang].filter(x => x.tradable)
+  }
+
+  allPrices (lang) {
+    return this.cache.items[lang]
+      .filter(x => x.prices)
+      .map(x => ({
+        id: x.id,
+        price: Math.max(x.prices.sell.price, x.prices.buy.price)
+      }))
   }
 
   categories () {
