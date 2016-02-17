@@ -4,12 +4,12 @@ const sinon = require('sinon')
 const rewire = require('rewire')
 const Module = rewire('../../src/controllers/gem.js')
 
-describe('controllers > GemController', () => {
-  let worker
+describe('controllers > gem', () => {
+  let controller
   let cache
   beforeEach(() => {
     cache = {gemPriceHistory: {}}
-    worker = new Module(cache)
+    controller = new Module(cache)
   })
 
   it('returns the cache object when handling requests', async () => {
@@ -18,7 +18,7 @@ describe('controllers > GemController', () => {
     let next = sinon.spy()
     cache.gemPriceHistory = content
 
-    worker.handle(null, response, next)
+    controller.handle(null, response, next)
     expect(response.cache.calledOnce).to.equal(true)
     expect(response.send.calledOnce).to.equal(true)
     expect(next.calledOnce).to.equal(true)

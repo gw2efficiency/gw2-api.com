@@ -9,6 +9,11 @@ const client = restify.createJsonClient({
   version: '*'
 })
 
+const itemWorker = {
+  constructor: sinon.spy(),
+  initialize: sinon.spy()
+}
+
 const gemWorker = {
   constructor: sinon.spy(),
   initialize: sinon.spy()
@@ -20,24 +25,38 @@ const loggerMock = {
   error: sinon.spy()
 }
 
-let gemControllerHandler = 0
+let itemControllerHandlerCalls = 0
+let gemControllerHandlerCalls = 0
+
 const server = proxyquire('../src/index.js', {
-  './controllers/gem.js': (api, client) => ({
-    handle: (req, res) => {
-      gemControllerHandler++
-      res.send('mock response')
-    }
-  }),
+  './cache.js': {foo: 'bar'},
+  './logger.js': loggerMock,
+  './workers/item.js': (api, client) => {
+    itemWorker.constructor(api, client)
+    return itemWorker
+  },
   './workers/gem.js': (api, client) => {
     gemWorker.constructor(api, client)
     return gemWorker
   },
-  './cache.js': {foo: 'bar'},
-  './logger.js': loggerMock
+  './controllers/item.js': (api, client) => ({
+    handle: (req, res) => {
+      itemControllerHandlerCalls++
+      res.send('mock response')
+    }
+  }),
+  './controllers/gem.js': (api, client) => ({
+    handle: (req, res) => {
+      gemControllerHandlerCalls++
+      res.send('mock response')
+    }
+  })
 })
 
 describe('server', () => {
   beforeEach(() => {
+    itemControllerHandlerCalls = 0
+    gemControllerHandlerCalls = 0
     loggerMock.info.reset()
     loggerMock.success.reset()
     loggerMock.error.reset()
@@ -48,17 +67,121 @@ describe('server', () => {
     expect(server.name).to.equal('gw2-api.com')
   })
 
-  it('initializes the workers correctly', () => {
+  it('initializes the item worker correctly', () => {
+    expect(itemWorker.constructor.called).to.equal(true)
+    expect(itemWorker.constructor.args[0][0]()).to.deep.equal(require('gw2api-client')())
+    expect(itemWorker.constructor.args[0][1]).to.deep.equal({foo: 'bar'})
+    expect(itemWorker.initialize.calledOnce).to.equal(true)
+  })
+
+  it('initializes the gem worker correctly', () => {
     expect(gemWorker.constructor.called).to.equal(true)
-    expect(gemWorker.constructor.args[0][0]).to.be.an.instanceOf(require('gw2api-client'))
+    expect(gemWorker.constructor.args[0][0]()).to.deep.equal(require('gw2api-client')())
     expect(gemWorker.constructor.args[0][1]).to.deep.equal({foo: 'bar'})
     expect(gemWorker.initialize.calledOnce).to.equal(true)
+  })
+
+  it('/ gets called correctly', (done) => {
+    client.get('/', (err, req, res) => {
+      if (err) throw err
+      expect(res.statusCode).to.equal(302)
+      expect(res.headers.location).to.contain('github')
+      done()
+    })
+  })
+
+  it('/item gets called correctly', (done) => {
+    client.get('/item', (err, req, res) => {
+      if (err) throw err
+      expect(itemControllerHandlerCalls).to.equal(1)
+      done()
+    })
+  })
+
+  it('/item/:id gets called correctly', (done) => {
+    client.get('/item/123', (err, req, res) => {
+      if (err) throw err
+      expect(itemControllerHandlerCalls).to.equal(1)
+      done()
+    })
+  })
+
+  it('/items gets called correctly', (done) => {
+    client.get('/items', (err, req, res) => {
+      if (err) throw err
+      expect(itemControllerHandlerCalls).to.equal(1)
+      done()
+    })
+  })
+
+  it('/items/:ids gets called correctly', (done) => {
+    client.get('/items/123,456', (err, req, res) => {
+      if (err) throw err
+      expect(itemControllerHandlerCalls).to.equal(1)
+      done()
+    })
+  })
+
+  it('/items/all gets called correctly', (done) => {
+    client.get('/items/all', (err, req, res) => {
+      if (err) throw err
+      expect(itemControllerHandlerCalls).to.equal(1)
+      done()
+    })
+  })
+
+  it('/items/all-prices gets called correctly', (done) => {
+    client.get('/items/all-prices', (err, req, res) => {
+      if (err) throw err
+      expect(itemControllerHandlerCalls).to.equal(1)
+      done()
+    })
+  })
+
+  it('/items/autocomplete gets called correctly', (done) => {
+    client.get('/items/autocomplete', (err, req, res) => {
+      if (err) throw err
+      expect(itemControllerHandlerCalls).to.equal(1)
+      done()
+    })
+  })
+
+  it('/items/by-name gets called correctly', (done) => {
+    client.get('/items/by-name', (err, req, res) => {
+      if (err) throw err
+      expect(itemControllerHandlerCalls).to.equal(1)
+      done()
+    })
+  })
+
+  it('/items/by-skin gets called correctly', (done) => {
+    client.get('/items/by-skin', (err, req, res) => {
+      if (err) throw err
+      expect(itemControllerHandlerCalls).to.equal(1)
+      done()
+    })
+  })
+
+  it('/items/query gets called correctly', (done) => {
+    client.get('/items/query', (err, req, res) => {
+      if (err) throw err
+      expect(itemControllerHandlerCalls).to.equal(1)
+      done()
+    })
+  })
+
+  it('/items/categories gets called correctly', (done) => {
+    client.get('/items/categories', (err, req, res) => {
+      if (err) throw err
+      expect(itemControllerHandlerCalls).to.equal(1)
+      done()
+    })
   })
 
   it('/gem/history gets called correctly', (done) => {
     client.get('/gems/history', err => {
       if (err) throw err
-      expect(gemControllerHandler).to.equal(1)
+      expect(gemControllerHandlerCalls).to.equal(1)
       done()
     })
   })

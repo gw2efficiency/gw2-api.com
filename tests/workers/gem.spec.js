@@ -7,7 +7,7 @@ const Module = rewire('../../src/workers/gem.js')
 const loggerMock = {success: sinon.spy()}
 Module.__set__('logger', loggerMock)
 
-describe('workers > GemWorker', () => {
+describe('workers > gem', () => {
   let worker
   let api
   let cache
