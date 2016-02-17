@@ -81,10 +81,10 @@ describe('controllers > item', () => {
     let response = {send: sinon.spy(), cache: sinon.spy()}
     let next = sinon.spy()
 
-    cache.items.en.push({id: 1, name: 'Foo', prices: {buy: {price: 0}, sell: {price: 123}}})
-    cache.items.en.push({id: 2, name: 'Bar', prices: {buy: {price: 456}, sell: {price: 0}}})
+    cache.items.en.push({id: 1, name: 'Foo', buy: {price: 0}, sell: {price: 123}})
+    cache.items.en.push({id: 2, name: 'Bar', buy: {price: 456}, sell: {price: 0}})
     cache.items.en.push({id: 3, name: 'FooBar'})
-    cache.items.en.push({id: 4, name: 'Herp', prices: {buy: {price: 678}, sell: {price: 910}}})
+    cache.items.en.push({id: 4, name: 'Herp', buy: {price: 678}, sell: {price: 910}})
 
     controller.handle({params: {ids: 'all-prices'}}, response, next)
     expect(response.cache.calledOnce).to.equal(true)

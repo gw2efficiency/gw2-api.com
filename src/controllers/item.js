@@ -66,10 +66,10 @@ class ItemController extends AbstractController {
 
   allPrices (lang) {
     return this.cache.items[lang]
-      .filter(x => x.prices)
+      .filter(x => x.sell && x.buy)
       .map(x => ({
         id: x.id,
-        price: Math.max(x.prices.sell.price, x.prices.buy.price)
+        price: Math.max(x.sell.price, x.buy.price)
       }))
   }
 
