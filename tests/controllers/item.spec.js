@@ -24,7 +24,7 @@ describe('controllers > item', () => {
   })
 
   it('can get an item by id', () => {
-    let response = {send: sinon.spy(), cache: sinon.spy()}
+    let response = {send: sinon.spy()}
     let next = sinon.spy()
 
     cache.items.en.push({id: 1, name: 'Foo', tradable: false})
@@ -32,7 +32,6 @@ describe('controllers > item', () => {
     cache.items.en.push({id: 3, name: 'FooBar', tradable: true})
 
     controller.handle({params: {id: 2}}, response, next)
-    expect(response.cache.calledOnce).to.equal(true)
     expect(response.send.calledOnce).to.equal(true)
     expect(next.calledOnce).to.equal(true)
     expect(response.send.args[0][0]).to.deep.equal(
@@ -41,7 +40,7 @@ describe('controllers > item', () => {
   })
 
   it('can get items by ids', () => {
-    let response = {send: sinon.spy(), cache: sinon.spy()}
+    let response = {send: sinon.spy()}
     let next = sinon.spy()
 
     cache.items.en.push({id: 1, name: 'Foo', tradable: false})
@@ -49,7 +48,6 @@ describe('controllers > item', () => {
     cache.items.en.push({id: 3, name: 'FooBar', tradable: true})
 
     controller.handle({params: {ids: '2,3'}}, response, next)
-    expect(response.cache.calledOnce).to.equal(true)
     expect(response.send.calledOnce).to.equal(true)
     expect(next.calledOnce).to.equal(true)
     expect(response.send.args[0][0]).to.deep.equal([
@@ -59,7 +57,7 @@ describe('controllers > item', () => {
   })
 
   it('can get all tradable items', () => {
-    let response = {send: sinon.spy(), cache: sinon.spy()}
+    let response = {send: sinon.spy()}
     let next = sinon.spy()
 
     cache.items.en.push({id: 1, name: 'Foo', tradable: false})
@@ -68,7 +66,6 @@ describe('controllers > item', () => {
     cache.items.en.push({id: 4, name: 'Herp', tradable: false})
 
     controller.handle({params: {ids: 'all'}}, response, next)
-    expect(response.cache.calledOnce).to.equal(true)
     expect(response.send.calledOnce).to.equal(true)
     expect(next.calledOnce).to.equal(true)
     expect(response.send.args[0][0]).to.deep.equal([
@@ -78,7 +75,7 @@ describe('controllers > item', () => {
   })
 
   it('can get all items prices', () => {
-    let response = {send: sinon.spy(), cache: sinon.spy()}
+    let response = {send: sinon.spy()}
     let next = sinon.spy()
 
     cache.items.en.push({id: 1, name: 'Foo', buy: {price: 0}, sell: {price: 123}})
@@ -87,7 +84,6 @@ describe('controllers > item', () => {
     cache.items.en.push({id: 4, name: 'Herp', buy: {price: 678}, sell: {price: 910}})
 
     controller.handle({params: {ids: 'all-prices'}}, response, next)
-    expect(response.cache.calledOnce).to.equal(true)
     expect(response.send.calledOnce).to.equal(true)
     expect(next.calledOnce).to.equal(true)
     expect(response.send.args[0][0]).to.deep.equal([
@@ -98,11 +94,10 @@ describe('controllers > item', () => {
   })
 
   it('can get the item categories', () => {
-    let response = {send: sinon.spy(), cache: sinon.spy()}
+    let response = {send: sinon.spy()}
     let next = sinon.spy()
 
     controller.handle({params: {ids: 'categories'}}, response, next)
-    expect(response.cache.calledOnce).to.equal(true)
     expect(response.send.calledOnce).to.equal(true)
     expect(next.calledOnce).to.equal(true)
 
@@ -112,7 +107,7 @@ describe('controllers > item', () => {
   })
 
   it('can get the item autocomplete', () => {
-    let response = {send: sinon.spy(), cache: sinon.spy()}
+    let response = {send: sinon.spy()}
     let next = sinon.spy()
 
     cache.items.en.push({id: 1, name: 'Foo', tradable: false})
@@ -120,7 +115,6 @@ describe('controllers > item', () => {
     cache.items.en.push({id: 3, name: 'FooBar', tradable: true})
 
     controller.handle({params: {ids: 'autocomplete', q: 'Foo'}}, response, next)
-    expect(response.cache.calledOnce).to.equal(true)
     expect(response.send.calledOnce).to.equal(true)
     expect(next.calledOnce).to.equal(true)
     expect(response.send.args[0][0]).to.deep.equal([
@@ -168,7 +162,7 @@ describe('controllers > item', () => {
   })
 
   it('can get the items by name', () => {
-    let response = {send: sinon.spy(), cache: sinon.spy()}
+    let response = {send: sinon.spy()}
     let next = sinon.spy()
 
     cache.items.en.push({id: 1, name: 'Foo', tradable: false})
@@ -176,7 +170,6 @@ describe('controllers > item', () => {
     cache.items.en.push({id: 3, name: 'FooBar', tradable: true})
 
     controller.handle({params: {ids: 'by-name', names: 'Foo,bAr'}}, response, next)
-    expect(response.cache.calledOnce).to.equal(true)
     expect(response.send.calledOnce).to.equal(true)
     expect(next.calledOnce).to.equal(true)
     expect(response.send.args[0][0]).to.deep.equal([
@@ -186,7 +179,7 @@ describe('controllers > item', () => {
   })
 
   it('can get the items by skin', () => {
-    let response = {send: sinon.spy(), cache: sinon.spy()}
+    let response = {send: sinon.spy()}
     let next = sinon.spy()
 
     cache.items.en.push({id: 1, name: 'Foo', skin: 42})
@@ -195,7 +188,6 @@ describe('controllers > item', () => {
     cache.items.en.push({id: 4, name: 'Herp', skin: 42})
 
     controller.handle({params: {ids: 'by-skin', skin_id: '42'}}, response, next)
-    expect(response.cache.calledOnce).to.equal(true)
     expect(response.send.calledOnce).to.equal(true)
     expect(next.calledOnce).to.equal(true)
     expect(response.send.args[0][0]).to.deep.equal([1, 4])

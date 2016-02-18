@@ -15,7 +15,6 @@ class ItemController extends AbstractController {
 
     // The single id parameter is set, return the single item
     if (id) {
-      response.cache('public', {maxAge: 5 * 60})
       response.send(this.byId(id, lang))
       return next()
     }
@@ -49,7 +48,6 @@ class ItemController extends AbstractController {
         break
     }
 
-    response.cache('public', {maxAge: 5 * 60})
     response.send(content)
     next()
   }

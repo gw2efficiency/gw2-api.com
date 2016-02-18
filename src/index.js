@@ -13,16 +13,26 @@ GemWorker.initialize()
 const GemController = require('./controllers/gem.js')(sharedCache)
 const ItemController = require('./controllers/item.js')(sharedCache)
 
+// Use a controller function as a route with some basic settings
+let bindController = (controller, method) => {
+  method = controller[method]
+  return (req, res, next) => {
+    res.cache('public', {maxAge: 5 * 60})
+    res.charSet('utf-8')
+    method.apply(controller, [req, res, next])
+  }
+}
+
 // Set up the server
 const server = restify.createServer({name: 'gw2-api.com'})
 server.use(restify.queryParser())
 
 server.get('/', (req, res, next) => res.redirect('https://github.com/gw2efficiency/gw2-api.com/', next))
-server.get('/item', (req, res, next) => ItemController.handle(req, res, next))
-server.get('/item/:id', (req, res, next) => ItemController.handle(req, res, next))
-server.get('/items', (req, res, next) => ItemController.handle(req, res, next))
-server.get('/items/:ids', (req, res, next) => ItemController.handle(req, res, next))
-server.get('/gems/history', (req, res, next) => GemController.handle(req, res, next))
+server.get('/item', bindController(ItemController, 'handle'))
+server.get('/item/:id', bindController(ItemController, 'handle'))
+server.get('/items', bindController(ItemController, 'handle'))
+server.get('/items/:ids', bindController(ItemController, 'handle'))
+server.get('/gems/history', bindController(GemController, 'handle'))
 
 server.on('NotFound', (req, res) => {
   logger.info('Failed Route: ' + req.path() + ' (route not found)')
