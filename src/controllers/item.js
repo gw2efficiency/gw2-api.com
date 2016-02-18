@@ -33,6 +33,9 @@ class ItemController extends AbstractController {
       case 'categories':
         content = this.categories()
         break
+      case 'autocomplete':
+        content = this.autocomplete(request.params, lang)
+        break
       case 'by-name':
         let names = this.multiParameter(request.params.names)
         content = this.byName(names, lang)
@@ -77,6 +80,31 @@ class ItemController extends AbstractController {
     return categories
   }
 
+  autocomplete (params, lang) {
+    let query = params.q.toLowerCase()
+    let craftable = parseInt(params.craftable, 10) === 1
+
+    if (query.length < 3) {
+      return []
+    }
+
+    let matches = this.cache.items[lang]
+
+    if (craftable) {
+      matches = matches.filter(x => x.craftable === true)
+    }
+
+    matches = matches.filter(x => x.name.toLowerCase().indexOf(query) !== -1)
+
+    matches.sort(function (a, b) {
+      a = matchQuality(a.name.toLowerCase(), query)
+      b = matchQuality(b.name.toLowerCase(), query)
+      return a - b
+    })
+
+    return matches.slice(0, 20)
+  }
+
   byName (names, lang) {
     names = names.map(x => x.toLowerCase())
     return this.cache.items[lang]
@@ -89,6 +117,16 @@ class ItemController extends AbstractController {
       .filter(x => skin === x.skin)
       .map(x => x.id)
   }
+}
+
+// Determine the quality of matching a query string in a target string
+function matchQuality (target, query) {
+  if (target === query) {
+    return 0
+  }
+
+  let index = target.indexOf(query)
+  return 1 + index
 }
 
 module.exports = (cache) => new ItemController(cache)

@@ -53,7 +53,7 @@ In the future, [gw2-api.com](https://gw2-api.com) will stay online, but it will 
 - [X] `/items/all`
 - [X] `/items/all-prices`
 - [X] `/items/categories`
-- [ ] `/items/autocomplete`
+- [X] `/items/autocomplete`
 - [X] `/items/by-name`
 - [X] `/items/by-skin`
 - [ ] `/items/query`
