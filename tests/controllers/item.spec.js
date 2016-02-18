@@ -13,79 +13,69 @@ describe('controllers > item', () => {
   })
 
   it('handles a request without parameters set', () => {
-    let response = {send: sinon.spy(), status: sinon.spy()}
-    let next = sinon.spy()
+    let response = {send: sinon.spy()}
 
-    controller.handle({params: {}}, response, next)
-    expect(response.status.calledOnce).to.equal(true)
-    expect(response.status.args[0][0]).to.deep.equal(500)
+    controller.handle({params: {}}, response)
     expect(response.send.calledOnce).to.equal(true)
-    expect(response.send.args[0][0]).to.deep.equal({text: 'invalid request parameters'})
+    expect(response.send.args[0][0]).to.equal(500)
+    expect(response.send.args[0][1]).to.deep.equal({text: 'invalid request parameters'})
   })
 
-  it('can get an item by id', () => {
+  it('handles /item/:id correctly', () => {
     let response = {send: sinon.spy()}
-    let next = sinon.spy()
 
     cache.items.en.push({id: 1, name: 'Foo', tradable: false})
     cache.items.en.push({id: 2, name: 'Bar', tradable: true})
     cache.items.en.push({id: 3, name: 'FooBar', tradable: true})
 
-    controller.handle({params: {id: 2}}, response, next)
+    controller.handle({params: {id: 2}}, response)
     expect(response.send.calledOnce).to.equal(true)
-    expect(next.calledOnce).to.equal(true)
     expect(response.send.args[0][0]).to.deep.equal(
       {id: 2, name: 'Bar', tradable: true}
     )
   })
 
-  it('can get items by ids', () => {
+  it('handles /items/:ids correctly', () => {
     let response = {send: sinon.spy()}
-    let next = sinon.spy()
 
     cache.items.en.push({id: 1, name: 'Foo', tradable: false})
     cache.items.en.push({id: 2, name: 'Bar', tradable: true})
     cache.items.en.push({id: 3, name: 'FooBar', tradable: true})
 
-    controller.handle({params: {ids: '2,3'}}, response, next)
+    controller.handle({params: {ids: '2,3'}}, response)
     expect(response.send.calledOnce).to.equal(true)
-    expect(next.calledOnce).to.equal(true)
     expect(response.send.args[0][0]).to.deep.equal([
       {id: 2, name: 'Bar', tradable: true},
       {id: 3, name: 'FooBar', tradable: true}
     ])
   })
 
-  it('can get all tradable items', () => {
+  it('handles /items/all correctly', () => {
     let response = {send: sinon.spy()}
-    let next = sinon.spy()
 
     cache.items.en.push({id: 1, name: 'Foo', tradable: false})
     cache.items.en.push({id: 2, name: 'Bar', tradable: true})
     cache.items.en.push({id: 3, name: 'FooBar', tradable: true})
     cache.items.en.push({id: 4, name: 'Herp', tradable: false})
 
-    controller.handle({params: {ids: 'all'}}, response, next)
+    controller.handle({params: {ids: 'all'}}, response)
     expect(response.send.calledOnce).to.equal(true)
-    expect(next.calledOnce).to.equal(true)
     expect(response.send.args[0][0]).to.deep.equal([
       {id: 2, name: 'Bar', tradable: true},
       {id: 3, name: 'FooBar', tradable: true}
     ])
   })
 
-  it('can get all items prices', () => {
+  it('handles /items/all-prices correctly', () => {
     let response = {send: sinon.spy()}
-    let next = sinon.spy()
 
     cache.items.en.push({id: 1, name: 'Foo', buy: {price: 0}, sell: {price: 123}})
     cache.items.en.push({id: 2, name: 'Bar', buy: {price: 456}, sell: {price: 0}})
     cache.items.en.push({id: 3, name: 'FooBar'})
     cache.items.en.push({id: 4, name: 'Herp', buy: {price: 678}, sell: {price: 910}})
 
-    controller.handle({params: {ids: 'all-prices'}}, response, next)
+    controller.handle({params: {ids: 'all-prices'}}, response)
     expect(response.send.calledOnce).to.equal(true)
-    expect(next.calledOnce).to.equal(true)
     expect(response.send.args[0][0]).to.deep.equal([
       {id: 1, price: 123},
       {id: 2, price: 456},
@@ -93,45 +83,39 @@ describe('controllers > item', () => {
     ])
   })
 
-  it('can get the item categories', () => {
+  it('handles /items/categories correctly', () => {
     let response = {send: sinon.spy()}
-    let next = sinon.spy()
 
-    controller.handle({params: {ids: 'categories'}}, response, next)
+    controller.handle({params: {ids: 'categories'}}, response)
     expect(response.send.calledOnce).to.equal(true)
-    expect(next.calledOnce).to.equal(true)
 
     let categories = response.send.args[0][0]
     expect(categories).to.be.an.object
     expect(Object.keys(categories).length).to.be.above(10)
   })
 
-  it('can get the item autocomplete', () => {
+  it('handles /items/autocomplete correctly', () => {
     let response = {send: sinon.spy()}
-    let next = sinon.spy()
 
     cache.items.en.push({id: 1, name: 'Foo', tradable: false})
     cache.items.en.push({id: 2, name: 'Bar', tradable: true})
     cache.items.en.push({id: 3, name: 'FooBar', tradable: true})
 
-    controller.handle({params: {ids: 'autocomplete', q: 'Foo'}}, response, next)
+    controller.handle({params: {ids: 'autocomplete', q: 'Foo'}}, response)
     expect(response.send.calledOnce).to.equal(true)
-    expect(next.calledOnce).to.equal(true)
     expect(response.send.args[0][0]).to.deep.equal([
       {id: 1, name: 'Foo', tradable: false},
       {id: 3, name: 'FooBar', tradable: true}
     ])
   })
 
-  it('handles a item autocomplete request without parameters set', () => {
-    let response = {send: sinon.spy(), status: sinon.spy()}
-    let next = sinon.spy()
+  it('handles /items/autocomplete without parameters set', () => {
+    let response = {send: sinon.spy()}
 
-    controller.handle({params: {ids: 'autocomplete'}}, response, next)
-    expect(response.status.calledOnce).to.equal(true)
-    expect(response.status.args[0][0]).to.deep.equal(500)
+    controller.handle({params: {ids: 'autocomplete'}}, response)
     expect(response.send.calledOnce).to.equal(true)
-    expect(response.send.args[0][0]).to.deep.equal({text: 'invalid request parameters'})
+    expect(response.send.args[0][0]).to.equal(500)
+    expect(response.send.args[0][1]).to.deep.equal({text: 'invalid request parameters'})
   })
 
   it('can determine the match quality of an autocomplete query', () => {
@@ -172,57 +156,49 @@ describe('controllers > item', () => {
     ])
   })
 
-  it('can get the items by name', () => {
+  it('handles /items/by-name correctly', () => {
     let response = {send: sinon.spy()}
-    let next = sinon.spy()
 
     cache.items.en.push({id: 1, name: 'Foo', tradable: false})
     cache.items.en.push({id: 2, name: 'Bar', tradable: true})
     cache.items.en.push({id: 3, name: 'FooBar', tradable: true})
 
-    controller.handle({params: {ids: 'by-name', names: 'Foo,bAr'}}, response, next)
+    controller.handle({params: {ids: 'by-name', names: 'Foo,bAr'}}, response)
     expect(response.send.calledOnce).to.equal(true)
-    expect(next.calledOnce).to.equal(true)
     expect(response.send.args[0][0]).to.deep.equal([
       {id: 1, name: 'Foo', tradable: false},
       {id: 2, name: 'Bar', tradable: true}
     ])
   })
 
-  it('handles a item by names request without parameters set', () => {
-    let response = {send: sinon.spy(), status: sinon.spy()}
-    let next = sinon.spy()
+  it('handles /items/by-name without parameters set', () => {
+    let response = {send: sinon.spy()}
 
-    controller.handle({params: {ids: 'by-name'}}, response, next)
-    expect(response.status.calledOnce).to.equal(true)
-    expect(response.status.args[0][0]).to.deep.equal(500)
+    controller.handle({params: {ids: 'by-name'}}, response)
     expect(response.send.calledOnce).to.equal(true)
-    expect(response.send.args[0][0]).to.deep.equal({text: 'invalid request parameters'})
+    expect(response.send.args[0][0]).to.equal(500)
+    expect(response.send.args[0][1]).to.deep.equal({text: 'invalid request parameters'})
   })
 
-  it('can get the items by skin', () => {
+  it('handles /items/by-skin correctly', () => {
     let response = {send: sinon.spy()}
-    let next = sinon.spy()
 
     cache.items.en.push({id: 1, name: 'Foo', skin: 42})
     cache.items.en.push({id: 2, name: 'Bar'})
     cache.items.en.push({id: 3, name: 'FooBar', skin: 123})
     cache.items.en.push({id: 4, name: 'Herp', skin: 42})
 
-    controller.handle({params: {ids: 'by-skin', skin_id: '42'}}, response, next)
+    controller.handle({params: {ids: 'by-skin', skin_id: '42'}}, response)
     expect(response.send.calledOnce).to.equal(true)
-    expect(next.calledOnce).to.equal(true)
     expect(response.send.args[0][0]).to.deep.equal([1, 4])
   })
 
-  it('handles a item by skin request without parameters set', () => {
-    let response = {send: sinon.spy(), status: sinon.spy()}
-    let next = sinon.spy()
+  it('handles /items/skins without parameters set', () => {
+    let response = {send: sinon.spy()}
 
-    controller.handle({params: {ids: 'by-skin'}}, response, next)
-    expect(response.status.calledOnce).to.equal(true)
-    expect(response.status.args[0][0]).to.deep.equal(500)
+    controller.handle({params: {ids: 'by-skin'}}, response)
     expect(response.send.calledOnce).to.equal(true)
-    expect(response.send.args[0][0]).to.deep.equal({text: 'invalid request parameters'})
+    expect(response.send.args[0][0]).to.equal(500)
+    expect(response.send.args[0][1]).to.deep.equal({text: 'invalid request parameters'})
   })
 })

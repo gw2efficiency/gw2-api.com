@@ -18,4 +18,4 @@ class GemWorker extends AbstractWorker {
   }
 }
 
-module.exports = (api, cache) => new GemWorker(api, cache)
+module.exports = GemWorker

@@ -9,57 +9,24 @@ const client = restify.createJsonClient({
   version: '*'
 })
 
-const itemWorker = {
-  constructor: sinon.spy(),
-  initialize: sinon.spy()
-}
-
-const gemWorker = {
-  constructor: sinon.spy(),
-  initialize: sinon.spy()
-}
-
-const loggerMock = {
-  info: sinon.spy(),
-  success: sinon.spy(),
-  error: sinon.spy()
-}
-
-let itemControllerHandlerCalls = 0
-let gemControllerHandlerCalls = 0
+const itemWorkerSpy = sinon.spy()
+const routesSpy = sinon.spy()
+const gemWorkerSpy = sinon.spy()
+const loggerStub = sinon.stub(require('../src/logger.js'))
 
 const server = proxyquire('../src/index.js', {
-  './cache.js': {foo: 'bar'},
-  './logger.js': loggerMock,
-  './workers/item.js': (api, client) => {
-    itemWorker.constructor(api, client)
-    return itemWorker
-  },
-  './workers/gem.js': (api, client) => {
-    gemWorker.constructor(api, client)
-    return gemWorker
-  },
-  './controllers/item.js': (api, client) => ({
-    handle: (req, res) => {
-      itemControllerHandlerCalls++
-      res.send('mock response')
-    }
-  }),
-  './controllers/gem.js': (api, client) => ({
-    handle: (req, res) => {
-      gemControllerHandlerCalls++
-      res.send('mock response')
-    }
-  })
+  './cache.js': {},
+  './logger.js': loggerStub,
+  './routes.js': routesSpy,
+  './workers/item.js': itemWorkerSpy,
+  './workers/gem.js': gemWorkerSpy
 })
 
 describe('server', () => {
   beforeEach(() => {
-    itemControllerHandlerCalls = 0
-    gemControllerHandlerCalls = 0
-    loggerMock.info.reset()
-    loggerMock.success.reset()
-    loggerMock.error.reset()
+    loggerStub.info.reset()
+    loggerStub.success.reset()
+    loggerStub.error.reset()
   })
 
   it('can run the server', () => {
@@ -67,133 +34,23 @@ describe('server', () => {
     expect(server.name).to.equal('gw2-api.com')
   })
 
-  it('initializes the item worker correctly', () => {
-    expect(itemWorker.constructor.called).to.equal(true)
-    expect(itemWorker.constructor.args[0][0]()).to.deep.equal(require('gw2api-client')())
-    expect(itemWorker.constructor.args[0][1]).to.deep.equal({foo: 'bar'})
-    expect(itemWorker.initialize.calledOnce).to.equal(true)
+  it('initializes the routes', () => {
+    expect(routesSpy.calledOnce).to.equal(true)
   })
 
-  it('initializes the gem worker correctly', () => {
-    expect(gemWorker.constructor.called).to.equal(true)
-    expect(gemWorker.constructor.args[0][0]()).to.deep.equal(require('gw2api-client')())
-    expect(gemWorker.constructor.args[0][1]).to.deep.equal({foo: 'bar'})
-    expect(gemWorker.initialize.calledOnce).to.equal(true)
-  })
-
-  it('/ gets called correctly', (done) => {
-    client.get('/', (err, req, res) => {
-      if (err) throw err
-      expect(res.statusCode).to.equal(302)
-      expect(res.headers.location).to.contain('github')
-      done()
-    })
-  })
-
-  it('/item gets called correctly', (done) => {
-    client.get('/item', (err, req, res) => {
-      if (err) throw err
-      expect(itemControllerHandlerCalls).to.equal(1)
-      done()
-    })
-  })
-
-  it('/item/:id gets called correctly', (done) => {
-    client.get('/item/123', (err, req, res) => {
-      if (err) throw err
-      expect(itemControllerHandlerCalls).to.equal(1)
-      done()
-    })
-  })
-
-  it('/items gets called correctly', (done) => {
-    client.get('/items', (err, req, res) => {
-      if (err) throw err
-      expect(itemControllerHandlerCalls).to.equal(1)
-      done()
-    })
-  })
-
-  it('/items/:ids gets called correctly', (done) => {
-    client.get('/items/123,456', (err, req, res) => {
-      if (err) throw err
-      expect(itemControllerHandlerCalls).to.equal(1)
-      done()
-    })
-  })
-
-  it('/items/all gets called correctly', (done) => {
-    client.get('/items/all', (err, req, res) => {
-      if (err) throw err
-      expect(itemControllerHandlerCalls).to.equal(1)
-      done()
-    })
-  })
-
-  it('/items/all-prices gets called correctly', (done) => {
-    client.get('/items/all-prices', (err, req, res) => {
-      if (err) throw err
-      expect(itemControllerHandlerCalls).to.equal(1)
-      done()
-    })
-  })
-
-  it('/items/autocomplete gets called correctly', (done) => {
-    client.get('/items/autocomplete', (err, req, res) => {
-      if (err) throw err
-      expect(itemControllerHandlerCalls).to.equal(1)
-      done()
-    })
-  })
-
-  it('/items/by-name gets called correctly', (done) => {
-    client.get('/items/by-name', (err, req, res) => {
-      if (err) throw err
-      expect(itemControllerHandlerCalls).to.equal(1)
-      done()
-    })
-  })
-
-  it('/items/by-skin gets called correctly', (done) => {
-    client.get('/items/by-skin', (err, req, res) => {
-      if (err) throw err
-      expect(itemControllerHandlerCalls).to.equal(1)
-      done()
-    })
-  })
-
-  it('/items/query gets called correctly', (done) => {
-    client.get('/items/query', (err, req, res) => {
-      if (err) throw err
-      expect(itemControllerHandlerCalls).to.equal(1)
-      done()
-    })
-  })
-
-  it('/items/categories gets called correctly', (done) => {
-    client.get('/items/categories', (err, req, res) => {
-      if (err) throw err
-      expect(itemControllerHandlerCalls).to.equal(1)
-      done()
-    })
-  })
-
-  it('/gem/history gets called correctly', (done) => {
-    client.get('/gems/history', err => {
-      if (err) throw err
-      expect(gemControllerHandlerCalls).to.equal(1)
-      done()
-    })
+  it('initializes the workers', () => {
+    expect(gemWorkerSpy.calledWithNew()).to.equal(true)
+    expect(itemWorkerSpy.calledWithNew()).to.equal(true)
   })
 
   it('logs errors and returns the correct response for missing routes', (done) => {
     client.get('/this/is/a/nonexisting/route', (err, req, res) => {
       if (err) {
       }
-      expect(loggerMock.info.calledOnce).to.equal(true)
-      expect(loggerMock.info.args[0][0]).to.contain('/this/is/a/nonexisting/route')
-      expect(loggerMock.info.args[0][0]).to.contain('Failed Route')
-      expect(loggerMock.info.args[0][0]).to.contain('route not found')
+      expect(loggerStub.info.calledOnce).to.equal(true)
+      expect(loggerStub.info.args[0][0]).to.contain('/this/is/a/nonexisting/route')
+      expect(loggerStub.info.args[0][0]).to.contain('Failed Route')
+      expect(loggerStub.info.args[0][0]).to.contain('route not found')
       expect(res.statusCode).to.equal(404)
       expect(JSON.parse(res.body)).to.deep.equal({text: 'endpoint not found'})
       done()
@@ -201,13 +58,17 @@ describe('server', () => {
   })
 
   it('logs errors and returns the correct response for bad method calls', (done) => {
+    server.get('/gems/history', () => {
+      console.log('Some fake route.')
+    })
+
     client.post('/gems/history', (err, req, res) => {
       if (err) {
       }
-      expect(loggerMock.info.calledOnce).to.equal(true)
-      expect(loggerMock.info.args[0][0]).to.contain('/gems/history')
-      expect(loggerMock.info.args[0][0]).to.contain('Failed Route')
-      expect(loggerMock.info.args[0][0]).to.contain('method not allowed')
+      expect(loggerStub.info.calledOnce).to.equal(true)
+      expect(loggerStub.info.args[0][0]).to.contain('/gems/history')
+      expect(loggerStub.info.args[0][0]).to.contain('Failed Route')
+      expect(loggerStub.info.args[0][0]).to.contain('method not allowed')
       expect(res.statusCode).to.equal(405)
       expect(JSON.parse(res.body)).to.deep.equal({text: 'method not allowed'})
       done()
@@ -224,10 +85,10 @@ describe('server', () => {
     client.get('/failing/route', (err, req, res) => {
       if (err) {
       }
-      expect(loggerMock.error.calledOnce).to.equal(true)
-      expect(loggerMock.error.args[0][0]).to.contain('/failing/route')
-      expect(loggerMock.error.args[0][0]).to.contain('Failed Route')
-      expect(loggerMock.error.args[0][0]).to.contain('OH NO SOMETHING BAD :(')
+      expect(loggerStub.error.calledOnce).to.equal(true)
+      expect(loggerStub.error.args[0][0]).to.contain('/failing/route')
+      expect(loggerStub.error.args[0][0]).to.contain('Failed Route')
+      expect(loggerStub.error.args[0][0]).to.contain('OH NO SOMETHING BAD :(')
       expect(res.statusCode).to.equal(500)
       expect(JSON.parse(res.body)).to.deep.equal({text: 'internal error'})
       done()

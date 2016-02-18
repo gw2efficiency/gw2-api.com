@@ -2,19 +2,18 @@ const AbstractController = require('../controller.js')
 const categories = require('../static/categories.js')
 
 class ItemController extends AbstractController {
-  handle (request, response, next) {
+  handle (request, response) {
     let lang = this.requestLanguage(request.params)
     let id = parseInt(request.params.id, 10)
 
     // Error handling: no parameter set
     if (!id && !request.params.ids) {
-      return this.invalidParameters(response, next)
+      return this.invalidParameters(response)
     }
 
     // The single id parameter is set, return the single item
     if (id) {
-      response.send(this.byId(id, lang))
-      return next()
+      return response.send(this.byId(id, lang))
     }
 
     // Handle "ids" parameters based on what endpoint it is
@@ -32,20 +31,20 @@ class ItemController extends AbstractController {
         break
       case 'autocomplete':
         if (!request.params.q) {
-          return this.invalidParameters(response, next)
+          return this.invalidParameters(response)
         }
         content = this.autocomplete(request.params, lang)
         break
       case 'by-name':
         if (!request.params.names) {
-          return this.invalidParameters(response, next)
+          return this.invalidParameters(response)
         }
         let names = this.multiParameter(request.params.names)
         content = this.byName(names, lang)
         break
       case 'by-skin':
         if (!request.params.skin_id) {
-          return this.invalidParameters(response, next)
+          return this.invalidParameters(response)
         }
         content = this.bySkin(parseInt(request.params.skin_id, 10), lang)
         break
@@ -56,7 +55,6 @@ class ItemController extends AbstractController {
     }
 
     response.send(content)
-    next()
   }
 
   byId (id, lang) {
@@ -134,4 +132,4 @@ function matchQuality (target, query) {
   return 1 + index
 }
 
-module.exports = (cache) => new ItemController(cache)
+module.exports = ItemController

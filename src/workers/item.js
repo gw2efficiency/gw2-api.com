@@ -145,4 +145,4 @@ function isoDate (date) {
   return date.toISOString().slice(0, 19) + '+0000'
 }
 
-module.exports = (api, cache) => new ItemWorker(api, cache)
+module.exports = ItemWorker
