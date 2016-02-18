@@ -123,6 +123,17 @@ describe('controllers > item', () => {
     ])
   })
 
+  it('handles a item autocomplete request without parameters set', () => {
+    let response = {send: sinon.spy(), status: sinon.spy()}
+    let next = sinon.spy()
+
+    controller.handle({params: {ids: 'autocomplete'}}, response, next)
+    expect(response.status.calledOnce).to.equal(true)
+    expect(response.status.args[0][0]).to.deep.equal(500)
+    expect(response.send.calledOnce).to.equal(true)
+    expect(response.send.args[0][0]).to.deep.equal({text: 'invalid request parameters'})
+  })
+
   it('can determine the match quality of an autocomplete query', () => {
     let matchQuality = Module.__get__('matchQuality')
     expect(matchQuality('Foo', 'Foo')).to.equal(0)
@@ -178,6 +189,17 @@ describe('controllers > item', () => {
     ])
   })
 
+  it('handles a item by names request without parameters set', () => {
+    let response = {send: sinon.spy(), status: sinon.spy()}
+    let next = sinon.spy()
+
+    controller.handle({params: {ids: 'by-name'}}, response, next)
+    expect(response.status.calledOnce).to.equal(true)
+    expect(response.status.args[0][0]).to.deep.equal(500)
+    expect(response.send.calledOnce).to.equal(true)
+    expect(response.send.args[0][0]).to.deep.equal({text: 'invalid request parameters'})
+  })
+
   it('can get the items by skin', () => {
     let response = {send: sinon.spy()}
     let next = sinon.spy()
@@ -191,5 +213,16 @@ describe('controllers > item', () => {
     expect(response.send.calledOnce).to.equal(true)
     expect(next.calledOnce).to.equal(true)
     expect(response.send.args[0][0]).to.deep.equal([1, 4])
+  })
+
+  it('handles a item by skin request without parameters set', () => {
+    let response = {send: sinon.spy(), status: sinon.spy()}
+    let next = sinon.spy()
+
+    controller.handle({params: {ids: 'by-skin'}}, response, next)
+    expect(response.status.calledOnce).to.equal(true)
+    expect(response.status.args[0][0]).to.deep.equal(500)
+    expect(response.send.calledOnce).to.equal(true)
+    expect(response.send.args[0][0]).to.deep.equal({text: 'invalid request parameters'})
   })
 })

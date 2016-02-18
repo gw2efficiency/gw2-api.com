@@ -8,9 +8,7 @@ class ItemController extends AbstractController {
 
     // Error handling: no parameter set
     if (!id && !request.params.ids) {
-      response.status(500)
-      response.send({text: 'invalid request parameters'})
-      return next()
+      return this.invalidParameters(response, next)
     }
 
     // The single id parameter is set, return the single item
@@ -33,13 +31,22 @@ class ItemController extends AbstractController {
         content = this.categories()
         break
       case 'autocomplete':
+        if (!request.params.q) {
+          return this.invalidParameters(response, next)
+        }
         content = this.autocomplete(request.params, lang)
         break
       case 'by-name':
+        if (!request.params.names) {
+          return this.invalidParameters(response, next)
+        }
         let names = this.multiParameter(request.params.names)
         content = this.byName(names, lang)
         break
       case 'by-skin':
+        if (!request.params.skin_id) {
+          return this.invalidParameters(response, next)
+        }
         content = this.bySkin(parseInt(request.params.skin_id, 10), lang)
         break
       default:

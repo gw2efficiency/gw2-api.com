@@ -3,6 +3,12 @@ class AbstractController {
     this.cache = cache
   }
 
+  invalidParameters (response, next) {
+    response.status(500)
+    response.send({text: 'invalid request parameters'})
+    return next()
+  }
+
   requestLanguage (params) {
     return ['de', 'en', 'fr', 'es'].indexOf(params.lang) !== -1 ? params.lang : 'en'
   }
