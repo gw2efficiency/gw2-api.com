@@ -287,6 +287,42 @@ This endpoint returns an array of the item categories that are used as identifie
 }
 ```
 
+### `/skins/resolve`
+
+This endpoint returns a list of all skin ids with their respective item ids.
+
+```js
+{
+  "1": [2902,2903 /* ... */],
+  "18":[2534,2535,2557 /* ... */],
+  // ...
+}
+```
+
+### `/recipe/nested/:id`
+
+This endpoint returns a nested recipe. All components that can be crafted include their respective recipe and subcomponents.
+
+```js
+{
+  "id": 31083,
+  "quantity": 1,
+  "components": [
+    {
+      "id": 20852,
+      "quantity": 1
+    },
+    {
+      "id": 13243,
+      "quantity": 5,
+      "output": 1,
+      "components": [/* ... */]
+    },
+    // ...
+  ]
+}
+```
+
 ### `/gems/history`
 
 This endpoint returns price history data for gold to gems conversion.
