@@ -15,27 +15,29 @@ const loggerMock = {info: sinon.spy(), success: sinon.spy(), error: sinon.spy()}
 routes.__set__('logger', loggerMock)
 
 // GemController overwrite
-const GemController = {
-  handle: (req, res) => {
-    res.send('GemController.handle')
-  }
-}
-routes.__set__('GemController', () => GemController)
+routes.__set__('GemController', () => ({
+  history: (req, res) => res.send('GemController.history')
+}))
 
 // ItemController overwrite
-const ItemController = {
-  handle: (req, res) => {
-    res.send('ItemController.handle')
-  }
-}
-routes.__set__('ItemController', () => ItemController)
+routes.__set__('ItemController', () => ({
+  handle: (req, res) => res.send('ItemController.handle'),
+  byId: (req, res) => res.send('ItemController.byId'),
+  byIds: (req, res) => res.send('ItemController.byIds'),
+  all: (req, res) => res.send('ItemController.all'),
+  allPrices: (req, res) => res.send('ItemController.allPrices'),
+  autocomplete: (req, res) => res.send('ItemController.autocomplete'),
+  byName: (req, res) => res.send('ItemController.byName'),
+  bySkin: (req, res) => res.send('ItemController.bySkin'),
+  categories: (req, res) => res.send('ItemController.categories')
+}))
 
 // Start a mock server and test the routing on that
 const server = restify.createServer()
 server.listen(12345, () => {
   routes(server, 'cache')
 
-  describe.only('routing', () => {
+  describe('routing', () => {
     it('/ gets called correctly', (done) => {
       client.get('/', (err, req, res) => {
         if (err) throw err
@@ -48,7 +50,7 @@ server.listen(12345, () => {
     it('/item gets called correctly', (done) => {
       client.get('/item', (err, req, res, data) => {
         if (err) throw err
-        expect(data).to.equal('ItemController.handle')
+        expect(data).to.equal('ItemController.byId')
         done()
       })
     })
@@ -56,7 +58,7 @@ server.listen(12345, () => {
     it('/item/:id gets called correctly', (done) => {
       client.get('/item/123', (err, req, res, data) => {
         if (err) throw err
-        expect(data).to.equal('ItemController.handle')
+        expect(data).to.equal('ItemController.byId')
         done()
       })
     })
@@ -64,7 +66,7 @@ server.listen(12345, () => {
     it('/items gets called correctly', (done) => {
       client.get('/items', (err, req, res, data) => {
         if (err) throw err
-        expect(data).to.equal('ItemController.handle')
+        expect(data).to.equal('ItemController.byIds')
         done()
       })
     })
@@ -72,7 +74,7 @@ server.listen(12345, () => {
     it('/items/:ids gets called correctly', (done) => {
       client.get('/items/123,456', (err, req, res, data) => {
         if (err) throw err
-        expect(data).to.equal('ItemController.handle')
+        expect(data).to.equal('ItemController.byIds')
         done()
       })
     })
@@ -80,7 +82,7 @@ server.listen(12345, () => {
     it('/items/all gets called correctly', (done) => {
       client.get('/items/all', (err, req, res, data) => {
         if (err) throw err
-        expect(data).to.equal('ItemController.handle')
+        expect(data).to.equal('ItemController.all')
         done()
       })
     })
@@ -88,7 +90,7 @@ server.listen(12345, () => {
     it('/items/all-prices gets called correctly', (done) => {
       client.get('/items/all-prices', (err, req, res, data) => {
         if (err) throw err
-        expect(data).to.equal('ItemController.handle')
+        expect(data).to.equal('ItemController.allPrices')
         done()
       })
     })
@@ -96,7 +98,7 @@ server.listen(12345, () => {
     it('/items/autocomplete gets called correctly', (done) => {
       client.get('/items/autocomplete', (err, req, res, data) => {
         if (err) throw err
-        expect(data).to.equal('ItemController.handle')
+        expect(data).to.equal('ItemController.autocomplete')
         done()
       })
     })
@@ -104,7 +106,7 @@ server.listen(12345, () => {
     it('/items/by-name gets called correctly', (done) => {
       client.get('/items/by-name', (err, req, res, data) => {
         if (err) throw err
-        expect(data).to.equal('ItemController.handle')
+        expect(data).to.equal('ItemController.byName')
         done()
       })
     })
@@ -112,15 +114,7 @@ server.listen(12345, () => {
     it('/items/by-skin gets called correctly', (done) => {
       client.get('/items/by-skin', (err, req, res, data) => {
         if (err) throw err
-        expect(data).to.equal('ItemController.handle')
-        done()
-      })
-    })
-
-    it('/items/query gets called correctly', (done) => {
-      client.get('/items/query', (err, req, res, data) => {
-        if (err) throw err
-        expect(data).to.equal('ItemController.handle')
+        expect(data).to.equal('ItemController.bySkin')
         done()
       })
     })
@@ -128,7 +122,7 @@ server.listen(12345, () => {
     it('/items/categories gets called correctly', (done) => {
       client.get('/items/categories', (err, req, res, data) => {
         if (err) throw err
-        expect(data).to.equal('ItemController.handle')
+        expect(data).to.equal('ItemController.categories')
         done()
       })
     })
@@ -136,12 +130,12 @@ server.listen(12345, () => {
     it('/gem/history gets called correctly', (done) => {
       client.get('/gems/history', (err, req, res, data) => {
         if (err) throw err
-        expect(data).to.equal('GemController.handle')
+        expect(data).to.equal('GemController.history')
         done()
       })
     })
 
-    it('initializes the controllers with the correct cache object', () => {
+    it('initializes all controllers with the correct cache object', () => {
       let mockServer = {get: () => {}}
       let gemControllerSpy = sinon.spy()
       let itemControllerSpy = sinon.spy()

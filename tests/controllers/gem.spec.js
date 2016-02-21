@@ -12,12 +12,12 @@ describe('controllers > gem', () => {
     controller = new Module(cache)
   })
 
-  it('handles /gems/history correctly', async () => {
+  it('handles /gems/history', async () => {
     let content = {gold: [1, 2, 3], gems: [4, 5, 6]}
     let response = {send: sinon.spy()}
     cache.gemPriceHistory = content
 
-    controller.handle(null, response)
+    controller.history(null, response)
     expect(response.send.calledOnce).to.equal(true)
     expect(response.send.args[0][0]).to.deep.equal(content)
   })

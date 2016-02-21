@@ -1,7 +1,7 @@
 const AbstractController = require('../controller.js')
 
 class GemController extends AbstractController {
-  handle (request, response) {
+  history (request, response) {
     response.send(this.cache.gemPriceHistory)
   }
 }

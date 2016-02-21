@@ -8,11 +8,17 @@ function setup (server, sharedCache) {
   const item = new ItemController(sharedCache)
 
   server.get('/', (req, res, next) => res.redirect('https://github.com/gw2efficiency/gw2-api.com/', next))
-  server.get('/item', bindController(item, 'handle'))
-  server.get('/item/:id', bindController(item, 'handle'))
-  server.get('/items', bindController(item, 'handle'))
-  server.get('/items/:ids', bindController(item, 'handle'))
-  server.get('/gems/history', bindController(gem, 'handle'))
+  server.get('/item', bindController(item, 'byId'))
+  server.get('/item/:id', bindController(item, 'byId'))
+  server.get('/items', bindController(item, 'byIds'))
+  server.get('/items/all', bindController(item, 'all'))
+  server.get('/items/all-prices', bindController(item, 'allPrices'))
+  server.get('/items/categories', bindController(item, 'categories'))
+  server.get('/items/autocomplete', bindController(item, 'autocomplete'))
+  server.get('/items/by-name', bindController(item, 'byName'))
+  server.get('/items/by-skin', bindController(item, 'bySkin'))
+  server.get('/items/:ids', bindController(item, 'byIds'))
+  server.get('/gems/history', bindController(gem, 'history'))
 }
 
 // Use a controller function as a route with some basic settings

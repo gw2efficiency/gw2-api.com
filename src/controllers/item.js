@@ -2,93 +2,63 @@ const AbstractController = require('../controller.js')
 const categories = require('../static/categories.js')
 
 class ItemController extends AbstractController {
-  handle (request, response) {
+  byId (request, response) {
     let lang = this.requestLanguage(request.params)
     let id = parseInt(request.params.id, 10)
 
-    // Error handling: no parameter set
-    if (!id && !request.params.ids) {
+    if (!id) {
       return this.invalidParameters(response)
     }
 
-    // The single id parameter is set, return the single item
-    if (id) {
-      return response.send(this.byId(id, lang))
-    }
-
-    // Handle "ids" parameters based on what endpoint it is
-    let ids = request.params.ids
-    let content
-    switch (ids) {
-      case 'all':
-        content = this.all(lang)
-        break
-      case 'all-prices':
-        content = this.allPrices(lang)
-        break
-      case 'categories':
-        content = this.categories()
-        break
-      case 'autocomplete':
-        if (!request.params.q) {
-          return this.invalidParameters(response)
-        }
-        content = this.autocomplete(request.params, lang)
-        break
-      case 'by-name':
-        if (!request.params.names) {
-          return this.invalidParameters(response)
-        }
-        let names = this.multiParameter(request.params.names)
-        content = this.byName(names, lang)
-        break
-      case 'by-skin':
-        if (!request.params.skin_id) {
-          return this.invalidParameters(response)
-        }
-        content = this.bySkin(parseInt(request.params.skin_id, 10), lang)
-        break
-      default:
-        ids = this.multiParameter(ids, true)
-        content = this.byIds(ids, lang)
-        break
-    }
+    let content = this.cache.items[lang].find(x => x.id === id)
 
     response.send(content)
   }
 
-  byId (id, lang) {
-    return this.cache.items[lang].find(x => x.id === id)
-  }
+  byIds (request, response) {
+    let lang = this.requestLanguage(request.params)
+    let ids = this.multiParameter(request.params.ids, true)
 
-  byIds (ids, lang) {
-    return this.cache.items[lang]
+    let content = this.cache.items[lang]
       .filter(x => ids.indexOf(x.id) !== -1)
+
+    response.send(content)
   }
 
-  all (lang) {
-    return this.cache.items[lang].filter(x => x.tradable)
+  all (request, response) {
+    let lang = this.requestLanguage(request.params)
+    let content = this.cache.items[lang].filter(x => x.tradable)
+    response.send(content)
   }
 
-  allPrices (lang) {
-    return this.cache.items[lang]
+  allPrices (request, response) {
+    let lang = this.requestLanguage(request.params)
+
+    let content = this.cache.items[lang]
       .filter(x => x.sell && x.buy)
       .map(x => ({
         id: x.id,
         price: Math.max(x.sell.price, x.buy.price)
       }))
+
+    response.send(content)
   }
 
-  categories () {
-    return categories
+  categories (request, response) {
+    response.send(categories)
   }
 
-  autocomplete (params, lang) {
-    let query = params.q.toLowerCase()
-    let craftable = parseInt(params.craftable, 10) === 1
+  autocomplete (request, response) {
+    if (!request.params.q) {
+      return this.invalidParameters(response)
+    }
+
+    let lang = this.requestLanguage(request.params)
+    let query = request.params.q.toLowerCase()
+    let craftable = parseInt(request.params.craftable, 10) === 1
 
     if (query.length < 3) {
-      return []
+      return response.send([])
     }
 
     let matches = this.cache.items[lang]
@@ -105,20 +75,41 @@ class ItemController extends AbstractController {
       return a - b
     })
 
-    return matches.slice(0, 20)
+    matches = matches.slice(0, 20)
+
+    response.send(matches)
   }
 
-  byName (names, lang) {
+  byName (request, response) {
+    let lang = this.requestLanguage(request.params)
+
+    if (!request.params.names) {
+      return this.invalidParameters(response)
+    }
+
+    let names = this.multiParameter(request.params.names)
     names = names.map(x => x.toLowerCase())
-    return this.cache.items[lang]
+
+    let content = this.cache.items[lang]
       .filter(x => names.indexOf(x.name.toLowerCase()) !== -1)
+
+    response.send(content)
   }
 
-  bySkin (skin, lang) {
-    return this.cache.items[lang]
+  bySkin (request, response) {
+    let lang = this.requestLanguage(request.params)
+    let skin_id = parseInt(request.params.skin_id, 10)
+
+    if (!skin_id) {
+      return this.invalidParameters(response)
+    }
+
+    let content = this.cache.items[lang]
       .filter(x => x.skin)
-      .filter(x => skin === x.skin)
+      .filter(x => skin_id === x.skin)
       .map(x => x.id)
+
+    response.send(content)
   }
 }
 
