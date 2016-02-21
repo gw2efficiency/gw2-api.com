@@ -150,5 +150,30 @@ server.listen(12345, () => {
       expect(itemControllerSpy.calledOnce).to.equal(true)
       expect(itemControllerSpy.args[0][0]).to.equal('cache')
     })
+
+    it('binds controllers correctly to routes', () => {
+      let bind = routes.__get__('bindController')
+      let controller = {
+        someMethod: function (req, res) {
+          res.send({text: 'Some', context: this})
+        }
+      }
+
+      let boundController = bind(controller, 'someMethod')
+      expect(boundController).to.be.a.function
+
+      let res = {cache: sinon.spy(), charSet: sinon.spy(), send: sinon.spy()}
+      let next = sinon.spy()
+      boundController({path: () => ''}, res, next)
+
+      expect(res.cache.calledOnce).to.equal(true)
+      expect(res.charSet.calledOnce).to.equal(true)
+      expect(res.sendParent.calledOnce).to.equal(true)
+      expect(next.calledOnce).to.equal(true)
+      expect(res.sendParent.args[0][0]).to.deep.equal({
+        text: 'Some',
+        context: controller
+      })
+    })
   })
 })
