@@ -206,4 +206,50 @@ describe('controllers > item', () => {
     expect(response.send.args[0][0]).to.equal(500)
     expect(response.send.args[0][1]).to.deep.equal({text: 'invalid request parameters'})
   })
+
+  it('handles /items/query', () => {
+    let response = {send: sinon.spy()}
+
+    cache.items.en.push({id: 1, name: 'Foo', rarity: 0, category: [1, 2], buy: {price: 0}, sell: {price: 123}})
+    cache.items.en.push({id: 2, name: 'Bar', rarity: 1, category: [2], buy: {price: 123}, sell: {price: 456}})
+    cache.items.en.push({id: 3, name: 'FooBar', rarity: 2, craftable: true})
+    cache.items.en.push({id: 4, name: 'Herp', rarity: 4, category: [1], buy: {price: 789}, sell: {price: 1011}})
+    cache.items.en.push({id: 5, name: 'Hurp', rarity: 4, category: [1, 3]})
+
+    controller.query({params: {ids: 'query'}}, response)
+    expect(response.send.args[0][0]).to.deep.equal([1, 2, 3, 4, 5])
+
+    controller.query({params: {ids: 'query', rarities: '1;2'}}, response)
+    expect(response.send.args[1][0]).to.deep.equal([2, 3])
+
+    controller.query({params: {ids: 'query', craftable: '1'}}, response)
+    expect(response.send.args[2][0]).to.deep.equal([3])
+
+    controller.query({params: {ids: 'query', exclude_name: 'Foo'}}, response)
+    expect(response.send.args[3][0]).to.deep.equal([2, 4, 5])
+
+    controller.query({params: {ids: 'query', include_name: 'Foo'}}, response)
+    expect(response.send.args[4][0]).to.deep.equal([1, 3])
+
+    controller.query({params: {ids: 'query', categories: '1'}}, response)
+    expect(response.send.args[5][0]).to.deep.equal([1, 4, 5])
+
+    controller.query({params: {ids: 'query', categories: '1,2'}}, response)
+    expect(response.send.args[6][0]).to.deep.equal([1])
+
+    controller.query({params: {ids: 'query', categories: '1,2;1,3'}}, response)
+    expect(response.send.args[7][0]).to.deep.equal([1, 5])
+
+    controller.query({params: {ids: 'query', categories: '1;2'}}, response)
+    expect(response.send.args[8][0]).to.deep.equal([1, 2, 4, 5])
+
+    controller.query({params: {ids: 'query', categories: '1,2;2'}}, response)
+    expect(response.send.args[9][0]).to.deep.equal([1, 2])
+
+    controller.query({params: {ids: 'query', output: 'prices'}}, response)
+    expect(response.send.args[10][0]).to.deep.equal({
+      buy: {min: 0, avg: 304, max: 789},
+      sell: {min: 123, avg: 530, max: 1011}
+    })
+  })
 })

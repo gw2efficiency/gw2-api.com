@@ -56,9 +56,9 @@ In the future, [gw2-api.com](https://gw2-api.com) will stay online, but it will 
 - [X] `/items/autocomplete`
 - [X] `/items/by-name`
 - [X] `/items/by-skin`
-- [ ] `/items/query`
+- [X] `/items/query`
 - [ ] `/skins/resolve`
-- [ ] `/recipe/nested/:id`
+- [ ] `/recipe/nested/:id` (+ `craftable` prop on items)
 - [X] `/gems/history`
 
 ## Endpoints

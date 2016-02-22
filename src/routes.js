@@ -17,6 +17,7 @@ function setup (server, sharedCache) {
   server.get('/items/autocomplete', bindController(item, 'autocomplete'))
   server.get('/items/by-name', bindController(item, 'byName'))
   server.get('/items/by-skin', bindController(item, 'bySkin'))
+  server.get('/items/query', bindController(item, 'query'))
   server.get('/items/:ids', bindController(item, 'byIds'))
   server.get('/gems/history', bindController(gem, 'history'))
 }

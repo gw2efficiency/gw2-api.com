@@ -29,7 +29,8 @@ routes.__set__('ItemController', () => ({
   autocomplete: (req, res) => res.send('ItemController.autocomplete'),
   byName: (req, res) => res.send('ItemController.byName'),
   bySkin: (req, res) => res.send('ItemController.bySkin'),
-  categories: (req, res) => res.send('ItemController.categories')
+  categories: (req, res) => res.send('ItemController.categories'),
+  query: (req, res) => res.send('ItemController.query')
 }))
 
 // Start a mock server and test the routing on that
@@ -123,6 +124,14 @@ server.listen(12345, () => {
       client.get('/items/categories', (err, req, res, data) => {
         if (err) throw err
         expect(data).to.equal('ItemController.categories')
+        done()
+      })
+    })
+
+    it('/items/query gets called correctly', (done) => {
+      client.get('/items/query', (err, req, res, data) => {
+        if (err) throw err
+        expect(data).to.equal('ItemController.query')
         done()
       })
     })

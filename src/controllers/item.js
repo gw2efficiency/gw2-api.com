@@ -97,19 +97,65 @@ class ItemController extends AbstractController {
   }
 
   bySkin (request, response) {
-    let lang = this.requestLanguage(request.params)
     let skin_id = parseInt(request.params.skin_id, 10)
 
     if (!skin_id) {
       return this.invalidParameters(response)
     }
 
-    let content = this.cache.items[lang]
+    let content = this.cache.items['en']
       .filter(x => x.skin)
       .filter(x => skin_id === x.skin)
       .map(x => x.id)
 
     response.send(content)
+  }
+
+  query (request, response) {
+    let categories = this.multiParameter(request.params.categories, false, ';')
+    let rarities = this.multiParameter(request.params.rarities, true, ';')
+    let craftable = request.params.craftable
+    let excludeName = request.params.exclude_name
+    let includeName = request.params.include_name
+    let output = request.params.output
+
+    let items = this.cache.items['en']
+
+    if (categories.length > 0) {
+      items = filterByCategories(items, categories)
+    }
+
+    if (rarities.length > 0) {
+      items = items.filter(i => rarities.indexOf(i.rarity) !== -1)
+    }
+
+    if (craftable !== undefined) {
+      items = items.filter(i => i.craftable)
+    }
+
+    if (excludeName !== undefined) {
+      excludeName = excludeName.toLowerCase()
+      items = items.filter(i => i.name.toLowerCase().indexOf(excludeName) === -1)
+    }
+
+    if (includeName !== undefined) {
+      includeName = includeName.toLowerCase()
+      items = items.filter(i => i.name.toLowerCase().indexOf(includeName) !== -1)
+    }
+
+    if (output !== 'prices') {
+      return response.send(items.map(i => i.id))
+    }
+
+    let buyPrices = items.filter(i => i.buy).map(i => i.buy.price)
+    let sellPrices = items.filter(i => i.sell).map(i => i.sell.price)
+
+    items = {
+      buy: valueBreakdown(buyPrices),
+      sell: valueBreakdown(sellPrices)
+    }
+
+    response.send(items)
   }
 }
 
@@ -121,6 +167,40 @@ function matchQuality (target, query) {
 
   let index = target.indexOf(query)
   return 1 + index
+}
+
+// Filter an array of items by categories
+function filterByCategories (items, categories) {
+  categories = categories.map(x => x.split(',').map(y => parseInt(y, 10)))
+  items = items.filter(i => i.category)
+
+  // Filter categories by the first level
+  let firstLevel = categories.map(x => x[0])
+  items = items.filter(i => firstLevel.indexOf(i.category[0]) !== -1)
+
+  // IF a second level is defined, generate a map of allowed second levels
+  // and see if the items with the first level match the second level
+  categories = categories.filter(c => c.length > 1)
+  let secondLevel = {}
+  categories.map(c => {
+    secondLevel[c[0]] = (secondLevel[c[0]] || []).concat([c[1]])
+  })
+
+  for (let c in secondLevel) {
+    c = parseInt(c, 10)
+    items = items.filter(i => c !== i.category[0] || secondLevel[c].indexOf(i.category[1]) !== -1)
+  }
+
+  return items
+}
+
+// Get min, avg and max out of a list of values
+function valueBreakdown (array) {
+  return {
+    min: Math.min.apply(null, array),
+    avg: Math.round(array.reduce((x, y) => x + y, 0) / array.length),
+    max: Math.max.apply(null, array)
+  }
 }
 
 module.exports = ItemController
