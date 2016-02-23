@@ -3,6 +3,7 @@ const logger = require('../logger.js')
 const async = require('async-promises')
 const rarities = require('../static/rarities.js')
 const categories = require('../static/categories.js')
+const mergeById = require('../helpers/mergeById.js')
 
 class ItemWorker extends AbstractWorker {
   async initialize () {
@@ -36,28 +37,6 @@ class ItemWorker extends AbstractWorker {
       this.cache.items[lang] = mergeById(this.cache.items[lang], prices, true, transformPrices)
     }
   }
-}
-
-// Merge an array of objects and an another array of objects into each other based on id.
-// Optional skipping of non existing entries as well as transforming based on both objects
-function mergeById (original, additional, skipNonExisting = false, transformer = null) {
-  original = original || []
-
-  additional.map(addElem => {
-    let orgElem = original.find(x => x.id === addElem.id)
-
-    if (skipNonExisting && !orgElem) {
-      return
-    }
-
-    if (transformer) {
-      addElem = transformer(orgElem, addElem)
-    }
-
-    orgElem ? Object.assign(orgElem, addElem) : original.push(addElem)
-  })
-
-  return original
 }
 
 // Transform an item into the expected legacy structure
