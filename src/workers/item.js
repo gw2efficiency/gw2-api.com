@@ -6,9 +6,12 @@ const categories = require('../static/categories.js')
 const mergeById = require('../helpers/mergeById.js')
 
 class ItemWorker extends AbstractWorker {
-  async initialize () {
-    await this.execute(this.loadItems)
-    await this.execute(this.loadItemPrices)
+  async initialize (forceInitial) {
+    if (forceInitial) {
+      await this.execute(this.loadItems)
+      await this.execute(this.loadItemPrices)
+    }
+
     this.schedule(this.loadItems, 60 * 60)
     this.schedule(this.loadItemPrices, 60)
     logger.success('Initialized ItemWorker')

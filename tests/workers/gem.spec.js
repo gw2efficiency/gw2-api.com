@@ -12,6 +12,7 @@ describe('workers > gem', () => {
   let api
   let cache
   beforeEach(() => {
+    loggerMock.success.reset()
     api = sinon.spy()
     cache = {}
     worker = new Module(api, cache)
@@ -22,6 +23,19 @@ describe('workers > gem', () => {
     worker.schedule = sinon.spy()
 
     await worker.initialize()
+
+    expect(worker.execute.callCount).to.equal(0)
+    expect(worker.schedule.calledOnce).to.equal(true)
+    expect(worker.schedule.args[0][0].name).to.equal('loadGemPriceHistory')
+    expect(worker.schedule.args[0][1]).to.be.an.integer
+    expect(loggerMock.success.calledOnce).to.equal(true)
+  })
+
+  it('initializes correctly when forced to load initial data', async () => {
+    worker.execute = sinon.spy()
+    worker.schedule = sinon.spy()
+
+    await worker.initialize(true)
 
     expect(worker.execute.calledOnce).to.equal(true)
     expect(worker.execute.args[0][0].name).to.equal('loadGemPriceHistory')

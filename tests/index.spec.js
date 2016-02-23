@@ -15,7 +15,7 @@ const gemWorkerSpy = sinon.spy()
 const loggerStub = sinon.stub(require('../src/logger.js'))
 
 const server = proxyquire('../src/index.js', {
-  './cache.js': {},
+  './cache.js': {load: () => {}, state: {}},
   './logger.js': loggerStub,
   './routes.js': routesSpy,
   './workers/item.js': itemWorkerSpy,

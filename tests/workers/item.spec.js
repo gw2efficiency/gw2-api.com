@@ -13,6 +13,7 @@ describe('workers > item', () => {
   let worker
   let cache
   beforeEach(() => {
+    loggerMock.success.reset()
     cache = {}
     worker = new Module(api, cache)
   })
@@ -22,6 +23,23 @@ describe('workers > item', () => {
     worker.schedule = sinon.spy()
 
     await worker.initialize()
+
+    expect(worker.execute.callCount).to.equal(0)
+
+    expect(worker.schedule.calledTwice).to.equal(true)
+    expect(worker.schedule.args[0][0].name).to.equal('loadItems')
+    expect(worker.schedule.args[0][1]).to.be.an.integer
+    expect(worker.schedule.args[1][0].name).to.equal('loadItemPrices')
+    expect(worker.schedule.args[1][1]).to.be.an.integer
+
+    expect(loggerMock.success.calledOnce).to.equal(true)
+  })
+
+  it('initializes correctly when forced to load the initial data', async () => {
+    worker.execute = sinon.spy()
+    worker.schedule = sinon.spy()
+
+    await worker.initialize(true)
 
     expect(worker.execute.calledTwice).to.equal(true)
     expect(worker.execute.args[0][0].name).to.equal('loadItems')
