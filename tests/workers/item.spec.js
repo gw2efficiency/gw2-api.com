@@ -17,6 +17,82 @@ describe('workers > item', () => {
     worker = new Module(api, cache)
   })
 
+  it('merges correctly', () => {
+    let mergeById = Module.__get__('mergeById')
+
+    expect(mergeById(
+      undefined,
+      [{id: 1, name: 'Durr'}]
+    )).to.deep.equal(
+      [{id: 1, name: 'Durr'}]
+    )
+
+    expect(mergeById(
+      [{id: 1, name: 'Hurr'}],
+      [{id: 1, name: 'Durr'}]
+    )).to.deep.equal(
+      [{id: 1, name: 'Durr'}]
+    )
+
+    expect(mergeById(
+      [{id: 1, name: 'Hurr'}],
+      [{id: 2, name: 'Durr'}]
+    )).to.deep.equal(
+      [{id: 1, name: 'Hurr'}, {id: 2, name: 'Durr'}]
+    )
+
+    expect(mergeById(
+      [{id: 1, name: 'Hurr', prices: 'something'}],
+      [{id: 1, name: 'Durr'}]
+    )).to.deep.equal(
+      [{id: 1, name: 'Durr', prices: 'something'}]
+    )
+
+    expect(mergeById(
+      [
+        {id: 1, name: 'Hurr', prices: 'something'},
+        {id: 2, name: 'Durr', prices: 'something else'}
+      ],
+      [
+        {id: 1, prices: 'something'},
+        {id: 2, prices: 'also something'},
+        {id: 3, prices: 'and also something'}
+      ]
+    )).to.deep.equal(
+      [
+        {id: 1, name: 'Hurr', prices: 'something'},
+        {id: 2, name: 'Durr', prices: 'also something'},
+        {id: 3, prices: 'and also something'}
+      ]
+    )
+
+    expect(mergeById(
+      [
+        {id: 1, name: 'Hurr', prices: 'something'},
+        {id: 2, name: 'Durr', prices: 'something else'}
+      ],
+      [
+        {id: 1, prices: 'something'},
+        {id: 2, prices: 'also something'},
+        {id: 3, prices: 'and also something'}
+      ], true
+    )).to.deep.equal(
+      [
+        {id: 1, name: 'Hurr', prices: 'something'},
+        {id: 2, name: 'Durr', prices: 'also something'}
+      ]
+    )
+
+    expect(mergeById(
+      [{id: 1, name: 'Foo'}],
+      [{id: 1, name: 'Bar'}],
+      false,
+      (x, y) => ({name: x.name + y.name})
+    )).to.deep.equal(
+      [{id: 1, name: 'FooBar'}]
+    )
+  })
+
   it('initializes correctly', async () => {
     worker.execute = sinon.spy()
     worker.schedule = sinon.spy()
@@ -54,6 +130,39 @@ describe('workers > item', () => {
       fr: ['Fiz Buz'],
       es: ['Fiz Buz']
     })
+
+    Module.__set__('transformItem', transformer)
+  })
+
+  it('doesn\'t overwrite the items', async () => {
+    let transformer = Module.__get__('transformItem')
+    Module.__set__('transformItem', x => x)
+
+    cache.items = {
+      en: [
+        {id: 1, name: 'Fiz', someKey: 'someValue'},
+        {id: 2, name: 'Herp'}
+      ]
+    }
+
+    worker.api = () => ({
+      language: () => ({
+        items: () => ({
+          all: () => [
+            {id: 1, name: 'Fiz Buz'},
+            {id: 2, name: 'Herp', someOtherKey: 'someOtherValue'},
+            {id: 3, name: 'Shiny new item'}
+          ]
+        })
+      })
+    })
+
+    await worker.loadItems()
+    expect(cache.items.en).to.deep.equal([
+      {id: 1, name: 'Fiz Buz', someKey: 'someValue'},
+      {id: 2, name: 'Herp', someOtherKey: 'someOtherValue'},
+      {id: 3, name: 'Shiny new item'}
+    ])
 
     Module.__set__('transformItem', transformer)
   })
@@ -104,19 +213,6 @@ describe('workers > item', () => {
       },
       {id: 2, name: 'Another test item'}
     ])
-  })
-
-  it('transforms an array into a map', () => {
-    let array = [
-      {id: 1, name: 'foo'},
-      {id: 2, name: 'bar'}
-    ]
-    let map = {
-      1: {id: 1, name: 'foo'},
-      2: {id: 2, name: 'bar'}
-    }
-
-    expect(Module.__get__('convertIntoMap')(array)).to.deep.equal(map)
   })
 
   it('creates an legacy ISO timestamp', () => {
@@ -251,8 +347,6 @@ describe('workers > item', () => {
       }
     }
     let output = {
-      id: 123,
-      name: 'Foo',
       buy: {
         quantity: 156,
         price: 18053,
@@ -283,8 +377,6 @@ describe('workers > item', () => {
   it('holds old data if the price information doesn\'t change', () => {
     let currentDate = Module.__get__('isoDate')()
     let itemInput = {
-      id: 123,
-      name: 'Foo',
       buy: {
         quantity: 156,
         price: 18053,
@@ -316,8 +408,6 @@ describe('workers > item', () => {
       }
     }
     let expectedOutput = {
-      id: 123,
-      name: 'Foo',
       buy: {
         quantity: 156,
         price: 18053,
@@ -346,8 +436,6 @@ describe('workers > item', () => {
   it('can track changes if the price information changes', () => {
     let currentDate = Module.__get__('isoDate')()
     let itemInput = {
-      id: 123,
-      name: 'Foo',
       buy: {
         quantity: 156,
         price: 18053,
@@ -379,8 +467,6 @@ describe('workers > item', () => {
       }
     }
     let expectedOutput = {
-      id: 123,
-      name: 'Foo',
       buy: {
         quantity: 106,
         price: 18153,

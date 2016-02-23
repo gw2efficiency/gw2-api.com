@@ -21,35 +21,43 @@ class ItemWorker extends AbstractWorker {
       () => this.api().language('es').items().all()
     ])
 
+    this.cache.items = this.cache.items || {}
     this.cache.items = {
-      en: items[0].map(transformItem),
-      de: items[1].map(transformItem),
-      fr: items[2].map(transformItem),
-      es: items[3].map(transformItem)
+      en: mergeById(this.cache.items.en, items[0].map(transformItem)),
+      de: mergeById(this.cache.items.de, items[1].map(transformItem)),
+      fr: mergeById(this.cache.items.fr, items[2].map(transformItem)),
+      es: mergeById(this.cache.items.es, items[3].map(transformItem))
     }
   }
 
   async loadItemPrices () {
     let prices = await this.api().commerce().prices().all()
-    prices = convertIntoMap(prices)
-
     for (let lang in this.cache.items) {
-      this.cache.items[lang] = this.cache.items[lang].map(item => {
-        if (prices[item.id] === undefined) {
-          return item
-        }
-        return transformPrices(item, prices[item.id])
-      })
+      this.cache.items[lang] = mergeById(this.cache.items[lang], prices, true, transformPrices)
     }
   }
 }
 
-function convertIntoMap (array) {
-  var map = {}
-  array.map(element => {
-    map[element.id] = element
+// Merge an array of objects and an another array of objects into each other based on id.
+// Optional skipping of non existing entries as well as transforming based on both objects
+function mergeById (original, additional, skipNonExisting = false, transformer = null) {
+  original = original || []
+
+  additional.map(addElem => {
+    let orgElem = original.find(x => x.id === addElem.id)
+
+    if (skipNonExisting && !orgElem) {
+      return
+    }
+
+    if (transformer) {
+      addElem = transformer(orgElem, addElem)
+    }
+
+    orgElem ? Object.assign(orgElem, addElem) : original.push(addElem)
   })
-  return map
+
+  return original
 }
 
 // Transform an item into the expected legacy structure
@@ -108,7 +116,6 @@ function transformTradable (flags) {
 
 function transformPrices (item, prices) {
   return {
-    ...item,
     buy: {
       quantity: prices.buys.quantity,
       price: prices.buys.unit_price,
