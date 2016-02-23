@@ -46,27 +46,22 @@ To fix this, and to try out the other node modules for [gw2efficiency.com](https
 
 In the future, [gw2-api.com](https://gw2-api.com) will stay online, but it will not be used in production anymore. Instead, it will be integrated into [gw2efficiency.com](https://gw2efficiency.com/) directly.
 
-## Rebuilding old PHP version in Javascript
-
-- [X] `/item/:id`
-- [X] `/items/:ids`
-- [X] `/items/all`
-- [X] `/items/all-prices`
-- [X] `/items/categories`
-- [X] `/items/autocomplete`
-- [X] `/items/by-name`
-- [X] `/items/by-skin`
-- [X] `/items/query`
-- [ ] `/skins/resolve`
-- [ ] `/recipe/nested/:id` (+ `craftable` prop on items)
-- [X] `/gems/history`
-
-## Implement new endpoints
-
-- [ ] `/skins/prices`
-- [ ] `/recipe/cost/:id`
-
 ## Endpoints
+
+- [X] [`/item/:id`](#itemid)
+- [X] [`/items/:ids`](#itemsids)
+- [X] [`/items/all`](#itemsall)
+- [X] [`/items/all-prices`](#itemsall-prices)
+- [X] [`/items/autocomplete`](#itemsautocomplete)
+- [X] [`/items/by-name`](#itemsby-name)
+- [X] [`/items/by-skin`](#itemsby-skin)
+- [X] [`/items/query`](#itemsquery)
+- [X] [`/items/categories`](#itemscategories)
+- [ ] [`/skins/resolve`](#skinsresolve)
+- [ ] `/skins/prices`
+- [ ] [`/recipe/nested/:id`](#recipenestedid) (+ `craftable` prop on items)
+- [ ] `/recipe/cost/:ids`
+- [X] [`/gems/history`](#gemshistory)
 
 ### `/item/:id`
 
