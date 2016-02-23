@@ -1,6 +1,5 @@
 /* eslint-env node, mocha */
 const expect = require('chai').expect
-const sinon = require('sinon')
 const mergeById = require('../../src/helpers/mergeById.js')
 
 describe('helpers > mergeById', () => {
