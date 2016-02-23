@@ -61,6 +61,11 @@ In the future, [gw2-api.com](https://gw2-api.com) will stay online, but it will 
 - [ ] `/recipe/nested/:id` (+ `craftable` prop on items)
 - [X] `/gems/history`
 
+## Implement new endpoints
+
+- [ ] `/skins/prices`
+- [ ] `/recipe/cost/:id`
+
 ## Endpoints
 
 ### `/item/:id`
