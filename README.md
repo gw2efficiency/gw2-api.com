@@ -299,7 +299,7 @@ This endpoint returns a list of all skin ids with their respective item ids.
 }
 ```
 
-### `/skins/resolve`
+### `/skins/prices`
 
 This endpoint returns a list of all buyable skin ids with their respective cheapest prices.
 
