@@ -58,7 +58,7 @@ In the future, [gw2-api.com](https://gw2-api.com) will stay online, but it will 
 - [X] [`/items/query`](#itemsquery)
 - [X] [`/items/categories`](#itemscategories)
 - [ ] [`/skins/resolve`](#skinsresolve)
-- [ ] `/skins/prices`
+- [ ] [`/skins/prices`](#skinsprices)
 - [ ] [`/recipe/nested/:id`](#recipenestedid) (+ `craftable` prop on items)
 - [ ] `/recipe/cost/:ids`
 - [X] [`/gems/history`](#gemshistory)
@@ -295,6 +295,18 @@ This endpoint returns a list of all skin ids with their respective item ids.
 {
   "1": [2902,2903 /* ... */],
   "18":[2534,2535,2557 /* ... */],
+  // ...
+}
+```
+
+### `/skins/resolve`
+
+This endpoint returns a list of all buyable skin ids with their respective cheapest prices.
+
+```js
+{
+  "1": 123,
+  "18": 456,
   // ...
 }
 ```
