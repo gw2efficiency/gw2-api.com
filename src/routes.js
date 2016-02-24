@@ -1,11 +1,13 @@
 const logger = require('./logger.js')
 const ItemController = require('./controllers/item.js')
 const GemController = require('./controllers/gem.js')
+const SkinController = require('./controllers/skin.js')
 
 // Setup all routes
 function setup (server, sharedCache) {
   const gem = new GemController(sharedCache)
   const item = new ItemController(sharedCache)
+  const skin = new SkinController(sharedCache)
 
   server.get('/', (req, res, next) => res.redirect('https://github.com/gw2efficiency/gw2-api.com/', next))
   server.get('/item', bindController(item, 'byId'))
@@ -19,6 +21,7 @@ function setup (server, sharedCache) {
   server.get('/items/by-skin', bindController(item, 'bySkin'))
   server.get('/items/query', bindController(item, 'query'))
   server.get('/items/:ids', bindController(item, 'byIds'))
+  server.get('/skins/resolve', bindController(skin, 'resolve'))
   server.get('/gems/history', bindController(gem, 'history'))
 }
 

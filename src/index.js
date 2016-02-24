@@ -6,14 +6,15 @@ const setupRoutes = require('./routes.js')
 
 // Load cache and set up background saving
 cache.load()
-let forceInitialLoad = Object.keys(cache.state).length === 0
 setInterval(cache.save, 10 * 60 * 1000)
 
 // Setup the background workers
 const ItemWorker = new (require('./workers/item.js'))(api, cache.state)
 const GemWorker = new (require('./workers/gem.js'))(api, cache.state)
-ItemWorker.initialize(forceInitialLoad)
-GemWorker.initialize(forceInitialLoad)
+const SkinWorker = new (require('./workers/skin.js'))(api, cache.state)
+ItemWorker.initialize(cache.state.items === undefined)
+GemWorker.initialize(cache.state.gemPriceHistory === undefined)
+SkinWorker.initialize(cache.state.skinsToItems === undefined)
 
 // Setup the controller and routes
 const server = restify.createServer({name: 'gw2-api.com'})

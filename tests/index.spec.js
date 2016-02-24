@@ -9,17 +9,19 @@ const client = restify.createJsonClient({
   version: '*'
 })
 
-const itemWorkerSpy = sinon.spy()
 const routesSpy = sinon.spy()
-const gemWorkerSpy = sinon.spy()
 const loggerStub = sinon.stub(require('../src/logger.js'))
+const itemWorkerSpy = sinon.spy()
+const gemWorkerSpy = sinon.spy()
+const skinWorkerSpy = sinon.spy()
 
 const server = proxyquire('../src/index.js', {
   './cache.js': {load: () => {}, state: {}},
   './logger.js': loggerStub,
   './routes.js': routesSpy,
   './workers/item.js': itemWorkerSpy,
-  './workers/gem.js': gemWorkerSpy
+  './workers/gem.js': gemWorkerSpy,
+  './workers/skin.js': skinWorkerSpy
 })
 
 describe('server', () => {
@@ -41,6 +43,7 @@ describe('server', () => {
   it('initializes the workers', () => {
     expect(gemWorkerSpy.calledWithNew()).to.equal(true)
     expect(itemWorkerSpy.calledWithNew()).to.equal(true)
+    expect(skinWorkerSpy.calledWithNew()).to.equal(true)
   })
 
   it('logs errors and returns the correct response for missing routes', (done) => {

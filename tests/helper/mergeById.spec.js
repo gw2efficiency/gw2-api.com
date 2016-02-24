@@ -2,7 +2,7 @@
 const expect = require('chai').expect
 const mergeById = require('../../src/helpers/mergeById.js')
 
-describe('helpers > mergeById', () => {
+describe('helpers > merge by id', () => {
   it('handles an non-existing array', () => {
     expect(mergeById(
       undefined,

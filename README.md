@@ -57,7 +57,7 @@ In the future, [gw2-api.com](https://gw2-api.com) will stay online, but it will 
 - [X] [`/items/by-skin`](#itemsby-skin)
 - [X] [`/items/query`](#itemsquery)
 - [X] [`/items/categories`](#itemscategories)
-- [ ] [`/skins/resolve`](#skinsresolve)
+- [X] [`/skins/resolve`](#skinsresolve)
 - [ ] [`/skins/prices`](#skinsprices)
 - [ ] [`/recipe/nested/:id`](#recipenestedid) (+ `craftable` prop on items)
 - [ ] `/recipe/cost/:ids`

@@ -21,7 +21,6 @@ routes.__set__('GemController', () => ({
 
 // ItemController overwrite
 routes.__set__('ItemController', () => ({
-  handle: (req, res) => res.send('ItemController.handle'),
   byId: (req, res) => res.send('ItemController.byId'),
   byIds: (req, res) => res.send('ItemController.byIds'),
   all: (req, res) => res.send('ItemController.all'),
@@ -31,6 +30,11 @@ routes.__set__('ItemController', () => ({
   bySkin: (req, res) => res.send('ItemController.bySkin'),
   categories: (req, res) => res.send('ItemController.categories'),
   query: (req, res) => res.send('ItemController.query')
+}))
+
+// SkinController overwrite
+routes.__set__('SkinController', () => ({
+  resolve: (req, res) => res.send('SkinController.resolve')
 }))
 
 // Start a mock server and test the routing on that
@@ -132,6 +136,14 @@ server.listen(12345, () => {
       client.get('/items/query', (err, req, res, data) => {
         if (err) throw err
         expect(data).to.equal('ItemController.query')
+        done()
+      })
+    })
+
+    it('/skins/resolve gets called correctly', (done) => {
+      client.get('/skins/resolve', (err, req, res, data) => {
+        if (err) throw err
+        expect(data).to.equal('SkinController.resolve')
         done()
       })
     })
