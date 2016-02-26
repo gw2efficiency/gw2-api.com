@@ -60,7 +60,7 @@ In the future, [gw2-api.com](https://gw2-api.com) will stay online, but it will 
 - [X] [`/skins/resolve`](#skinsresolve)
 - [ ] [`/skins/prices`](#skinsprices)
 - [ ] [`/recipe/nested/:id`](#recipenestedid) (+ `craftable` prop on items)
-- [ ] `/recipe/cost/:ids`
+- [ ] [`/recipe/cost/:ids`](#recipecostids)
 - [X] [`/gems/history`](#gemshistory)
 
 ### `/item/:id`
@@ -313,7 +313,11 @@ This endpoint returns a list of all buyable skin ids with their respective cheap
 
 ### `/recipe/nested/:id`
 
-This endpoint returns a nested recipe. All components that can be crafted include their respective recipe and subcomponents.
+This endpoint returns a nested recipe for that item (if a recipe exists). All components that can be crafted include their respective recipe and subcomponents.
+
+**Parameters**
+
+- `id`: An item id, either in the url or as a GET/POST parameter
 
 ```js
 {
@@ -332,6 +336,24 @@ This endpoint returns a nested recipe. All components that can be crafted includ
     },
     // ...
   ]
+}
+```
+
+### `/recipe/cost/:ids`
+
+This endpoint returns the crafting costs for the given item ids. `craft_buy` is the price if you order the materials, `craft_sell` the price if you instantly buy the materials.
+
+**Parameters**
+
+- `ids`: An array or a comma separated list of one or more item ids, either in the url or as a GET/POST parameter
+
+```js
+{
+  "31083": {
+    "craft_buy": 123,
+    "craft_sell": 456
+  },
+  // ...
 }
 ```
 
