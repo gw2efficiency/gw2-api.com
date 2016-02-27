@@ -1,25 +1,17 @@
 const restify = require('restify')
 const logger = require('./logger.js')
-const api = require('gw2api-client')
-const cache = require('./cache.js')
+const sharedStorage = require('./sharedStorage.js')
 const setupRoutes = require('./routes.js')
 
-// Load cache and set up background saving
-cache.load()
-setInterval(cache.save, 10 * 60 * 1000)
+// Initially load the shared memory and set up loading it every
+// minute to enable connecting our workers to the server
+sharedStorage.read()
+setInterval(sharedStorage.read, 60 * 1000)
 
-// Setup the background workers
-const ItemWorker = new (require('./workers/item.js'))(api, cache.state)
-const GemWorker = new (require('./workers/gem.js'))(api, cache.state)
-const SkinWorker = new (require('./workers/skin.js'))(api, cache.state)
-ItemWorker.initialize(cache.state.items === undefined)
-GemWorker.initialize(cache.state.gemPriceHistory === undefined)
-SkinWorker.initialize(cache.state.skinsToItems === undefined)
-
-// Setup the controller and routes
+// Setup a server and connect the routes
 const server = restify.createServer({name: 'gw2-api.com'})
 server.use(restify.queryParser())
-setupRoutes(server, cache.state)
+setupRoutes(server, sharedStorage.state)
 server.listen(8080, () => logger.info('Server listening on port 8080'))
 
 // Setup error handling

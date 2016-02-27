@@ -3,8 +3,8 @@ const logger = require('../logger.js')
 const scraping = require('gw2api-scraping')
 
 class GemWorker extends AbstractWorker {
-  async initialize (forceInitial) {
-    if (forceInitial) {
+  async initialize () {
+    if (this.cache.state.gemPriceHistory === undefined) {
       await this.execute(this.loadGemPriceHistory)
     }
 
@@ -14,10 +14,11 @@ class GemWorker extends AbstractWorker {
 
   async loadGemPriceHistory () {
     let prices = await scraping.gemPriceHistory()
-    this.cache.gemPriceHistory = {
+    this.cache.state.gemPriceHistory = {
       gold_to_gem: prices.goldToGems,
       gem_to_gold: prices.gemsToGold
     }
+    this.cache.write()
   }
 }
 

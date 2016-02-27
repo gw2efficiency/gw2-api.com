@@ -2,8 +2,8 @@ const AbstractWorker = require('../worker.js')
 const logger = require('../logger.js')
 
 class SkinWorker extends AbstractWorker {
-  async initialize (forceInitial) {
-    if (forceInitial) {
+  async initialize () {
+    if (this.cache.state.items !== undefined && this.cache.state.skinsToItems === undefined) {
       await this.execute(this.loadSkinList)
     }
 
@@ -13,7 +13,7 @@ class SkinWorker extends AbstractWorker {
 
   async loadSkinList () {
     let skins = await this.api().skins().all()
-    let items = this.cache.items.en.map(x => ({id: x.id, name: x.name.trim()}))
+    let items = this.cache.state.items.en.map(x => ({id: x.id, name: x.name.trim()}))
 
     // Try and resolve the skins from items
     skins = skins.map(s => {
@@ -25,7 +25,7 @@ class SkinWorker extends AbstractWorker {
     // Map skin ids to an array of item ids
     let map = {}
     skins.map(s => map[s.id] = s.items)
-    this.cache.skinsToItems = map
+    this.cache.state.skinsToItems = map
 
     // Show how many skins we failed to resolve
     let missingSkinItems = skins.filter(s => s.items.length === 0)

@@ -6,8 +6,8 @@ const categories = require('../static/categories.js')
 const mergeById = require('../helpers/mergeById.js')
 
 class ItemWorker extends AbstractWorker {
-  async initialize (forceInitial) {
-    if (forceInitial) {
+  async initialize () {
+    if (this.cache.state.items === undefined) {
       await this.execute(this.loadItems)
       await this.execute(this.loadItemPrices)
     }
@@ -25,20 +25,22 @@ class ItemWorker extends AbstractWorker {
       () => this.api().language('es').items().all()
     ])
 
-    this.cache.items = this.cache.items || {}
-    this.cache.items = {
-      en: mergeById(this.cache.items.en, items[0].map(transformItem)),
-      de: mergeById(this.cache.items.de, items[1].map(transformItem)),
-      fr: mergeById(this.cache.items.fr, items[2].map(transformItem)),
-      es: mergeById(this.cache.items.es, items[3].map(transformItem))
+    this.cache.state.items = this.cache.state.items || {}
+    this.cache.state.items = {
+      en: mergeById(this.cache.state.items.en, items[0].map(transformItem)),
+      de: mergeById(this.cache.state.items.de, items[1].map(transformItem)),
+      fr: mergeById(this.cache.state.items.fr, items[2].map(transformItem)),
+      es: mergeById(this.cache.state.items.es, items[3].map(transformItem))
     }
+    this.cache.write()
   }
 
   async loadItemPrices () {
     let prices = await this.api().commerce().prices().all()
     for (let lang in this.cache.items) {
-      this.cache.items[lang] = mergeById(this.cache.items[lang], prices, true, transformPrices)
+      this.cache.state.items[lang] = mergeById(this.cache.state.items[lang], prices, true, transformPrices)
     }
+    this.cache.write()
   }
 }
 
