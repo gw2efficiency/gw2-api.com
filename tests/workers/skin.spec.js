@@ -2,64 +2,70 @@
 const expect = require('chai').expect
 const sinon = require('sinon')
 const rewire = require('rewire')
-const Module = rewire('../../src/workers/skin.js')
+const worker = rewire('../../src/workers/skin.js')
 
 const loggerMock = {success: sinon.spy(), info: sinon.spy()}
-Module.__set__('logger', loggerMock)
+worker.__set__('logger', loggerMock)
 
-describe('workers > skin', () => {
-  let worker
-  let api
-  let cache
+const executeMock = sinon.spy()
+const scheduleMock = sinon.spy()
+
+worker.__set__('execute', executeMock)
+worker.__set__('schedule', scheduleMock)
+
+describe('workers > skin worker', () => {
   beforeEach(() => {
     loggerMock.success.reset()
-    loggerMock.info.reset()
-    api = sinon.spy()
-    cache = {}
-    worker = new Module(api, cache)
+    executeMock.reset()
+    scheduleMock.reset()
+    worker.__get__('storage').set('gemPriceHistory')
   })
 
-  it('initializes correctly', async () => {
-    worker.execute = sinon.spy()
-    worker.schedule = sinon.spy()
-
+  it('initializes correctly without data', async () => {
+    let storage = worker.__get__('storage')
+    worker.__set__('storage', {
+      set: () => true,
+      get: (key) => (key === 'items') ? '...' : undefined
+    })
     await worker.initialize()
 
-    expect(worker.execute.callCount).to.equal(0)
-    expect(worker.schedule.calledOnce).to.equal(true)
-    expect(worker.schedule.args[0][0].name).to.equal('loadSkinList')
-    expect(worker.schedule.args[0][1]).to.be.an.integer
+    expect(executeMock.calledOnce).to.equal(true)
+    expect(executeMock.args[0][0].name).to.equal('loadSkinList')
+    expect(scheduleMock.calledOnce).to.equal(true)
+    expect(scheduleMock.args[0][0].name).to.equal('loadSkinList')
+    expect(scheduleMock.args[0][1]).to.be.an.integer
     expect(loggerMock.success.calledOnce).to.equal(true)
+    worker.__set__('storage', storage)
   })
 
-  it('initializes correctly when forced to load initial data', async () => {
-    worker.execute = sinon.spy()
-    worker.schedule = sinon.spy()
+  it('initializes correctly with data', async () => {
+    let storage = worker.__get__('storage')
+    worker.__set__('storage', {
+      set: () => true,
+      get: () => 'we have data!'
+    })
+    await worker.initialize()
 
-    await worker.initialize(true)
-
-    expect(worker.execute.calledOnce).to.equal(true)
-    expect(worker.execute.args[0][0].name).to.equal('loadSkinList')
-    expect(worker.schedule.calledOnce).to.equal(true)
-    expect(worker.schedule.args[0][0].name).to.equal('loadSkinList')
-    expect(worker.schedule.args[0][1]).to.be.an.integer
+    expect(executeMock.callCount).to.equal(0)
+    expect(scheduleMock.calledOnce).to.equal(true)
+    expect(scheduleMock.args[0][0].name).to.equal('loadSkinList')
+    expect(scheduleMock.args[0][1]).to.be.an.integer
     expect(loggerMock.success.calledOnce).to.equal(true)
+    worker.__set__('storage', storage)
   })
 
   it('loads the skins and resolves into items', async () => {
-    worker.cache = {
-      items: {
-        en: [
-          {id: 1, name: 'Foo', skin: 1},
-          {id: 2, name: 'Bar'},
-          {id: 3, name: 'Bar    '},
-          {id: 4, name: 'Some Skin'},
-          {id: 5, name: 'Something about cake'}
-        ]
-      }
-    }
+    worker.__get__('storage').set('items', {
+      en: [
+        {id: 1, name: 'Foo', skin: 1},
+        {id: 2, name: 'Bar'},
+        {id: 3, name: 'Bar    '},
+        {id: 4, name: 'Some Skin'},
+        {id: 5, name: 'Something about cake'}
+      ]
+    })
 
-    worker.api = () => ({
+    worker.__set__('api', () => ({
       skins: () => ({
         all: () => [
           {id: 1, name: 'Foo'},
@@ -69,10 +75,10 @@ describe('workers > skin', () => {
           {id: 5, name: 'herp'}
         ]
       })
-    })
+    }))
 
     await worker.loadSkinList()
-    expect(worker.cache.skinsToItems).to.deep.equal({
+    expect(worker.__get__('storage').get('skinsToItems')).to.deep.equal({
       '1': [1],
       '2': [2, 3],
       '3': [4],
@@ -84,7 +90,7 @@ describe('workers > skin', () => {
   })
 
   it('resolves skins correctly', () => {
-    let resolve = Module.__get__('resolveSkin')
+    let resolve = worker.__get__('resolveSkin')
     let items = [
       {id: 1, name: 'Foo', skin: 1},
       {id: 2, name: 'Bar'},

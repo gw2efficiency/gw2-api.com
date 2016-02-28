@@ -3,91 +3,91 @@ const expect = require('chai').expect
 const sinon = require('sinon')
 const rewire = require('rewire')
 const mockdate = require('mockdate')
-const api = new (require('gw2api-client'))()
-const Module = rewire('../../src/workers/item.js')
+const worker = rewire('../../src/workers/item.js')
 
 const loggerMock = {success: sinon.spy()}
-Module.__set__('logger', loggerMock)
+worker.__set__('logger', loggerMock)
 
-describe('workers > item', () => {
-  let worker
-  let cache
+const executeMock = sinon.spy()
+const scheduleMock = sinon.spy()
+
+worker.__set__('execute', executeMock)
+worker.__set__('schedule', scheduleMock)
+
+describe('workers > item worker', () => {
   beforeEach(() => {
+    worker.__get__('storage').set('items')
     loggerMock.success.reset()
-    cache = {}
-    worker = new Module(api, cache)
+    executeMock.reset()
+    scheduleMock.reset()
   })
 
-  it('initializes correctly', async () => {
-    worker.execute = sinon.spy()
-    worker.schedule = sinon.spy()
-
+  it('initializes correctly without data', async () => {
     await worker.initialize()
 
-    expect(worker.execute.callCount).to.equal(0)
-
-    expect(worker.schedule.calledTwice).to.equal(true)
-    expect(worker.schedule.args[0][0].name).to.equal('loadItems')
-    expect(worker.schedule.args[0][1]).to.be.an.integer
-    expect(worker.schedule.args[1][0].name).to.equal('loadItemPrices')
-    expect(worker.schedule.args[1][1]).to.be.an.integer
-
+    expect(executeMock.calledTwice).to.equal(true)
+    expect(executeMock.args[0][0].name).to.equal('loadItems')
+    expect(executeMock.args[1][0].name).to.equal('loadItemPrices')
+    expect(scheduleMock.calledTwice).to.equal(true)
+    expect(scheduleMock.args[0][0].name).to.equal('loadItems')
+    expect(scheduleMock.args[0][1]).to.be.an.integer
+    expect(scheduleMock.args[1][0].name).to.equal('loadItemPrices')
+    expect(scheduleMock.args[1][1]).to.be.an.integer
     expect(loggerMock.success.calledOnce).to.equal(true)
   })
 
-  it('initializes correctly when forced to load the initial data', async () => {
-    worker.execute = sinon.spy()
-    worker.schedule = sinon.spy()
+  it('initializes correctly with data', async () => {
+    let storage = worker.__get__('storage')
+    worker.__set__('storage', {
+      set: () => true,
+      get: () => 'we have data!'
+    })
+    await worker.initialize()
 
-    await worker.initialize(true)
-
-    expect(worker.execute.calledTwice).to.equal(true)
-    expect(worker.execute.args[0][0].name).to.equal('loadItems')
-    expect(worker.execute.args[1][0].name).to.equal('loadItemPrices')
-
-    expect(worker.schedule.calledTwice).to.equal(true)
-    expect(worker.schedule.args[0][0].name).to.equal('loadItems')
-    expect(worker.schedule.args[0][1]).to.be.an.integer
-    expect(worker.schedule.args[1][0].name).to.equal('loadItemPrices')
-    expect(worker.schedule.args[1][1]).to.be.an.integer
-
+    expect(executeMock.callCount).to.equal(0)
+    expect(scheduleMock.calledTwice).to.equal(true)
+    expect(scheduleMock.args[0][0].name).to.equal('loadItems')
+    expect(scheduleMock.args[0][1]).to.be.an.integer
+    expect(scheduleMock.args[1][0].name).to.equal('loadItemPrices')
+    expect(scheduleMock.args[1][1]).to.be.an.integer
     expect(loggerMock.success.calledOnce).to.equal(true)
+    worker.__set__('storage', storage)
   })
 
   it('loads the items', async () => {
-    let transformer = Module.__get__('transformItem')
-    Module.__set__('transformItem', x => x.name)
-    worker.api = () => ({
+    let transformer = worker.__get__('transformItem')
+    worker.__set__('transformItem', x => x.name)
+    worker.__set__('api', () => ({
       language: () => ({
         items: () => ({
           all: () => [{id: 1, name: 'Fiz Buz'}]
         })
       })
-    })
+    }))
 
     await worker.loadItems()
-    expect(cache.items).to.deep.equal({
+    worker.__set__('transformItem', transformer)
+
+    expect(worker.__get__('storage').get('items')).to.deep.equal({
       de: ['Fiz Buz'],
       en: ['Fiz Buz'],
       fr: ['Fiz Buz'],
       es: ['Fiz Buz']
     })
-
-    Module.__set__('transformItem', transformer)
   })
 
   it('doesn\'t overwrite the items', async () => {
-    let transformer = Module.__get__('transformItem')
-    Module.__set__('transformItem', x => x)
+    let transformer = worker.__get__('transformItem')
+    worker.__set__('transformItem', x => x)
 
-    cache.items = {
+    worker.__get__('storage').set('items', {
       en: [
         {id: 1, name: 'Fiz', someKey: 'someValue'},
         {id: 2, name: 'Herp'}
       ]
-    }
+    })
 
-    worker.api = () => ({
+    worker.__set__('api', () => ({
       language: () => ({
         items: () => ({
           all: () => [
@@ -97,28 +97,28 @@ describe('workers > item', () => {
           ]
         })
       })
-    })
+    }))
 
     await worker.loadItems()
-    expect(cache.items.en).to.deep.equal([
+    expect(worker.__get__('storage').get('items').en).to.deep.equal([
       {id: 1, name: 'Fiz Buz', someKey: 'someValue'},
       {id: 2, name: 'Herp', someOtherKey: 'someOtherValue'},
       {id: 3, name: 'Shiny new item'}
     ])
 
-    Module.__set__('transformItem', transformer)
+    worker.__set__('transformItem', transformer)
   })
 
   it('loads the item prices', async () => {
-    let currentDate = Module.__get__('isoDate')()
-    cache.items = {
+    let currentDate = worker.__get__('isoDate')()
+    worker.__get__('storage').set('items', {
       en: [
         {id: 1, name: 'Test Item'},
         {id: 2, name: 'Another test item'}
       ]
-    }
+    })
 
-    worker.api = () => ({
+    worker.__set__('api', () => ({
       commerce: () => ({
         prices: () => ({
           all: () => [{
@@ -134,10 +134,10 @@ describe('workers > item', () => {
           }]
         })
       })
-    })
+    }))
 
     await worker.loadItemPrices()
-    expect(cache.items.en).to.deep.equal([
+    expect(worker.__get__('storage').get('items').en).to.deep.equal([
       {
         id: 1,
         name: 'Test Item',
@@ -159,10 +159,10 @@ describe('workers > item', () => {
 
   it('creates an legacy ISO timestamp', () => {
     mockdate.set('Sat Nov 17 2014 05:07:00 GMT+0100 (GMT)')
-    expect(Module.__get__('isoDate')()).to.equal('2014-11-17T04:07:00+0000')
+    expect(worker.__get__('isoDate')()).to.equal('2014-11-17T04:07:00+0000')
     mockdate.reset()
 
-    let date = Module.__get__('isoDate')('Sat Nov 17 2015 05:07:00 GMT+0100 (GMT)')
+    let date = worker.__get__('isoDate')('Sat Nov 17 2015 05:07:00 GMT+0100 (GMT)')
     expect(date).to.equal('2015-11-17T04:07:00+0000')
   })
 
@@ -229,55 +229,55 @@ describe('workers > item', () => {
       tradable: true
     }
 
-    let x = Module.__get__('transformItem')(input)
+    let x = worker.__get__('transformItem')(input)
     expect(x).to.deep.equal(output)
   })
 
   it('transforms the API item level', () => {
-    expect(Module.__get__('transformLevel')(0)).to.equal(null)
-    expect(Module.__get__('transformLevel')('80')).to.equal(80)
+    expect(worker.__get__('transformLevel')(0)).to.equal(null)
+    expect(worker.__get__('transformLevel')('80')).to.equal(80)
   })
 
   it('transforms the API item rarity', () => {
-    expect(Module.__get__('transformRarity')('Ascended')).to.equal(6)
+    expect(worker.__get__('transformRarity')('Ascended')).to.equal(6)
   })
 
   it('transforms the API item level', () => {
-    expect(Module.__get__('transformSkin')()).to.equal(null)
-    expect(Module.__get__('transformSkin')('80')).to.equal(80)
+    expect(worker.__get__('transformSkin')()).to.equal(null)
+    expect(worker.__get__('transformSkin')('80')).to.equal(80)
   })
 
   it('transforms the API item description', () => {
-    expect(Module.__get__('transformDescription')()).to.equal(null)
-    expect(Module.__get__('transformDescription')('')).to.equal(null)
-    expect(Module.__get__('transformDescription')('Foobar')).to.equal('Foobar')
-    expect(Module.__get__('transformDescription')('Foobar <b>Lol</b>')).to.equal('Foobar Lol')
+    expect(worker.__get__('transformDescription')()).to.equal(null)
+    expect(worker.__get__('transformDescription')('')).to.equal(null)
+    expect(worker.__get__('transformDescription')('Foobar')).to.equal('Foobar')
+    expect(worker.__get__('transformDescription')('Foobar <b>Lol</b>')).to.equal('Foobar Lol')
   })
 
   it('transforms the API item category', () => {
-    let a = Module.__get__('transformCategory')('Consumable', {type: 'ContractNpc'})
+    let a = worker.__get__('transformCategory')('Consumable', {type: 'ContractNpc'})
     expect(a).to.deep.equal([3, 2])
 
-    let b = Module.__get__('transformCategory')('Armor', {})
+    let b = worker.__get__('transformCategory')('Armor', {})
     expect(b).to.deep.equal([0])
 
-    let c = Module.__get__('transformCategory')('Armor')
+    let c = worker.__get__('transformCategory')('Armor')
     expect(c).to.deep.equal([0])
 
-    let d = Module.__get__('transformCategory')()
+    let d = worker.__get__('transformCategory')()
     expect(d).to.deep.equal([])
   })
 
   it('transforms the API item tradable flag', () => {
-    let x = Module.__get__('transformTradable')(['AccountBound'])
+    let x = worker.__get__('transformTradable')(['AccountBound'])
     expect(x).to.equal(false)
 
-    let y = Module.__get__('transformTradable')(['SomeFlag'])
+    let y = worker.__get__('transformTradable')(['SomeFlag'])
     expect(y).to.equal(true)
   })
 
   it('transforms an API item price into the legacy structure', () => {
-    let currentDate = Module.__get__('isoDate')()
+    let currentDate = worker.__get__('isoDate')()
     let prices = {
       buys: {
         quantity: 156,
@@ -311,13 +311,13 @@ describe('workers > item', () => {
     }
 
     let item = {id: 123, name: 'Foo'}
-    let x = Module.__get__('transformPrices')(item, prices)
+    let x = worker.__get__('transformPrices')(item, prices)
     expect(item).to.deep.equal({id: 123, name: 'Foo'})
     expect(x).to.deep.equal(output)
   })
 
   it('holds old data if the price information doesn\'t change', () => {
-    let currentDate = Module.__get__('isoDate')()
+    let currentDate = worker.__get__('isoDate')()
     let itemInput = {
       buy: {
         quantity: 156,
@@ -371,12 +371,12 @@ describe('workers > item', () => {
       last_update: currentDate
     }
 
-    let x = Module.__get__('transformPrices')(itemInput, priceInput)
+    let x = worker.__get__('transformPrices')(itemInput, priceInput)
     expect(x).to.deep.equal(expectedOutput)
   })
 
   it('can track changes if the price information changes', () => {
-    let currentDate = Module.__get__('isoDate')()
+    let currentDate = worker.__get__('isoDate')()
     let itemInput = {
       buy: {
         quantity: 156,
@@ -430,7 +430,7 @@ describe('workers > item', () => {
       last_update: currentDate
     }
 
-    let x = Module.__get__('transformPrices')(itemInput, priceInput)
+    let x = worker.__get__('transformPrices')(itemInput, priceInput)
     expect(x).to.deep.equal(expectedOutput)
   })
 })

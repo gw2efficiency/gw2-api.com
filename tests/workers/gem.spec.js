@@ -2,51 +2,54 @@
 const expect = require('chai').expect
 const sinon = require('sinon')
 const rewire = require('rewire')
-const Module = rewire('../../src/workers/gem.js')
+const worker = rewire('../../src/workers/gem.js')
 
 const loggerMock = {success: sinon.spy()}
-Module.__set__('logger', loggerMock)
+worker.__set__('logger', loggerMock)
 
-describe('workers > gem', () => {
-  let worker
-  let api
-  let cache
+const executeMock = sinon.spy()
+const scheduleMock = sinon.spy()
+
+worker.__set__('execute', executeMock)
+worker.__set__('schedule', scheduleMock)
+
+describe('workers > gem worker', () => {
   beforeEach(() => {
     loggerMock.success.reset()
-    api = sinon.spy()
-    cache = {}
-    worker = new Module(api, cache)
+    executeMock.reset()
+    scheduleMock.reset()
+    worker.__get__('storage').set('gemPriceHistory')
   })
 
-  it('initializes correctly', async () => {
-    worker.execute = sinon.spy()
-    worker.schedule = sinon.spy()
-
+  it('initializes correctly without data', async () => {
     await worker.initialize()
 
-    expect(worker.execute.callCount).to.equal(0)
-    expect(worker.schedule.calledOnce).to.equal(true)
-    expect(worker.schedule.args[0][0].name).to.equal('loadGemPriceHistory')
-    expect(worker.schedule.args[0][1]).to.be.an.integer
+    expect(executeMock.calledOnce).to.equal(true)
+    expect(executeMock.args[0][0].name).to.equal('loadGemPriceHistory')
+    expect(scheduleMock.calledOnce).to.equal(true)
+    expect(scheduleMock.args[0][0].name).to.equal('loadGemPriceHistory')
+    expect(scheduleMock.args[0][1]).to.be.an.integer
     expect(loggerMock.success.calledOnce).to.equal(true)
   })
 
-  it('initializes correctly when forced to load initial data', async () => {
-    worker.execute = sinon.spy()
-    worker.schedule = sinon.spy()
+  it('initializes correctly with data', async () => {
+    let storage = worker.__get__('storage')
+    worker.__set__('storage', {
+      set: () => true,
+      get: () => 'we have data!'
+    })
+    await worker.initialize()
 
-    await worker.initialize(true)
-
-    expect(worker.execute.calledOnce).to.equal(true)
-    expect(worker.execute.args[0][0].name).to.equal('loadGemPriceHistory')
-    expect(worker.schedule.calledOnce).to.equal(true)
-    expect(worker.schedule.args[0][0].name).to.equal('loadGemPriceHistory')
-    expect(worker.schedule.args[0][1]).to.be.an.integer
+    expect(executeMock.callCount).to.equal(0)
+    expect(scheduleMock.calledOnce).to.equal(true)
+    expect(scheduleMock.args[0][0].name).to.equal('loadGemPriceHistory')
+    expect(scheduleMock.args[0][1]).to.be.an.integer
     expect(loggerMock.success.calledOnce).to.equal(true)
+    worker.__set__('storage', storage)
   })
 
   it('loads the gem price history', async () => {
-    Module.__set__('scraping', {
+    worker.__set__('scraping', {
       gemPriceHistory: () => ({
         gemsToGold: [1, 2, 3],
         goldToGems: [4, 5, 6]
@@ -54,7 +57,7 @@ describe('workers > gem', () => {
     })
 
     await worker.loadGemPriceHistory()
-    expect(cache.gemPriceHistory).to.deep.equal({
+    expect(worker.__get__('storage').get('gemPriceHistory')).to.deep.equal({
       gold_to_gem: [4, 5, 6],
       gem_to_gold: [1, 2, 3]
     })

@@ -2,20 +2,17 @@
 const expect = require('chai').expect
 const sinon = require('sinon')
 const rewire = require('rewire')
-const Module = rewire('../../src/controllers/gem.js')
+const controller = rewire('../../src/controllers/gem.js')
+
+let storage = controller.__get__('storage')
+storage.save = sinon.spy()
+storage.load = sinon.spy()
 
 describe('controllers > gem', () => {
-  let controller
-  let cache
-  beforeEach(() => {
-    cache = {gemPriceHistory: {}}
-    controller = new Module(cache)
-  })
-
   it('handles /gems/history', async () => {
     let content = {gold: [1, 2, 3], gems: [4, 5, 6]}
     let response = {send: sinon.spy()}
-    cache.gemPriceHistory = content
+    storage.set('gemPriceHistory', content)
 
     controller.history(null, response)
     expect(response.send.calledOnce).to.equal(true)

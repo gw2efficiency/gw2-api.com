@@ -18,7 +18,7 @@ cd gw2-api.com/
 npm run-script build
 
 # Run the server
-node build/index.js
+node build/server.js
 
 # Run the background worker
 node build/worker.js

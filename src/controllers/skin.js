@@ -1,9 +1,7 @@
-const AbstractController = require('../controller.js')
+const storage = require('../helpers/sharedStorage.js')
 
-class SkinController extends AbstractController {
-  resolve (request, response) {
-    response.send(this.cache.skinsToItems)
-  }
+function resolve (request, response) {
+  response.send(storage.get('skinsToItems'))
 }
 
-module.exports = SkinController
+module.exports = {resolve}

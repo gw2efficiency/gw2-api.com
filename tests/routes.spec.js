@@ -15,12 +15,12 @@ const loggerMock = {info: sinon.spy(), success: sinon.spy(), error: sinon.spy()}
 routes.__set__('logger', loggerMock)
 
 // GemController overwrite
-routes.__set__('GemController', () => ({
+routes.__set__('gem', {
   history: (req, res) => res.send('GemController.history')
-}))
+})
 
 // ItemController overwrite
-routes.__set__('ItemController', () => ({
+routes.__set__('item', {
   byId: (req, res) => res.send('ItemController.byId'),
   byIds: (req, res) => res.send('ItemController.byIds'),
   all: (req, res) => res.send('ItemController.all'),
@@ -30,12 +30,12 @@ routes.__set__('ItemController', () => ({
   bySkin: (req, res) => res.send('ItemController.bySkin'),
   categories: (req, res) => res.send('ItemController.categories'),
   query: (req, res) => res.send('ItemController.query')
-}))
+})
 
 // SkinController overwrite
-routes.__set__('SkinController', () => ({
+routes.__set__('skin', {
   resolve: (req, res) => res.send('SkinController.resolve')
-}))
+})
 
 // Start a mock server and test the routing on that
 const server = restify.createServer()
@@ -156,31 +156,14 @@ server.listen(12345, () => {
       })
     })
 
-    it('initializes all controllers with the correct cache object', () => {
-      let mockServer = {get: () => {}}
-      let gemControllerSpy = sinon.spy()
-      let itemControllerSpy = sinon.spy()
-
-      routes.__set__('GemController', gemControllerSpy)
-      routes.__set__('ItemController', itemControllerSpy)
-
-      routes(mockServer, 'cache')
-
-      expect(gemControllerSpy.calledOnce).to.equal(true)
-      expect(gemControllerSpy.args[0][0]).to.equal('cache')
-      expect(itemControllerSpy.calledOnce).to.equal(true)
-      expect(itemControllerSpy.args[0][0]).to.equal('cache')
-    })
-
     it('binds controllers correctly to routes', () => {
-      let bind = routes.__get__('bindController')
-      let controller = {
-        someMethod: function (req, res) {
-          res.send({text: 'Some', context: this})
-        }
+      let wrap = routes.__get__('wrapRequest')
+
+      function someMethod (req, res) {
+        res.send({text: 'Some'})
       }
 
-      let boundController = bind(controller, 'someMethod')
+      let boundController = wrap(someMethod)
       expect(boundController).to.be.a.function
 
       let res = {cache: sinon.spy(), charSet: sinon.spy(), send: sinon.spy()}
@@ -191,10 +174,7 @@ server.listen(12345, () => {
       expect(res.charSet.calledOnce).to.equal(true)
       expect(res.sendParent.calledOnce).to.equal(true)
       expect(next.calledOnce).to.equal(true)
-      expect(res.sendParent.args[0][0]).to.deep.equal({
-        text: 'Some',
-        context: controller
-      })
+      expect(res.sendParent.args[0][0]).to.deep.equal({text: 'Some'})
     })
   })
 })
