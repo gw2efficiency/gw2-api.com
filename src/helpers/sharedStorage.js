@@ -2,7 +2,7 @@ const logger = require('./logger.js')
 const redis = require('redis').createClient()
 const cacheKey = 'gw2api-shared-storage'
 
-let onError = (err) => logger.error('Redis error: ', err)
+let onError = (err) => logger.error('Redis error: ' + err.message)
 redis.on('error', onError)
 
 let state = {}

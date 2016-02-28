@@ -24,7 +24,7 @@ describe('helpers > shared storage', () => {
     storage.__set__('redis', redis)
 
     redis.on('error', storage.__get__('onError'))
-    redis.emit('error')
+    redis.emit('error', {message: 'Oh no.'})
 
     setTimeout(() => {
       expect(loggerMock.error.callCount).to.be.above(0)
