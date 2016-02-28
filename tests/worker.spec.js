@@ -10,7 +10,7 @@ proxyquire('../src/worker.js', {
   './workers/item.js': {initialize: itemWorkerSpy},
   './workers/gem.js': {initialize: gemWorkerSpy},
   './workers/skin.js': {initialize: skinWorkerSpy},
-  './helpers/sharedStorage.js': {load: () => new Promise(r => r())}
+  './helpers/sharedStorage.js': {load: () => new Promise(resolve => resolve())}
 })
 
 describe('workers', () => {

@@ -8,17 +8,19 @@ const loggerMock = {success: sinon.spy()}
 worker.__set__('logger', loggerMock)
 
 const executeMock = sinon.spy()
-const scheduleMock = sinon.spy()
-
 worker.__set__('execute', executeMock)
+
+const scheduleMock = sinon.spy()
 worker.__set__('schedule', scheduleMock)
+
+let storage = worker.__get__('storage')
 
 describe('workers > gem worker', () => {
   beforeEach(() => {
     loggerMock.success.reset()
     executeMock.reset()
     scheduleMock.reset()
-    worker.__get__('storage').set('gemPriceHistory')
+    storage.set('gemPriceHistory')
   })
 
   it('initializes correctly without data', async () => {
@@ -33,7 +35,6 @@ describe('workers > gem worker', () => {
   })
 
   it('initializes correctly with data', async () => {
-    let storage = worker.__get__('storage')
     worker.__set__('storage', {
       set: () => true,
       get: () => 'we have data!'
@@ -57,7 +58,7 @@ describe('workers > gem worker', () => {
     })
 
     await worker.loadGemPriceHistory()
-    expect(worker.__get__('storage').get('gemPriceHistory')).to.deep.equal({
+    expect(storage.get('gemPriceHistory')).to.deep.equal({
       gold_to_gem: [4, 5, 6],
       gem_to_gold: [1, 2, 3]
     })

@@ -5,7 +5,7 @@ const sharedStorage = require('./helpers/sharedStorage.js')
 const {setupRoutes, setupErrorHandling} = require('./routes.js')
 
 // Initially load the shared memory and set up loading it every
-// minute to enable connecting our workers to the server
+// minute to enable connecting our worker to the server cluster
 sharedStorage.load()
 setInterval(sharedStorage.load, 60 * 1000)
 

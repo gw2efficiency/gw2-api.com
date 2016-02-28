@@ -9,14 +9,16 @@ const loggerMock = {success: sinon.spy()}
 worker.__set__('logger', loggerMock)
 
 const executeMock = sinon.spy()
-const scheduleMock = sinon.spy()
-
 worker.__set__('execute', executeMock)
+
+const scheduleMock = sinon.spy()
 worker.__set__('schedule', scheduleMock)
+
+let storage = worker.__get__('storage')
 
 describe('workers > item worker', () => {
   beforeEach(() => {
-    worker.__get__('storage').set('items')
+    storage.set('items')
     loggerMock.success.reset()
     executeMock.reset()
     scheduleMock.reset()
@@ -37,7 +39,6 @@ describe('workers > item worker', () => {
   })
 
   it('initializes correctly with data', async () => {
-    let storage = worker.__get__('storage')
     worker.__set__('storage', {
       set: () => true,
       get: () => 'we have data!'
@@ -68,7 +69,7 @@ describe('workers > item worker', () => {
     await worker.loadItems()
     worker.__set__('transformItem', transformer)
 
-    expect(worker.__get__('storage').get('items')).to.deep.equal({
+    expect(storage.get('items')).to.deep.equal({
       de: ['Fiz Buz'],
       en: ['Fiz Buz'],
       fr: ['Fiz Buz'],
@@ -80,7 +81,7 @@ describe('workers > item worker', () => {
     let transformer = worker.__get__('transformItem')
     worker.__set__('transformItem', x => x)
 
-    worker.__get__('storage').set('items', {
+    storage.set('items', {
       en: [
         {id: 1, name: 'Fiz', someKey: 'someValue'},
         {id: 2, name: 'Herp'}
@@ -100,7 +101,7 @@ describe('workers > item worker', () => {
     }))
 
     await worker.loadItems()
-    expect(worker.__get__('storage').get('items').en).to.deep.equal([
+    expect(storage.get('items').en).to.deep.equal([
       {id: 1, name: 'Fiz Buz', someKey: 'someValue'},
       {id: 2, name: 'Herp', someOtherKey: 'someOtherValue'},
       {id: 3, name: 'Shiny new item'}
@@ -111,7 +112,7 @@ describe('workers > item worker', () => {
 
   it('loads the item prices', async () => {
     let currentDate = worker.__get__('isoDate')()
-    worker.__get__('storage').set('items', {
+    storage.set('items', {
       en: [
         {id: 1, name: 'Test Item'},
         {id: 2, name: 'Another test item'}
@@ -137,7 +138,7 @@ describe('workers > item worker', () => {
     }))
 
     await worker.loadItemPrices()
-    expect(worker.__get__('storage').get('items').en).to.deep.equal([
+    expect(storage.get('items').en).to.deep.equal([
       {
         id: 1,
         name: 'Test Item',

@@ -4,14 +4,9 @@ const expect = require('chai').expect
 const sinon = require('sinon')
 
 const routesSpy = sinon.spy()
-const loggerStub = sinon.stub(require('../src/helpers/logger.js'))
-
 const server = proxyquire('../src/server.js', {
-  './helpers/sharedStorage.js': {
-    load: () => {
-    }, state: {}
-  },
-  './helpers/logger.js': loggerStub,
+  './helpers/sharedStorage.js': {load: () => true},
+  './helpers/logger.js': sinon.stub(require('../src/helpers/logger.js')),
   './routes.js': {setupRoutes: routesSpy, setupErrorHandling: routesSpy}
 })
 

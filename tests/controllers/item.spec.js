@@ -5,8 +5,6 @@ const rewire = require('rewire')
 const controller = rewire('../../src/controllers/item.js')
 
 let storage = controller.__get__('storage')
-storage.save = sinon.spy()
-storage.load = sinon.spy()
 
 describe('controllers > item', () => {
   beforeEach(() => {

@@ -8,21 +8,22 @@ const loggerMock = {success: sinon.spy(), info: sinon.spy()}
 worker.__set__('logger', loggerMock)
 
 const executeMock = sinon.spy()
-const scheduleMock = sinon.spy()
-
 worker.__set__('execute', executeMock)
+
+const scheduleMock = sinon.spy()
 worker.__set__('schedule', scheduleMock)
+
+let storage = worker.__get__('storage')
 
 describe('workers > skin worker', () => {
   beforeEach(() => {
     loggerMock.success.reset()
     executeMock.reset()
     scheduleMock.reset()
-    worker.__get__('storage').set('gemPriceHistory')
+    storage.set('gemPriceHistory')
   })
 
   it('initializes correctly without data', async () => {
-    let storage = worker.__get__('storage')
     worker.__set__('storage', {
       set: () => true,
       get: (key) => (key === 'items') ? '...' : undefined
@@ -39,7 +40,6 @@ describe('workers > skin worker', () => {
   })
 
   it('initializes correctly with data', async () => {
-    let storage = worker.__get__('storage')
     worker.__set__('storage', {
       set: () => true,
       get: () => 'we have data!'
@@ -55,7 +55,7 @@ describe('workers > skin worker', () => {
   })
 
   it('loads the skins and resolves into items', async () => {
-    worker.__get__('storage').set('items', {
+    storage.set('items', {
       en: [
         {id: 1, name: 'Foo', skin: 1},
         {id: 2, name: 'Bar'},
@@ -78,7 +78,7 @@ describe('workers > skin worker', () => {
     }))
 
     await worker.loadSkinList()
-    expect(worker.__get__('storage').get('skinsToItems')).to.deep.equal({
+    expect(storage.get('skinsToItems')).to.deep.equal({
       '1': [1],
       '2': [2, 3],
       '3': [4],

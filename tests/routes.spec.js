@@ -14,12 +14,12 @@ const routes = rewire('../src/routes.js')
 const loggerMock = {info: sinon.spy(), success: sinon.spy(), error: sinon.spy()}
 routes.__set__('logger', loggerMock)
 
-// GemController overwrite
+// gem controller overwrite
 routes.__set__('gem', {
   history: (req, res) => res.send('GemController.history')
 })
 
-// ItemController overwrite
+// item controller overwrite
 routes.__set__('item', {
   byId: (req, res) => res.send('ItemController.byId'),
   byIds: (req, res) => res.send('ItemController.byIds'),
@@ -32,7 +32,7 @@ routes.__set__('item', {
   query: (req, res) => res.send('ItemController.query')
 })
 
-// SkinController overwrite
+// skin controller overwrite
 routes.__set__('skin', {
   resolve: (req, res) => res.send('SkinController.resolve')
 })

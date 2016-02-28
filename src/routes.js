@@ -25,7 +25,7 @@ function wrapRequest (callback) {
   return (request, response, next) => {
     logger.info('Receiving request: ' + request.path() + ' (' + callback.name + ')')
 
-    // Set the cache and charset settings
+    // Set the default cache and charset settings
     response.cache('public', {maxAge: 5 * 60})
     response.charSet('utf-8')
 
