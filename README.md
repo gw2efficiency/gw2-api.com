@@ -11,7 +11,7 @@
   - [Redis](http://redis.io/) for sharing memory between worker and servers
   - A process manager to keep the processes running, in this example [pm2](https://github.com/Unitech/pm2)
 
-```
+```sh
 # Clone the repository and build the worker and server files
 git clone https://github.com/gw2efficiency/gw2-api.com
 cd gw2-api.com/
