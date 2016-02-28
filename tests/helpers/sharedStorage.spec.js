@@ -19,13 +19,17 @@ describe('helpers > shared storage', () => {
     storage.__set__('redis', redisMock)
   })
 
-  it('shows the error if redis errors out', () => {
+  it('shows the error if redis errors out', done => {
     let redis = new EventEmitter()
     storage.__set__('redis', redis)
 
     redis.on('error', storage.__get__('onError'))
     redis.emit('error')
-    expect(loggerMock.error.calledOnce).to.be.true
+
+    setTimeout(() => {
+      expect(loggerMock.error.calledOnce).to.be.true
+      done()
+    }, 10)
   })
 
   it('loads the storage from redis', () => {
