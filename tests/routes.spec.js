@@ -14,13 +14,13 @@ const routes = rewire('../src/routes.js')
 const loggerMock = {info: sinon.spy(), success: sinon.spy(), error: sinon.spy()}
 routes.__set__('logger', loggerMock)
 
-// GemController overwrite
-routes.__set__('GemController', () => ({
+// gem controller overwrite
+routes.__set__('gem', {
   history: (req, res) => res.send('GemController.history')
-}))
+})
 
-// ItemController overwrite
-routes.__set__('ItemController', () => ({
+// item controller overwrite
+routes.__set__('item', {
   byId: (req, res) => res.send('ItemController.byId'),
   byIds: (req, res) => res.send('ItemController.byIds'),
   all: (req, res) => res.send('ItemController.all'),
@@ -30,19 +30,26 @@ routes.__set__('ItemController', () => ({
   bySkin: (req, res) => res.send('ItemController.bySkin'),
   categories: (req, res) => res.send('ItemController.categories'),
   query: (req, res) => res.send('ItemController.query')
-}))
+})
 
-// SkinController overwrite
-routes.__set__('SkinController', () => ({
+// skin controller overwrite
+routes.__set__('skin', {
   resolve: (req, res) => res.send('SkinController.resolve')
-}))
+})
 
 // Start a mock server and test the routing on that
 const server = restify.createServer()
 server.listen(12345, () => {
-  routes(server, 'cache')
+  beforeEach(() => {
+    loggerMock.info.reset()
+    loggerMock.success.reset()
+    loggerMock.error.reset()
+  })
 
-  describe('routing', () => {
+  routes.setupRoutes(server)
+  routes.setupErrorHandling(server)
+
+  describe('routes > setup routes', () => {
     it('/ gets called correctly', (done) => {
       client.get('/', (err, req, res) => {
         if (err) throw err
@@ -156,31 +163,14 @@ server.listen(12345, () => {
       })
     })
 
-    it('initializes all controllers with the correct cache object', () => {
-      let mockServer = {get: () => {}}
-      let gemControllerSpy = sinon.spy()
-      let itemControllerSpy = sinon.spy()
-
-      routes.__set__('GemController', gemControllerSpy)
-      routes.__set__('ItemController', itemControllerSpy)
-
-      routes(mockServer, 'cache')
-
-      expect(gemControllerSpy.calledOnce).to.equal(true)
-      expect(gemControllerSpy.args[0][0]).to.equal('cache')
-      expect(itemControllerSpy.calledOnce).to.equal(true)
-      expect(itemControllerSpy.args[0][0]).to.equal('cache')
-    })
-
     it('binds controllers correctly to routes', () => {
-      let bind = routes.__get__('bindController')
-      let controller = {
-        someMethod: function (req, res) {
-          res.send({text: 'Some', context: this})
-        }
+      let wrap = routes.__get__('wrapRequest')
+
+      function someMethod (req, res) {
+        res.send({text: 'Some'})
       }
 
-      let boundController = bind(controller, 'someMethod')
+      let boundController = wrap(someMethod)
       expect(boundController).to.be.a.function
 
       let res = {cache: sinon.spy(), charSet: sinon.spy(), send: sinon.spy()}
@@ -191,9 +181,60 @@ server.listen(12345, () => {
       expect(res.charSet.calledOnce).to.equal(true)
       expect(res.sendParent.calledOnce).to.equal(true)
       expect(next.calledOnce).to.equal(true)
-      expect(res.sendParent.args[0][0]).to.deep.equal({
-        text: 'Some',
-        context: controller
+      expect(res.sendParent.args[0][0]).to.deep.equal({text: 'Some'})
+    })
+  })
+
+  describe('routes > setup error handling', () => {
+    it('logs errors and returns the correct response for missing routes', (done) => {
+      client.get('/this/is/a/nonexisting/route', (err, req, res) => {
+        if (err) {
+        }
+        expect(loggerMock.info.calledOnce).to.equal(true)
+        expect(loggerMock.info.args[0][0]).to.contain('/this/is/a/nonexisting/route')
+        expect(loggerMock.info.args[0][0]).to.contain('Failed Route')
+        expect(loggerMock.info.args[0][0]).to.contain('route not found')
+        expect(res.statusCode).to.equal(404)
+        expect(JSON.parse(res.body)).to.deep.equal({text: 'endpoint not found'})
+        done()
+      })
+    })
+
+    it('logs errors and returns the correct response for bad method calls', (done) => {
+      server.get('/gems/history', () => {
+        console.log('Some fake route.')
+      })
+
+      client.post('/gems/history', (err, req, res) => {
+        if (err) {
+        }
+        expect(loggerMock.info.calledOnce).to.equal(true)
+        expect(loggerMock.info.args[0][0]).to.contain('/gems/history')
+        expect(loggerMock.info.args[0][0]).to.contain('Failed Route')
+        expect(loggerMock.info.args[0][0]).to.contain('method not allowed')
+        expect(res.statusCode).to.equal(405)
+        expect(JSON.parse(res.body)).to.deep.equal({text: 'method not allowed'})
+        done()
+      })
+    })
+
+    it('logs errors and returns the correct response for internal server errors', (done) => {
+      server.get('/failing/route', () => {
+        let err = new Error('some message')
+        err.stack = 'OH NO SOMETHING BAD :('
+        throw err
+      })
+
+      client.get('/failing/route', (err, req, res) => {
+        if (err) {
+        }
+        expect(loggerMock.error.calledOnce).to.equal(true)
+        expect(loggerMock.error.args[0][0]).to.contain('/failing/route')
+        expect(loggerMock.error.args[0][0]).to.contain('Failed Route')
+        expect(loggerMock.error.args[0][0]).to.contain('OH NO SOMETHING BAD :(')
+        expect(res.statusCode).to.equal(500)
+        expect(JSON.parse(res.body)).to.deep.equal({text: 'internal error'})
+        done()
       })
     })
   })

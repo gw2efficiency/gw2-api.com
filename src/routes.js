@@ -1,51 +1,62 @@
-const logger = require('./logger.js')
-const ItemController = require('./controllers/item.js')
-const GemController = require('./controllers/gem.js')
-const SkinController = require('./controllers/skin.js')
+const logger = require('./helpers/logger.js')
+const item = require('./controllers/item.js')
+const gem = require('./controllers/gem.js')
+const skin = require('./controllers/skin.js')
 
-// Setup all routes
-function setup (server, sharedCache) {
-  const gem = new GemController(sharedCache)
-  const item = new ItemController(sharedCache)
-  const skin = new SkinController(sharedCache)
-
+function setupRoutes (server) {
   server.get('/', (req, res, next) => res.redirect('https://github.com/gw2efficiency/gw2-api.com/', next))
-  server.get('/item', bindController(item, 'byId'))
-  server.get('/item/:id', bindController(item, 'byId'))
-  server.get('/items', bindController(item, 'byIds'))
-  server.get('/items/all', bindController(item, 'all'))
-  server.get('/items/all-prices', bindController(item, 'allPrices'))
-  server.get('/items/categories', bindController(item, 'categories'))
-  server.get('/items/autocomplete', bindController(item, 'autocomplete'))
-  server.get('/items/by-name', bindController(item, 'byName'))
-  server.get('/items/by-skin', bindController(item, 'bySkin'))
-  server.get('/items/query', bindController(item, 'query'))
-  server.get('/items/:ids', bindController(item, 'byIds'))
-  server.get('/skins/resolve', bindController(skin, 'resolve'))
-  server.get('/gems/history', bindController(gem, 'history'))
+  server.get('/item', wrapRequest(item.byId))
+  server.get('/item/:id', wrapRequest(item.byId))
+  server.get('/items', wrapRequest(item.byIds))
+  server.get('/items/all', wrapRequest(item.all))
+  server.get('/items/all-prices', wrapRequest(item.allPrices))
+  server.get('/items/categories', wrapRequest(item.categories))
+  server.get('/items/autocomplete', wrapRequest(item.autocomplete))
+  server.get('/items/by-name', wrapRequest(item.byName))
+  server.get('/items/by-skin', wrapRequest(item.bySkin))
+  server.get('/items/query', wrapRequest(item.query))
+  server.get('/items/:ids', wrapRequest(item.byIds))
+  server.get('/skins/resolve', wrapRequest(skin.resolve))
+  server.get('/gems/history', wrapRequest(gem.history))
 }
 
-// Use a controller function as a route with some basic settings
-function bindController (controller, name) {
-  let method = controller[name]
-  return (req, res, next) => {
-    logger.info('Receiving request: ' + req.path() + ' (' + controller.constructor.name + '.' + name + ')')
+// Wrap a request to offer a easier to use interface
+function wrapRequest (callback) {
+  return (request, response, next) => {
+    logger.info('Receiving request: ' + request.path() + ' (' + callback.name + ')')
 
-    // Set the cache and charset settings
-    res.cache('public', {maxAge: 5 * 60})
-    res.charSet('utf-8')
+    // Set the default cache and charset settings
+    response.cache('public', {maxAge: 5 * 60})
+    response.charSet('utf-8')
 
     // Overwrite the send function so it automatically triggers "next"
-    res.sendParent = res.send
-    res.send = (status, body) => {
-      res.sendParent(status, body)
+    response.sendParent = response.send
+    response.send = (status, body) => {
+      response.sendParent(status, body)
       next()
-      logger.info('Sent response: ' + req.path() + ' (' + JSON.stringify(body || status).length + ' bit)')
+      logger.info('Sent response: ' + request.path() + ' (' + JSON.stringify(body || status).length + ' bit)')
     }
 
     // Call our controller function with the request and new response object
-    method.apply(controller, [req, res])
+    callback(request, response)
   }
 }
 
-module.exports = setup
+function setupErrorHandling (server) {
+  server.on('NotFound', (req, res) => {
+    logger.info('Failed Route: ' + req.path() + ' (route not found)')
+    res.send(404, {text: 'endpoint not found'})
+  })
+
+  server.on('MethodNotAllowed', (req, res) => {
+    logger.info('Failed Route: ' + req.path() + ' (method not allowed)')
+    res.send(405, {text: 'method not allowed'})
+  })
+
+  server.on('uncaughtException', (req, res, route, err) => {
+    logger.error('Failed Route: ' + req.path() + '\n' + err.stack)
+    res.send(500, {text: 'internal error'})
+  })
+}
+
+module.exports = {setupRoutes, setupErrorHandling}

@@ -1,45 +1,51 @@
-const AbstractWorker = require('../worker.js')
-const logger = require('../logger.js')
+const logger = require('../helpers/logger.js')
+const storage = require('../helpers/sharedStorage.js')
+const {execute, schedule} = require('../helpers/workers.js')
+const api = require('gw2api-client')
 const async = require('async-promises')
 const rarities = require('../static/rarities.js')
 const categories = require('../static/categories.js')
 const mergeById = require('../helpers/mergeById.js')
 
-class ItemWorker extends AbstractWorker {
-  async initialize (forceInitial) {
-    if (forceInitial) {
-      await this.execute(this.loadItems)
-      await this.execute(this.loadItemPrices)
-    }
-
-    this.schedule(this.loadItems, 60 * 60)
-    this.schedule(this.loadItemPrices, 60)
-    logger.success('Initialized ItemWorker')
+async function initialize () {
+  if (storage.get('items') === undefined) {
+    await execute(loadItems)
+    await execute(loadItemPrices)
   }
 
-  async loadItems () {
-    let items = await async.parallel([
-      () => this.api().language('en').items().all(),
-      () => this.api().language('de').items().all(),
-      () => this.api().language('fr').items().all(),
-      () => this.api().language('es').items().all()
-    ])
+  schedule(loadItems, 60 * 60)
+  schedule(loadItemPrices, 60)
+  logger.success('Initialized item worker')
+}
 
-    this.cache.items = this.cache.items || {}
-    this.cache.items = {
-      en: mergeById(this.cache.items.en, items[0].map(transformItem)),
-      de: mergeById(this.cache.items.de, items[1].map(transformItem)),
-      fr: mergeById(this.cache.items.fr, items[2].map(transformItem)),
-      es: mergeById(this.cache.items.es, items[3].map(transformItem))
-    }
+async function loadItems () {
+  let items = await async.parallel([
+    () => api().language('en').items().all(),
+    () => api().language('de').items().all(),
+    () => api().language('fr').items().all(),
+    () => api().language('es').items().all()
+  ])
+
+  let storedItems = storage.get('items', {})
+  storage.set('items', {
+    en: mergeById(storedItems.en, items[0].map(transformItem)),
+    de: mergeById(storedItems.de, items[1].map(transformItem)),
+    fr: mergeById(storedItems.fr, items[2].map(transformItem)),
+    es: mergeById(storedItems.es, items[3].map(transformItem))
+  })
+  storage.save()
+}
+
+async function loadItemPrices () {
+  let prices = await api().commerce().prices().all()
+  let storedItems = storage.get('items', {})
+
+  for (let lang in storedItems) {
+    storedItems[lang] = mergeById(storedItems[lang], prices, true, transformPrices)
   }
 
-  async loadItemPrices () {
-    let prices = await this.api().commerce().prices().all()
-    for (let lang in this.cache.items) {
-      this.cache.items[lang] = mergeById(this.cache.items[lang], prices, true, transformPrices)
-    }
-  }
+  storage.set('items', storedItems)
+  storage.save()
 }
 
 // Transform an item into the expected legacy structure
@@ -134,4 +140,4 @@ function isoDate (date) {
   return date.toISOString().slice(0, 19) + '+0000'
 }
 
-module.exports = ItemWorker
+module.exports = {initialize, loadItems, loadItemPrices}

@@ -1,24 +1,24 @@
-const AbstractWorker = require('../worker.js')
-const logger = require('../logger.js')
+const logger = require('../helpers/logger.js')
+const storage = require('../helpers/sharedStorage.js')
+const {execute, schedule} = require('../helpers/workers.js')
 const scraping = require('gw2api-scraping')
 
-class GemWorker extends AbstractWorker {
-  async initialize (forceInitial) {
-    if (forceInitial) {
-      await this.execute(this.loadGemPriceHistory)
-    }
-
-    this.schedule(this.loadGemPriceHistory, 15 * 60)
-    logger.success('Initialized GemWorker')
+async function initialize () {
+  if (storage.get('gemPriceHistory') === undefined) {
+    await execute(loadGemPriceHistory)
   }
 
-  async loadGemPriceHistory () {
-    let prices = await scraping.gemPriceHistory()
-    this.cache.gemPriceHistory = {
-      gold_to_gem: prices.goldToGems,
-      gem_to_gold: prices.gemsToGold
-    }
-  }
+  schedule(loadGemPriceHistory, 15 * 60)
+  logger.success('Initialized gem worker')
 }
 
-module.exports = GemWorker
+async function loadGemPriceHistory () {
+  let prices = await scraping.gemPriceHistory()
+  storage.set('gemPriceHistory', {
+    gold_to_gem: prices.goldToGems,
+    gem_to_gold: prices.gemsToGold
+  })
+  storage.save()
+}
+
+module.exports = {initialize, loadGemPriceHistory}

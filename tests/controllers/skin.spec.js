@@ -2,20 +2,15 @@
 const expect = require('chai').expect
 const sinon = require('sinon')
 const rewire = require('rewire')
-const Module = rewire('../../src/controllers/skin.js')
+const controller = rewire('../../src/controllers/skin.js')
+
+let storage = controller.__get__('storage')
 
 describe('controllers > skin', () => {
-  let controller
-  let cache
-  beforeEach(() => {
-    cache = {skinsToItems: {}}
-    controller = new Module(cache)
-  })
-
   it('handles /skins/resolve', async () => {
     let content = {'1': [1, 2], '2': [3, 4]}
     let response = {send: sinon.spy()}
-    cache.skinsToItems = content
+    storage.set('skinsToItems', content)
 
     controller.resolve(null, response)
     expect(response.send.calledOnce).to.equal(true)

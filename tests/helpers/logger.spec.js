@@ -3,12 +3,12 @@ const expect = require('chai').expect
 const sinon = require('sinon')
 const rewire = require('rewire')
 const mockdate = require('mockdate')
-const logger = rewire('../src/logger.js')
+const logger = rewire('../../src/helpers/logger.js')
 
 let consoleMock = {log: sinon.spy()}
 logger.__set__('console', consoleMock)
 
-describe('logger', () => {
+describe('helpers > logger', () => {
   beforeEach(() => {
     consoleMock.log.reset()
   })

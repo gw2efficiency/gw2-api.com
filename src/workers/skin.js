@@ -1,36 +1,37 @@
-const AbstractWorker = require('../worker.js')
-const logger = require('../logger.js')
+const logger = require('../helpers/logger.js')
+const storage = require('../helpers/sharedStorage.js')
+const {execute, schedule} = require('../helpers/workers.js')
+const api = require('gw2api-client')
 
-class SkinWorker extends AbstractWorker {
-  async initialize (forceInitial) {
-    if (forceInitial) {
-      await this.execute(this.loadSkinList)
-    }
-
-    this.schedule(this.loadSkinList, 6 * 60 * 60)
-    logger.success('Initialized SkinWorker')
+async function initialize () {
+  if (storage.get('items') !== undefined && storage.get('skinsToItems') === undefined) {
+    await execute(loadSkinList)
   }
 
-  async loadSkinList () {
-    let skins = await this.api().skins().all()
-    let items = this.cache.items.en.map(x => ({id: x.id, name: x.name.trim()}))
+  schedule(loadSkinList, 60 * 60)
+  logger.success('Initialized skin worker')
+}
 
-    // Try and resolve the skins from items
-    skins = skins.map(s => {
-      s.name = s.name.trim()
-      s.items = resolveSkin(s, items)
-      return s
-    })
+async function loadSkinList () {
+  let skins = await api().skins().all()
+  let items = storage.get('items').en.map(x => ({id: x.id, name: x.name.trim()}))
 
-    // Map skin ids to an array of item ids
-    let map = {}
-    skins.map(s => map[s.id] = s.items)
-    this.cache.skinsToItems = map
+  // Try and resolve the skins from items
+  skins = skins.map(s => {
+    s.name = s.name.trim()
+    s.items = resolveSkin(s, items)
+    return s
+  })
 
-    // Show how many skins we failed to resolve
-    let missingSkinItems = skins.filter(s => s.items.length === 0)
-    logger.info('No items found for ' + missingSkinItems.length + ' skins')
-  }
+  // Map skin ids to an array of item ids
+  let map = {}
+  skins.map(s => map[s.id] = s.items)
+  storage.set('skinsToItems', map)
+  storage.save()
+
+  // Show how many skins we failed to resolve
+  let missingSkinItems = skins.filter(s => s.items.length === 0)
+  logger.info('No items found for ' + missingSkinItems.length + ' skins')
 }
 
 function resolveSkin (skin, items) {
@@ -63,4 +64,4 @@ function resolveSkin (skin, items) {
   return []
 }
 
-module.exports = SkinWorker
+module.exports = {initialize, loadSkinList}

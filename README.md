@@ -7,14 +7,22 @@
 
 ## Install
 
+- **Requirements**
+  - [Redis](http://redis.io/) for sharing memory between worker and servers
+  - A process manager to keep the processes running, in this example [pm2](https://github.com/Unitech/pm2)
+
 ```
+# Clone the repository and build the worker and server files
 git clone https://github.com/gw2efficiency/gw2-api.com
 cd gw2-api.com/
 npm run-script build
-node build/server.js
-```
 
-To keep the node process running look into a process manager like [pm2](https://github.com/Unitech/pm2).
+# Start the server cluster
+pm2 start build/server.js --name="gw2api server" -i 3
+
+# Start the background worker
+pm2 start build/worker.js --name="gw2api worker"
+```
 
 ## Tests
 

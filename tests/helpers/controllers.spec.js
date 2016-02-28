@@ -1,18 +1,13 @@
 /* eslint-env node, mocha */
 const expect = require('chai').expect
-const rewire = require('rewire')
-const Module = rewire('../src/controller.js')
+const sinon = require('sinon')
+const controller = require('../../src/helpers/controllers.js')
 
-describe('abstract controller', () => {
-  let controller
-  let cache
-  beforeEach(() => {
-    cache = {foo: 'bar'}
-    controller = new Module(cache)
-  })
-
-  it('initializes with the cache object', async () => {
-    expect(controller.cache).to.deep.equal({foo: 'bar'})
+describe('helpers > controller helpers', () => {
+  it('sends an error response for invalid parameters', async () => {
+    let response = {send: sinon.spy()}
+    controller.invalidParameters(response)
+    expect(response.send.args[0][0]).to.equal(400)
   })
 
   it('finds the correct request language', async () => {

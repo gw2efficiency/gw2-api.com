@@ -1,9 +1,7 @@
-const AbstractController = require('../controller.js')
+const storage = require('../helpers/sharedStorage.js')
 
-class GemController extends AbstractController {
-  history (request, response) {
-    response.send(this.cache.gemPriceHistory)
-  }
+function history (request, response) {
+  response.send(storage.get('gemPriceHistory'))
 }
 
-module.exports = GemController
+module.exports = {history}
