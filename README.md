@@ -17,11 +17,11 @@ git clone https://github.com/gw2efficiency/gw2-api.com
 cd gw2-api.com/
 npm run-script build
 
-# Run the server
-node build/server.js
+# Start the server cluster
+pm2 start build/server.js --name="gw2api server" -i 3
 
-# Run the background worker
-node build/worker.js
+# Start the background worker
+pm2 start build/worker.js --name="gw2api worker"
 ```
 
 ## Tests
