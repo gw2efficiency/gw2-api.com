@@ -27,7 +27,7 @@ describe('helpers > shared storage', () => {
     redis.emit('error')
 
     setTimeout(() => {
-      expect(loggerMock.error.calledOnce).to.be.true
+      expect(loggerMock.error.callCount).to.be.above(0)
       done()
     }, 10)
   })
