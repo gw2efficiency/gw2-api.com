@@ -3,8 +3,7 @@ const item = require('./controllers/item.js')
 const gem = require('./controllers/gem.js')
 const skin = require('./controllers/skin.js')
 
-// Setup all routes
-function setup (server) {
+function setupRoutes (server) {
   server.get('/', (req, res, next) => res.redirect('https://github.com/gw2efficiency/gw2-api.com/', next))
   server.get('/item', wrapRequest(item.byId))
   server.get('/item/:id', wrapRequest(item.byId))
@@ -43,4 +42,21 @@ function wrapRequest (callback) {
   }
 }
 
-module.exports = setup
+function setupErrorHandling (server) {
+  server.on('NotFound', (req, res) => {
+    logger.info('Failed Route: ' + req.path() + ' (route not found)')
+    res.send(404, {text: 'endpoint not found'})
+  })
+
+  server.on('MethodNotAllowed', (req, res) => {
+    logger.info('Failed Route: ' + req.path() + ' (method not allowed)')
+    res.send(405, {text: 'method not allowed'})
+  })
+
+  server.on('uncaughtException', (req, res, route, err) => {
+    logger.error('Failed Route: ' + req.path() + '\n' + err.stack)
+    res.send(500, {text: 'internal error'})
+  })
+}
+
+module.exports = {setupRoutes, setupErrorHandling}
