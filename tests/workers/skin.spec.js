@@ -59,7 +59,7 @@ describe('workers > skin worker', () => {
       en: [
         {id: 1, name: 'Foo', skin: 1},
         {id: 2, name: 'Bar'},
-        {id: 3, name: 'Bar    '},
+        {id: 3, name: 'Bar'},
         {id: 4, name: 'Some Skin'},
         {id: 5, name: 'Something about cake'}
       ]

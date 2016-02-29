@@ -12,15 +12,16 @@ async function initialize () {
   logger.success('Initialized skin worker')
 }
 
+let items = []
 async function loadSkinList () {
   let skins = await api().skins().all()
-  let items = storage.get('items').en.map(x => ({id: x.id, name: x.name.trim()}))
+  items = storage.get('items').en
 
   // Try and resolve the skins from items
-  skins = skins.map(s => {
-    s.name = s.name.trim()
-    s.items = resolveSkin(s, items)
-    return s
+  skins = skins.map(skin => {
+    skin.name = skin.name.trim()
+    skin.items = resolveSkin(skin)
+    return skin
   })
 
   // Map skin ids to an array of item ids
@@ -34,15 +35,9 @@ async function loadSkinList () {
   logger.info('No items found for ' + missingSkinItems.length + ' skins')
 }
 
-function resolveSkin (skin, items) {
+function resolveSkin (skin) {
   // Resolve by id
   let skinItems = items.filter(x => x.skin === skin.id)
-  if (skinItems.length > 0) {
-    return skinItems.map(x => x.id)
-  }
-
-  // Resolve by exact name
-  skinItems = items.filter(x => x.name === skin.name)
   if (skinItems.length > 0) {
     return skinItems.map(x => x.id)
   }
@@ -50,6 +45,12 @@ function resolveSkin (skin, items) {
   // Resolve by name + ' Skin'
   let skinName = skin.name + ' Skin'
   skinItems = items.filter(x => x.name === skinName)
+  if (skinItems.length > 0) {
+    return skinItems.map(x => x.id)
+  }
+
+  // Resolve by exact name
+  skinItems = items.filter(x => x.name === skin.name)
   if (skinItems.length > 0) {
     return skinItems.map(x => x.id)
   }
