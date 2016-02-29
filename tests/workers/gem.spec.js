@@ -14,6 +14,7 @@ const scheduleMock = sinon.spy()
 worker.__set__('schedule', scheduleMock)
 
 let storage = worker.__get__('storage')
+storage.save = () => true
 
 describe('workers > gem worker', () => {
   beforeEach(() => {
