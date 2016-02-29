@@ -1,7 +1,7 @@
 const logger = require('../helpers/logger.js')
 const storage = require('../helpers/sharedStorage.js')
 const {execute, schedule} = require('../helpers/workers.js')
-const api = require('gw2api-client')
+const api = require('../helpers/api.js')
 
 async function initialize () {
   if (storage.get('items') !== undefined && storage.get('skinsToItems') === undefined) {

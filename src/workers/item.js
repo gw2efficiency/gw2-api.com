@@ -1,7 +1,7 @@
 const logger = require('../helpers/logger.js')
 const storage = require('../helpers/sharedStorage.js')
 const {execute, schedule} = require('../helpers/workers.js')
-const api = require('gw2api-client')
+const api = require('../helpers/api.js')
 const async = require('async-promises')
 const rarities = require('../static/rarities.js')
 const categories = require('../static/categories.js')
