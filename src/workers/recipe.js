@@ -11,7 +11,7 @@ async function initialize () {
   }
 
   schedule(loadRecipeList, 15 * 60)
-  logger.success('Initialized recipe worker')
+  logger.info('Initialized recipe worker')
 }
 
 async function loadRecipeList () {

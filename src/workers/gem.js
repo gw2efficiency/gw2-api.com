@@ -9,7 +9,7 @@ async function initialize () {
   }
 
   schedule(loadGemPriceHistory, 15 * 60)
-  logger.success('Initialized gem worker')
+  logger.info('Initialized gem worker')
 }
 
 async function loadGemPriceHistory () {

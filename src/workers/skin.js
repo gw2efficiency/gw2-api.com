@@ -9,7 +9,7 @@ async function initialize () {
   }
 
   schedule(loadSkinList, 60 * 60)
-  logger.success('Initialized skin worker')
+  logger.info('Initialized skin worker')
 }
 
 let items = []

@@ -15,7 +15,7 @@ async function initialize () {
 
   schedule(loadItems, 60 * 60)
   schedule(loadItemPrices, 60)
-  logger.success('Initialized item worker')
+  logger.info('Initialized item worker')
 }
 
 async function loadItems () {

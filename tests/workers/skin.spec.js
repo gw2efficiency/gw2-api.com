@@ -4,7 +4,7 @@ const sinon = require('sinon')
 const rewire = require('rewire')
 const worker = rewire('../../src/workers/skin.js')
 
-const loggerMock = {success: sinon.spy(), info: sinon.spy()}
+const loggerMock = {info: sinon.spy()}
 worker.__set__('logger', loggerMock)
 
 const executeMock = sinon.spy()
@@ -18,7 +18,7 @@ storage.save = () => true
 
 describe('workers > skin worker', () => {
   beforeEach(() => {
-    loggerMock.success.reset()
+    loggerMock.info.reset()
     executeMock.reset()
     scheduleMock.reset()
     storage.set('gemPriceHistory')
@@ -36,7 +36,7 @@ describe('workers > skin worker', () => {
     expect(scheduleMock.calledOnce).to.equal(true)
     expect(scheduleMock.args[0][0].name).to.equal('loadSkinList')
     expect(scheduleMock.args[0][1]).to.be.an.integer
-    expect(loggerMock.success.calledOnce).to.equal(true)
+    expect(loggerMock.info.calledOnce).to.equal(true)
     worker.__set__('storage', storage)
   })
 
@@ -51,7 +51,7 @@ describe('workers > skin worker', () => {
     expect(scheduleMock.calledOnce).to.equal(true)
     expect(scheduleMock.args[0][0].name).to.equal('loadSkinList')
     expect(scheduleMock.args[0][1]).to.be.an.integer
-    expect(loggerMock.success.calledOnce).to.equal(true)
+    expect(loggerMock.info.calledOnce).to.equal(true)
     worker.__set__('storage', storage)
   })
 

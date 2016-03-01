@@ -25,8 +25,6 @@ function setupRoutes (server) {
 // Wrap a request to offer a easier to use interface
 function wrapRequest (callback) {
   return (request, response, next) => {
-    logger.info('Receiving request: ' + request.path() + ' (' + callback.name + ')')
-
     // Set the default cache and charset settings
     response.cache('public', {maxAge: 5 * 60})
     response.charSet('utf-8')
@@ -36,7 +34,6 @@ function wrapRequest (callback) {
     response.send = (status, body) => {
       response.sendParent(status, body)
       next()
-      logger.info('Sent response: ' + request.path() + ' (' + JSON.stringify(body || status).length + ' bit)')
     }
 
     // Call our controller function with the request and new response object

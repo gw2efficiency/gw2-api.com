@@ -5,7 +5,7 @@ const rewire = require('rewire')
 const mockdate = require('mockdate')
 const worker = rewire('../../src/workers/item.js')
 
-const loggerMock = {success: sinon.spy()}
+const loggerMock = {info: sinon.spy()}
 worker.__set__('logger', loggerMock)
 
 const executeMock = sinon.spy()
@@ -20,7 +20,7 @@ storage.save = () => true
 describe('workers > item worker', () => {
   beforeEach(() => {
     storage.set('items')
-    loggerMock.success.reset()
+    loggerMock.info.reset()
     executeMock.reset()
     scheduleMock.reset()
   })
@@ -36,7 +36,7 @@ describe('workers > item worker', () => {
     expect(scheduleMock.args[0][1]).to.be.an.integer
     expect(scheduleMock.args[1][0].name).to.equal('loadItemPrices')
     expect(scheduleMock.args[1][1]).to.be.an.integer
-    expect(loggerMock.success.calledOnce).to.equal(true)
+    expect(loggerMock.info.calledOnce).to.equal(true)
   })
 
   it('initializes correctly with data', async () => {
@@ -52,7 +52,7 @@ describe('workers > item worker', () => {
     expect(scheduleMock.args[0][1]).to.be.an.integer
     expect(scheduleMock.args[1][0].name).to.equal('loadItemPrices')
     expect(scheduleMock.args[1][1]).to.be.an.integer
-    expect(loggerMock.success.calledOnce).to.equal(true)
+    expect(loggerMock.info.calledOnce).to.equal(true)
     worker.__set__('storage', storage)
   })
 
