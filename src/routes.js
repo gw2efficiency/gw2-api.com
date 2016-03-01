@@ -2,6 +2,7 @@ const logger = require('./helpers/logger.js')
 const item = require('./controllers/item.js')
 const gem = require('./controllers/gem.js')
 const skin = require('./controllers/skin.js')
+const recipe = require('./controllers/recipe.js')
 
 function setupRoutes (server) {
   server.get('/', (req, res, next) => res.redirect('https://github.com/gw2efficiency/gw2-api.com/', next))
@@ -17,6 +18,7 @@ function setupRoutes (server) {
   server.get('/items/query', wrapRequest(item.query))
   server.get('/items/:ids', wrapRequest(item.byIds))
   server.get('/skins/resolve', wrapRequest(skin.resolve))
+  server.get('/recipe/nested/:id', wrapRequest(recipe.nested))
   server.get('/gems/history', wrapRequest(gem.history))
 }
 

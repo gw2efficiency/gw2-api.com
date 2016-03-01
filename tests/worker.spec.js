@@ -5,11 +5,13 @@ const sinon = require('sinon')
 const itemWorkerSpy = sinon.spy()
 const gemWorkerSpy = sinon.spy()
 const skinWorkerSpy = sinon.spy()
+const recipeWorkerSpy = sinon.spy()
 
 proxyquire('../src/worker.js', {
   './workers/item.js': {initialize: itemWorkerSpy},
   './workers/gem.js': {initialize: gemWorkerSpy},
   './workers/skin.js': {initialize: skinWorkerSpy},
+  './workers/recipe.js': {initialize: recipeWorkerSpy},
   './helpers/sharedStorage.js': {load: () => new Promise(resolve => resolve())}
 })
 
@@ -18,5 +20,6 @@ describe('workers', () => {
     expect(gemWorkerSpy.called).to.equal(true)
     expect(itemWorkerSpy.called).to.equal(true)
     expect(skinWorkerSpy.called).to.equal(true)
+    expect(recipeWorkerSpy.called).to.equal(true)
   })
 })

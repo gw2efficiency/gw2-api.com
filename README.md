@@ -67,7 +67,7 @@ In the future, [gw2-api.com](https://gw2-api.com) will stay online, but it will 
 - [X] [`/items/categories`](#itemscategories)
 - [X] [`/skins/resolve`](#skinsresolve)
 - [ ] [`/skins/prices`](#skinsprices)
-- [ ] [`/recipe/nested/:id`](#recipenestedid) (+ `craftable` prop on items)
+- [X] [`/recipe/nested/:id`](#recipenestedid)
 - [ ] [`/recipe/cost/:ids`](#recipecostids)
 - [X] [`/gems/history`](#gemshistory)
 
@@ -321,7 +321,8 @@ This endpoint returns a list of all buyable skin ids with their respective cheap
 
 ### `/recipe/nested/:id`
 
-This endpoint returns a nested recipe for that item (if a recipe exists). All components that can be crafted include their respective recipe and subcomponents.
+This endpoint returns a nested recipe for that item (if a recipe exists). 
+All components that can be crafted include their respective recipe and subcomponents.
 
 **Parameters**
 
@@ -330,6 +331,7 @@ This endpoint returns a nested recipe for that item (if a recipe exists). All co
 ```js
 {
   "id": 31083,
+  "output": 1,
   "quantity": 1,
   "components": [
     {

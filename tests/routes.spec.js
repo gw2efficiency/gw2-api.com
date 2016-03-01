@@ -37,6 +37,11 @@ routes.__set__('skin', {
   resolve: (req, res) => res.send('SkinController.resolve')
 })
 
+// recipe controller overwrite
+routes.__set__('recipe', {
+  nested: (req, res) => res.send('RecipeController.nested')
+})
+
 // Start a mock server and test the routing on that
 const server = restify.createServer()
 server.listen(12345, () => {
@@ -151,6 +156,14 @@ server.listen(12345, () => {
       client.get('/skins/resolve', (err, req, res, data) => {
         if (err) throw err
         expect(data).to.equal('SkinController.resolve')
+        done()
+      })
+    })
+
+    it('/recipe/nested/:id gets called correctly', (done) => {
+      client.get('/recipe/nested/123', (err, req, res, data) => {
+        if (err) throw err
+        expect(data).to.equal('RecipeController.nested')
         done()
       })
     })
