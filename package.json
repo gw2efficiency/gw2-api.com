@@ -19,6 +19,7 @@
     "chalk": "^1.1.1",
     "gw2api-client": "git+https://github.com/gw2efficiency/gw2api-client.git",
     "gw2api-scraping": "git+https://github.com/gw2efficiency/gw2api-scraping.git",
+    "recipe-nesting": "git+https://github.com/gw2efficiency/recipe-nesting.git",
     "redis": "^2.4.2",
     "restify": "^4.0.3"
   },
