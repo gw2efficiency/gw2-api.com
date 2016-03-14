@@ -6,20 +6,26 @@ const recipe = require('./controllers/recipe.js')
 
 function setupRoutes (server) {
   server.get('/', (req, res, next) => res.redirect('https://github.com/gw2efficiency/gw2-api.com/', next))
-  server.get('/item', wrapRequest(item.byId))
-  server.get('/item/:id', wrapRequest(item.byId))
-  server.get('/items', wrapRequest(item.byIds))
-  server.get('/items/all', wrapRequest(item.all))
-  server.get('/items/all-prices', wrapRequest(item.allPrices))
-  server.get('/items/categories', wrapRequest(item.categories))
-  server.get('/items/autocomplete', wrapRequest(item.autocomplete))
-  server.get('/items/by-name', wrapRequest(item.byName))
-  server.get('/items/by-skin', wrapRequest(item.bySkin))
-  server.get('/items/query', wrapRequest(item.query))
-  server.get('/items/:ids', wrapRequest(item.byIds))
-  server.get('/skins/resolve', wrapRequest(skin.resolve))
-  server.get('/recipe/nested/:id', wrapRequest(recipe.nested))
-  server.get('/gems/history', wrapRequest(gem.history))
+  anyMethod(server, '/item', wrapRequest(item.byId))
+  anyMethod(server, '/item/:id', wrapRequest(item.byId))
+  anyMethod(server, '/items', wrapRequest(item.byIds))
+  anyMethod(server, '/items/all', wrapRequest(item.all))
+  anyMethod(server, '/items/all-prices', wrapRequest(item.allPrices))
+  anyMethod(server, '/items/categories', wrapRequest(item.categories))
+  anyMethod(server, '/items/autocomplete', wrapRequest(item.autocomplete))
+  anyMethod(server, '/items/by-name', wrapRequest(item.byName))
+  anyMethod(server, '/items/by-skin', wrapRequest(item.bySkin))
+  anyMethod(server, '/items/query', wrapRequest(item.query))
+  anyMethod(server, '/items/:ids', wrapRequest(item.byIds))
+  anyMethod(server, '/skins/resolve', wrapRequest(skin.resolve))
+  anyMethod(server, '/recipe/nested/:id', wrapRequest(recipe.nested))
+  anyMethod(server, '/gems/history', wrapRequest(gem.history))
+}
+
+// Adds get and post routes for a single url
+function anyMethod (server, url, callback) {
+  server.get(url, callback)
+  server.post(url, callback)
 }
 
 // Wrap a request to offer a easier to use interface

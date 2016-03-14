@@ -218,7 +218,7 @@ server.listen(12345, () => {
         console.log('Some fake route.')
       })
 
-      client.post('/gems/history', (err, req, res) => {
+      client.del('/gems/history', (err, req, res) => {
         if (err) {
         }
         expect(loggerMock.info.calledOnce).to.equal(true)
