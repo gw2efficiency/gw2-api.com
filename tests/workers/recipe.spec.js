@@ -19,7 +19,7 @@ storage.save = () => true
 const nestingMock = sinon.stub().returnsArg(0)
 worker.__set__('recipeNesting', nestingMock)
 
-const requesterMock = require('requester/mock')
+const requesterMock = require('gw2e-requester/mock')
 worker.__set__('requester', requesterMock)
 
 describe('workers > recipe worker', () => {

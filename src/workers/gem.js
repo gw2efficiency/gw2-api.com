@@ -1,7 +1,7 @@
 const logger = require('../helpers/logger.js')
 const storage = require('../helpers/sharedStorage.js')
 const {execute, schedule} = require('../helpers/workers.js')
-const scraping = require('gw2api-scraping')
+const scraping = require('gw2e-gw2api-scraping')
 
 async function initialize () {
   if (storage.get('gemPriceHistory') === undefined) {

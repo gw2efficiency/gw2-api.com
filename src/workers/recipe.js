@@ -2,8 +2,8 @@ const logger = require('../helpers/logger.js')
 const storage = require('../helpers/sharedStorage.js')
 const {execute, schedule} = require('../helpers/workers.js')
 const api = require('../helpers/api.js')
-const requester = require('requester')
-const recipeNesting = require('recipe-nesting')
+const requester = require('gw2e-requester')
+const recipeNesting = require('gw2e-recipe-nesting')
 
 async function initialize () {
   if (storage.get('recipeTrees') === undefined) {

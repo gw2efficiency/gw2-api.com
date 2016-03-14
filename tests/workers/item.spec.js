@@ -62,7 +62,7 @@ describe('workers > item worker', () => {
     worker.__set__('api', () => ({
       language: () => ({
         items: () => ({
-          all: () => [{id: 1, name: 'Fiz Buz'}]
+          all: () => new Promise(r => r([{id: 1, name: 'Fiz Buz'}]))
         })
       })
     }))
@@ -92,11 +92,11 @@ describe('workers > item worker', () => {
     worker.__set__('api', () => ({
       language: () => ({
         items: () => ({
-          all: () => [
+          all: () => new Promise(r => r([
             {id: 1, name: 'Fiz Buz'},
             {id: 2, name: 'Herp', someOtherKey: 'someOtherValue'},
             {id: 3, name: 'Shiny new item'}
-          ]
+          ]))
         })
       })
     }))
@@ -123,7 +123,7 @@ describe('workers > item worker', () => {
     worker.__set__('api', () => ({
       commerce: () => ({
         prices: () => ({
-          all: () => [{
+          all: () => new Promise(r => r([{
             id: 1,
             buys: {
               quantity: 29731,
@@ -133,7 +133,7 @@ describe('workers > item worker', () => {
               quantity: 42594,
               unit_price: 133
             }
-          }]
+          }]))
         })
       })
     }))

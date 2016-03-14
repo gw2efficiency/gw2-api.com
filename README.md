@@ -3,7 +3,7 @@
 [![Build Status](https://img.shields.io/travis/gw2efficiency/gw2-api.com.svg?style=flat-square)](https://travis-ci.org/gw2efficiency/gw2-api.com)
 [![Coverage Status](https://img.shields.io/codecov/c/github/gw2efficiency/gw2-api.com/master.svg?style=flat-square)](https://codecov.io/github/gw2efficiency/gw2-api.com)
 
-> Proxy-layer for the official GuildWars 2 API.
+> Proxy-layer server for the official GuildWars 2 API.
 
 ## Install
 
@@ -15,7 +15,8 @@
 # Clone the repository and build the worker and server files
 git clone https://github.com/gw2efficiency/gw2-api.com
 cd gw2-api.com/
-npm run-script build
+npm install
+npm run build
 
 # Start the server cluster
 pm2 start build/server.js --name="gw2api server" -i 3
@@ -48,7 +49,7 @@ I wanted to this data for a tradingpost section on [gw2efficiency.com](https://g
 Now, [gw2efficiency.com](https://gw2efficiency.com/) still depends on this project and gets item data from [gw2-api.com](https://gw2-api.com), even tho the official API
 has gotten many more endpoints and a lot of things could be requested directly from it. Sadly in the way this page was written in PHP, it takes way too many resources to serve the millions of requests it gets every day. 
 
-To fix this, and to try out the other node modules for [gw2efficiency.com](https://gw2efficiency.com/) in a production environment, this project will get rewritten in node.js with resource management and performance in mind.
+To fix this, and to try out the other node modules for [gw2efficiency.com](https://gw2efficiency.com/) in a production environment, this project has been rewritten in node.js with resource management and performance in mind.
 
 **Future**
 

@@ -1,4 +1,4 @@
-const client = require('gw2api-client')
+const client = require('gw2e-gw2api-client')
 
 // Retry for a max of 5 times if it's not a valid status
 let retry = (tries, err) => tries <= 5 && (!err.response || [200, 403].indexOf(err.response.status) === -1)
