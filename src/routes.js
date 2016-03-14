@@ -25,9 +25,9 @@ function setupRoutes (server) {
 // Wrap a request to offer a easier to use interface
 function wrapRequest (callback) {
   return (request, response, next) => {
-    // Set the default cache and charset settings
+    // Set the default response settings
     response.cache('public', {maxAge: 5 * 60})
-    response.charSet('utf-8')
+    setDefaultResponseHeaders(response)
 
     // Overwrite the send function so it automatically triggers "next"
     response.sendParent = response.send
@@ -41,19 +41,28 @@ function wrapRequest (callback) {
   }
 }
 
+function setDefaultResponseHeaders (response) {
+  response.charSet('utf-8')
+  response.setHeader('Access-Control-Allow-Origin', '*')
+  response.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+}
+
 function setupErrorHandling (server) {
   server.on('NotFound', (req, res) => {
     logger.info('Failed Route: ' + req.path() + ' (route not found)')
+    setDefaultResponseHeaders(res)
     res.send(404, {text: 'endpoint not found'})
   })
 
   server.on('MethodNotAllowed', (req, res) => {
     logger.info('Failed Route: ' + req.path() + ' (method not allowed)')
+    setDefaultResponseHeaders(res)
     res.send(405, {text: 'method not allowed'})
   })
 
   server.on('uncaughtException', (req, res, route, err) => {
     logger.error('Failed Route: ' + req.path() + '\n' + err.stack)
+    setDefaultResponseHeaders(res)
     res.send(500, {text: 'internal error'})
   })
 }

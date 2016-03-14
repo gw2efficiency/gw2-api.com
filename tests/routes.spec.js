@@ -186,7 +186,7 @@ server.listen(12345, () => {
       let boundController = wrap(someMethod)
       expect(boundController).to.be.a.function
 
-      let res = {cache: sinon.spy(), charSet: sinon.spy(), send: sinon.spy()}
+      let res = {cache: sinon.spy(), charSet: sinon.spy(), send: sinon.spy(), setHeader: sinon.spy()}
       let next = sinon.spy()
       boundController({path: () => ''}, res, next)
 
