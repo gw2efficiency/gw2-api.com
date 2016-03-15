@@ -32,6 +32,10 @@ describe('workers > recipe worker', () => {
   })
 
   it('initializes correctly without data', async () => {
+    worker.__set__('storage', {
+      set: () => true,
+      get: (key) => (key === 'items') ? '...' : undefined
+    })
     await worker.initialize()
 
     expect(executeMock.calledOnce).to.equal(true)

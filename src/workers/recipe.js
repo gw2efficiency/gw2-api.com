@@ -6,11 +6,11 @@ const requester = require('gw2e-requester')
 const recipeNesting = require('gw2e-recipe-nesting')
 
 async function initialize () {
-  if (storage.get('recipeTrees') === undefined) {
+  if (storage.get('items') !== undefined && storage.get('recipeTrees') === undefined) {
     await execute(loadRecipeList)
   }
 
-  schedule(loadRecipeList, 15 * 60)
+  schedule(loadRecipeList, 60 * 60)
   logger.info('Initialized recipe worker')
 }
 
