@@ -8,22 +8,22 @@ let storage = controller.__get__('storage')
 
 describe('controllers > item', () => {
   beforeEach(() => {
-    storage.set('items', {en: []})
+    storage.set('items', [])
   })
 
   it('handles /item/:id', () => {
     let response = {send: sinon.spy()}
     let items = [
-      {id: 1, name: 'Foo', tradable: false},
-      {id: 2, name: 'Bar', tradable: true},
-      {id: 3, name: 'FooBar', tradable: true}
+      {id: 1, name_en: 'Foo', description_en: null, tradable: false},
+      {id: 2, name_en: 'Bar', description_en: null, tradable: true},
+      {id: 3, name_en: 'FooBar', description_en: null, tradable: true}
     ]
-    storage.set('items', {en: items})
+    storage.set('items', items)
 
     controller.byId({params: {id: 2}}, response)
     expect(response.send.calledOnce).to.equal(true)
     expect(response.send.args[0][0]).to.deep.equal(
-      {id: 2, name: 'Bar', tradable: true}
+      {id: 2, name: 'Bar', description: null, tradable: true}
     )
   })
 
@@ -39,47 +39,47 @@ describe('controllers > item', () => {
   it('handles /items/:ids', () => {
     let response = {send: sinon.spy()}
     let items = [
-      {id: 1, name: 'Foo', tradable: false},
-      {id: 2, name: 'Bar', tradable: true},
-      {id: 3, name: 'FooBar', tradable: true}
+      {id: 1, name_en: 'Foo', description_en: null, tradable: false},
+      {id: 2, name_en: 'Bar', description_en: null, tradable: true},
+      {id: 3, name_en: 'FooBar', description_en: null, tradable: true}
     ]
-    storage.set('items', {en: items})
+    storage.set('items', items)
 
     controller.byIds({params: {ids: '2,3'}}, response)
     expect(response.send.calledOnce).to.equal(true)
     expect(response.send.args[0][0]).to.deep.equal([
-      {id: 2, name: 'Bar', tradable: true},
-      {id: 3, name: 'FooBar', tradable: true}
+      {id: 2, name: 'Bar', description: null, tradable: true},
+      {id: 3, name: 'FooBar', description: null, tradable: true}
     ])
   })
 
   it('handles /items/all', () => {
     let response = {send: sinon.spy()}
     let items = [
-      {id: 1, name: 'Foo', tradable: false},
-      {id: 2, name: 'Bar', tradable: true},
-      {id: 3, name: 'FooBar', tradable: true},
-      {id: 4, name: 'Herp', tradable: false}
+      {id: 1, name_en: 'Foo', description_en: null, tradable: false},
+      {id: 2, name_en: 'Bar', description_en: null, tradable: true},
+      {id: 3, name_en: 'FooBar', description_en: null, tradable: true},
+      {id: 4, name_en: 'Herp', description_en: null, tradable: false}
     ]
-    storage.set('items', {en: items})
+    storage.set('items', items)
 
     controller.all({params: {}}, response)
     expect(response.send.calledOnce).to.equal(true)
     expect(response.send.args[0][0]).to.deep.equal([
-      {id: 2, name: 'Bar', tradable: true},
-      {id: 3, name: 'FooBar', tradable: true}
+      {id: 2, name: 'Bar', description: null, tradable: true},
+      {id: 3, name: 'FooBar', description: null, tradable: true}
     ])
   })
 
   it('handles /items/all-prices', () => {
     let response = {send: sinon.spy()}
     let items = [
-      {id: 1, name: 'Foo', buy: {price: 0}, sell: {price: 123}},
-      {id: 2, name: 'Bar', buy: {price: 456}, sell: {price: 0}},
-      {id: 3, name: 'FooBar'},
-      {id: 4, name: 'Herp', buy: {price: 678}, sell: {price: 910}}
+      {id: 1, buy: {price: 0}, sell: {price: 123}},
+      {id: 2, buy: {price: 456}, sell: {price: 0}},
+      {id: 3},
+      {id: 4, buy: {price: 678}, sell: {price: 910}}
     ]
-    storage.set('items', {en: items})
+    storage.set('items', items)
 
     controller.allPrices({params: {}}, response)
     expect(response.send.calledOnce).to.equal(true)
@@ -104,17 +104,17 @@ describe('controllers > item', () => {
   it('handles /items/autocomplete', () => {
     let response = {send: sinon.spy()}
     let items = [
-      {id: 1, name: 'Foo', tradable: false},
-      {id: 2, name: 'Bar', tradable: true},
-      {id: 3, name: 'FooBar', tradable: true}
+      {id: 1, name_en: 'Foo', description_en: null, tradable: false},
+      {id: 2, name_en: 'Bar', description_en: null, tradable: true},
+      {id: 3, name_en: 'FooBar', description_en: null, tradable: true}
     ]
-    storage.set('items', {en: items})
+    storage.set('items', items)
 
     controller.autocomplete({params: {ids: 'autocomplete', q: 'Foo'}}, response)
     expect(response.send.calledOnce).to.equal(true)
     expect(response.send.args[0][0]).to.deep.equal([
-      {id: 1, name: 'Foo', tradable: false},
-      {id: 3, name: 'FooBar', tradable: true}
+      {id: 1, name: 'Foo', description: null, tradable: false},
+      {id: 3, name: 'FooBar', description: null, tradable: true}
     ])
   })
 
@@ -138,54 +138,54 @@ describe('controllers > item', () => {
   it('supports get all the item autocomplete parameters', () => {
     let response = {send: sinon.spy()}
     let items = [
-      {id: 1, name: 'Foo', craftable: true},
-      {id: 2, name: 'Bar', craftable: false},
-      {id: 3, name: 'FooBar', craftable: true},
-      {id: 4, name: 'Berserkers Foo of Bar', craftable: false},
-      {id: 5, name: 'Foo', craftable: true},
-      {id: 6, name: 'Foo too', craftable: false},
-      {id: 7, name: 'Berserkers Foo', craftable: true},
-      {id: 8, name: 'Awesome Foo of Herp', craftable: false}
+      {id: 1, name_en: 'Foo', description_en: null, craftable: true},
+      {id: 2, name_en: 'Bar', description_en: null, craftable: false},
+      {id: 3, name_en: 'FooBar', description_en: null, craftable: true},
+      {id: 4, name_en: 'Berserkers Foo of Bar', description_en: null, craftable: false},
+      {id: 5, name_en: 'Foo', description_en: null, craftable: true},
+      {id: 6, name_en: 'Foo too', description_en: null, craftable: false},
+      {id: 7, name_en: 'Berserkers Foo', description_en: null, craftable: true},
+      {id: 8, name_en: 'Awesome Foo of Herp', description_en: null, craftable: false}
     ]
-    storage.set('items', {en: items})
+    storage.set('items', items)
 
     controller.autocomplete({params: {q: 'F'}}, response)
     expect(response.send.args[0][0]).to.deep.equal([])
 
     controller.autocomplete({params: {q: 'Foo'}}, response)
     expect(response.send.args[1][0]).to.deep.equal([
-      {id: 1, name: 'Foo', craftable: true},
-      {id: 5, name: 'Foo', craftable: true},
-      {id: 3, name: 'FooBar', craftable: true},
-      {id: 6, name: 'Foo too', craftable: false},
-      {id: 8, name: 'Awesome Foo of Herp', craftable: false},
-      {id: 4, name: 'Berserkers Foo of Bar', craftable: false},
-      {id: 7, name: 'Berserkers Foo', craftable: true}
+      {id: 1, name: 'Foo', description: null, craftable: true},
+      {id: 5, name: 'Foo', description: null, craftable: true},
+      {id: 3, name: 'FooBar', description: null, craftable: true},
+      {id: 6, name: 'Foo too', description: null, craftable: false},
+      {id: 8, name: 'Awesome Foo of Herp', description: null, craftable: false},
+      {id: 4, name: 'Berserkers Foo of Bar', description: null, craftable: false},
+      {id: 7, name: 'Berserkers Foo', description: null, craftable: true}
     ])
 
     controller.autocomplete({params: {q: 'Foo', craftable: 1}}, response)
     expect(response.send.args[2][0]).to.deep.equal([
-      {id: 1, name: 'Foo', craftable: true},
-      {id: 5, name: 'Foo', craftable: true},
-      {id: 3, name: 'FooBar', craftable: true},
-      {id: 7, name: 'Berserkers Foo', craftable: true}
+      {id: 1, name: 'Foo', description: null, craftable: true},
+      {id: 5, name: 'Foo', description: null, craftable: true},
+      {id: 3, name: 'FooBar', description: null, craftable: true},
+      {id: 7, name: 'Berserkers Foo', description: null, craftable: true}
     ])
   })
 
   it('handles /items/by-name', () => {
     let response = {send: sinon.spy()}
     let items = [
-      {id: 1, name: 'Foo', tradable: false},
-      {id: 2, name: 'Bar', tradable: true},
-      {id: 3, name: 'FooBar', tradable: true}
+      {id: 1, name_en: 'Foo', description_en: null, tradable: false},
+      {id: 2, name_en: 'Bar', description_en: null, tradable: true},
+      {id: 3, name_en: 'FooBar', description_en: null, tradable: true}
     ]
-    storage.set('items', {en: items})
+    storage.set('items', items)
 
     controller.byName({params: {ids: 'by-name', names: 'Foo,bAr'}}, response)
     expect(response.send.calledOnce).to.equal(true)
     expect(response.send.args[0][0]).to.deep.equal([
-      {id: 1, name: 'Foo', tradable: false},
-      {id: 2, name: 'Bar', tradable: true}
+      {id: 1, name: 'Foo', description: null, tradable: false},
+      {id: 2, name: 'Bar', description: null, tradable: true}
     ])
   })
 
@@ -201,12 +201,12 @@ describe('controllers > item', () => {
   it('handles /items/by-skin', () => {
     let response = {send: sinon.spy()}
     let items = [
-      {id: 1, name: 'Foo', skin: 42},
-      {id: 2, name: 'Bar'},
-      {id: 3, name: 'FooBar', skin: 123},
-      {id: 4, name: 'Herp', skin: 42}
+      {id: 1, skin: 42},
+      {id: 2},
+      {id: 3, skin: 123},
+      {id: 4, skin: 42}
     ]
-    storage.set('items', {en: items})
+    storage.set('items', items)
 
     controller.bySkin({params: {ids: 'by-skin', skin_id: '42'}}, response)
     expect(response.send.calledOnce).to.equal(true)
@@ -225,13 +225,13 @@ describe('controllers > item', () => {
   it('handles /items/query', () => {
     let response = {send: sinon.spy()}
     let items = [
-      {id: 1, name: 'Foo', rarity: 0, category: [1, 2], buy: {price: 0}, sell: {price: 123}},
-      {id: 2, name: 'Bar', rarity: 1, category: [2], buy: {price: 123}, sell: {price: 456}},
-      {id: 3, name: 'FooBar', rarity: 2, craftable: true},
-      {id: 4, name: 'Herp', rarity: 4, category: [1], buy: {price: 789}, sell: {price: 1011}},
-      {id: 5, name: 'Hurp', rarity: 4, category: [1, 3]}
+      {id: 1, name_en: 'Foo', rarity: 0, category: [1, 2], buy: {price: 0}, sell: {price: 123}},
+      {id: 2, name_en: 'Bar', rarity: 1, category: [2], buy: {price: 123}, sell: {price: 456}},
+      {id: 3, name_en: 'FooBar', rarity: 2, craftable: true},
+      {id: 4, name_en: 'Herp', rarity: 4, category: [1], buy: {price: 789}, sell: {price: 1011}},
+      {id: 5, name_en: 'Hurp', rarity: 4, category: [1, 3]}
     ]
-    storage.set('items', {en: items})
+    storage.set('items', items)
 
     controller.query({params: {ids: 'query'}}, response)
     expect(response.send.args[0][0]).to.deep.equal([1, 2, 3, 4, 5])

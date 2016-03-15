@@ -58,7 +58,7 @@ describe('workers > item worker', () => {
 
   it('loads the items', async () => {
     let transformer = worker.__get__('transformItem')
-    worker.__set__('transformItem', x => x.name)
+    worker.__set__('transformItem', x => x.name_en)
     worker.__set__('api', () => ({
       language: () => ({
         items: () => ({
@@ -70,42 +70,67 @@ describe('workers > item worker', () => {
     await worker.loadItems()
     worker.__set__('transformItem', transformer)
 
-    expect(storage.get('items')).to.deep.equal({
-      de: ['Fiz Buz'],
-      en: ['Fiz Buz'],
-      fr: ['Fiz Buz'],
-      es: ['Fiz Buz']
-    })
+    expect(storage.get('items')).to.deep.equal(['Fiz Buz'])
   })
 
   it('doesn\'t overwrite the items', async () => {
     let transformer = worker.__get__('transformItem')
     worker.__set__('transformItem', x => x)
 
-    storage.set('items', {
-      en: [
-        {id: 1, name: 'Fiz', someKey: 'someValue'},
-        {id: 2, name: 'Herp'}
-      ]
-    })
+    storage.set('items', [
+      {id: 1, name_en: 'Fiz', someKey: 'someValue'},
+      {id: 2, name_en: 'Herp'}
+    ])
 
     worker.__set__('api', () => ({
       language: () => ({
         items: () => ({
           all: () => new Promise(r => r([
-            {id: 1, name: 'Fiz Buz'},
-            {id: 2, name: 'Herp', someOtherKey: 'someOtherValue'},
-            {id: 3, name: 'Shiny new item'}
+            {id: 1, name: 'Fiz Buz', description: ''},
+            {id: 2, name: 'Herp', description: '', someOtherKey: 'someOtherValue'},
+            {id: 3, name: 'Shiny new item', description: ''}
           ]))
         })
       })
     }))
 
     await worker.loadItems()
-    expect(storage.get('items').en).to.deep.equal([
-      {id: 1, name: 'Fiz Buz', someKey: 'someValue'},
-      {id: 2, name: 'Herp', someOtherKey: 'someOtherValue'},
-      {id: 3, name: 'Shiny new item'}
+    expect(storage.get('items')).to.deep.equal([
+      {
+        id: 1,
+        name_en: 'Fiz Buz',
+        name_de: 'Fiz Buz',
+        name_fr: 'Fiz Buz',
+        name_es: 'Fiz Buz',
+        description_en: '',
+        description_de: '',
+        description_fr: '',
+        description_es: '',
+        someKey: 'someValue'
+      },
+      {
+        id: 2,
+        name_en: 'Herp',
+        name_de: 'Herp',
+        name_fr: 'Herp',
+        name_es: 'Herp',
+        description_en: '',
+        description_de: '',
+        description_fr: '',
+        description_es: '',
+        someOtherKey: 'someOtherValue'
+      },
+      {
+        id: 3,
+        name_en: 'Shiny new item',
+        name_de: 'Shiny new item',
+        name_fr: 'Shiny new item',
+        name_es: 'Shiny new item',
+        description_en: '',
+        description_de: '',
+        description_fr: '',
+        description_es: ''
+      }
     ])
 
     worker.__set__('transformItem', transformer)
@@ -113,12 +138,10 @@ describe('workers > item worker', () => {
 
   it('loads the item prices', async () => {
     let currentDate = worker.__get__('isoDate')()
-    storage.set('items', {
-      en: [
-        {id: 1, name: 'Test Item'},
-        {id: 2, name: 'Another test item'}
-      ]
-    })
+    storage.set('items', [
+      {id: 1, name: 'Test Item'},
+      {id: 2, name: 'Another test item'}
+    ])
 
     worker.__set__('api', () => ({
       commerce: () => ({
@@ -139,7 +162,7 @@ describe('workers > item worker', () => {
     }))
 
     await worker.loadItemPrices()
-    expect(storage.get('items').en).to.deep.equal([
+    expect(storage.get('items')).to.deep.equal([
       {
         id: 1,
         name: 'Test Item',
@@ -171,8 +194,14 @@ describe('workers > item worker', () => {
   it('transforms an API item into the legacy structure', () => {
     let input = {
       id: 72,
-      name: "Berserker's Sneakthief Mask of the Afflicted",
-      description: '',
+      name_en: "Berserker's Sneakthief Mask of the Afflicted",
+      description_en: '',
+      name_de: 'Berserkerhafte Leisetreter-Maske der Befallenen',
+      description_de: '',
+      name_fr: 'Masque de cambrioleur berserker des Affligés',
+      description_fr: '',
+      name_es: 'Máscara de ratero de los afligidos de berserker',
+      description_es: '',
       type: 'Armor',
       level: 62,
       rarity: 'Exotic',
@@ -217,8 +246,14 @@ describe('workers > item worker', () => {
     }
     let output = {
       id: 72,
-      name: "Berserker's Sneakthief Mask of the Afflicted",
-      description: null,
+      name_en: "Berserker's Sneakthief Mask of the Afflicted",
+      description_en: null,
+      name_de: 'Berserkerhafte Leisetreter-Maske der Befallenen',
+      description_de: null,
+      name_fr: 'Masque de cambrioleur berserker des Affligés',
+      description_fr: null,
+      name_es: 'Máscara de ratero de los afligidos de berserker',
+      description_es: null,
       level: 62,
       rarity: 5,
       image: 'https://render.guildwars2.com/file/65A0C7367206E6CE4EC7C8CBE07EABAE0191BFBA/561548.png',

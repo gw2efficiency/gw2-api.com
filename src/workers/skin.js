@@ -15,7 +15,7 @@ async function initialize () {
 let items = []
 async function loadSkinList () {
   let skins = await api().skins().all()
-  items = storage.get('items').en
+  items = storage.get('items')
 
   // Try and resolve the skins from items
   skins = skins.map(skin => {
@@ -44,20 +44,20 @@ function resolveSkin (skin) {
 
   // Resolve by name + ' Skin'
   let skinName = skin.name + ' Skin'
-  skinItems = items.filter(x => x.name === skinName)
+  skinItems = items.filter(x => x.name_en === skinName)
   if (skinItems.length > 0) {
     return skinItems.map(x => x.id)
   }
 
   // Resolve by exact name
-  skinItems = items.filter(x => x.name === skin.name)
+  skinItems = items.filter(x => x.name_en === skin.name)
   if (skinItems.length > 0) {
     return skinItems.map(x => x.id)
   }
 
   // Resolve by any part of the name
   let skinNamePart = new RegExp('(^| )' + skin.name + '( |$)')
-  skinItems = items.filter(x => x.name.match(skinNamePart))
+  skinItems = items.filter(x => x.name_en.match(skinNamePart))
   if (skinItems.length > 0) {
     return skinItems.map(x => x.id)
   }

@@ -56,15 +56,13 @@ describe('workers > skin worker', () => {
   })
 
   it('loads the skins and resolves into items', async () => {
-    storage.set('items', {
-      en: [
-        {id: 1, name: 'Foo', skin: 1},
-        {id: 2, name: 'Bar'},
-        {id: 3, name: 'Bar'},
-        {id: 4, name: 'Some Skin'},
-        {id: 5, name: 'Something about cake'}
-      ]
-    })
+    storage.set('items', [
+      {id: 1, name_en: 'Foo', skin: 1},
+      {id: 2, name_en: 'Bar'},
+      {id: 3, name_en: 'Bar'},
+      {id: 4, name_en: 'Some Skin'},
+      {id: 5, name_en: 'Something about cake'}
+    ])
 
     worker.__set__('api', () => ({
       skins: () => ({
@@ -93,11 +91,11 @@ describe('workers > skin worker', () => {
   it('resolves skins correctly', () => {
     let resolve = worker.__get__('resolveSkin')
     let items = [
-      {id: 1, name: 'Foo', skin: 1},
-      {id: 2, name: 'Bar'},
-      {id: 3, name: 'Bar'},
-      {id: 4, name: 'Some Skin'},
-      {id: 5, name: 'Something about cake'}
+      {id: 1, name_en: 'Foo', skin: 1},
+      {id: 2, name_en: 'Bar'},
+      {id: 3, name_en: 'Bar'},
+      {id: 4, name_en: 'Some Skin'},
+      {id: 5, name_en: 'Something about cake'}
     ]
 
     expect(resolve({id: 1, name: 'Foo'}, items)).to.deep.equal([1])

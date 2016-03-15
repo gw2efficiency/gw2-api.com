@@ -2,6 +2,8 @@ const storage = require('../helpers/sharedStorage.js')
 const {invalidParameters, requestLanguage, multiParameter} = require('../helpers/controllers.js')
 const categoryMap = require('../static/categories.js')
 
+const languages = ['en', 'de', 'fr', 'es']
+
 function byId (request, response) {
   let lang = requestLanguage(request.params)
   let id = parseInt(request.params.id, 10)
@@ -10,7 +12,8 @@ function byId (request, response) {
     return invalidParameters(response)
   }
 
-  let content = storage.get('items')[lang].find(x => x.id === id)
+  let content = storage.get('items').find(x => x.id === id)
+  content = localizeItem(content, lang)
 
   response.send(content)
 }
@@ -19,22 +22,25 @@ function byIds (request, response) {
   let lang = requestLanguage(request.params)
   let ids = multiParameter(request.params.ids, true)
 
-  let content = storage.get('items')[lang]
+  let content = storage.get('items')
     .filter(x => ids.indexOf(x.id) !== -1)
+
+  content = content.map(i => localizeItem(i, lang))
 
   response.send(content)
 }
 
 function all (request, response) {
   let lang = requestLanguage(request.params)
-  let content = storage.get('items')[lang].filter(x => x.tradable)
+
+  let content = storage.get('items').filter(x => x.tradable)
+  content = content.map(i => localizeItem(i, lang))
+
   response.send(content)
 }
 
 function allPrices (request, response) {
-  let lang = requestLanguage(request.params)
-
-  let content = storage.get('items')[lang]
+  let content = storage.get('items')
     .filter(x => x.sell && x.buy)
     .map(x => ({
       id: x.id,
@@ -61,21 +67,22 @@ function autocomplete (request, response) {
     return response.send([])
   }
 
-  let matches = storage.get('items')[lang]
+  let matches = storage.get('items')
 
   if (craftable) {
     matches = matches.filter(x => x.craftable === true)
   }
 
-  matches = matches.filter(x => x.name.toLowerCase().indexOf(query) !== -1)
+  matches = matches.filter(x => x['name_' + lang].toLowerCase().indexOf(query) !== -1)
 
   matches.sort((a, b) => {
-    a = matchQuality(a.name.toLowerCase(), query)
-    b = matchQuality(b.name.toLowerCase(), query)
+    a = matchQuality(a['name_' + lang].toLowerCase(), query)
+    b = matchQuality(b['name_' + lang].toLowerCase(), query)
     return a - b
   })
 
   matches = matches.slice(0, 20)
+  matches = matches.map(i => localizeItem(i, lang))
 
   response.send(matches)
 }
@@ -97,11 +104,12 @@ function byName (request, response) {
     return invalidParameters(response)
   }
 
-  let names = multiParameter(request.params.names)
-  names = names.map(x => x.toLowerCase())
+  let names = multiParameter(request.params.names).map(x => x.toLowerCase())
 
-  let content = storage.get('items')[lang]
-    .filter(x => names.indexOf(x.name.toLowerCase()) !== -1)
+  let content = storage.get('items')
+    .filter(x => names.indexOf(x['name_' + lang].toLowerCase()) !== -1)
+
+  content = content.map(i => localizeItem(i, lang))
 
   response.send(content)
 }
@@ -113,7 +121,7 @@ function bySkin (request, response) {
     return invalidParameters(response)
   }
 
-  let content = storage.get('items')['en']
+  let content = storage.get('items')
     .filter(x => x.skin)
     .filter(x => skin_id === x.skin)
     .map(x => x.id)
@@ -122,6 +130,7 @@ function bySkin (request, response) {
 }
 
 function query (request, response) {
+  let lang = requestLanguage(request.params)
   let categories = multiParameter(request.params.categories, false, ';')
   let rarities = multiParameter(request.params.rarities, true, ';')
   let craftable = request.params.craftable
@@ -129,7 +138,7 @@ function query (request, response) {
   let includeName = request.params.include_name
   let output = request.params.output
 
-  let items = storage.get('items')['en']
+  let items = storage.get('items')
 
   if (categories.length > 0) {
     items = filterByCategories(items, categories)
@@ -145,12 +154,12 @@ function query (request, response) {
 
   if (excludeName !== undefined) {
     excludeName = excludeName.toLowerCase()
-    items = items.filter(i => i.name.toLowerCase().indexOf(excludeName) === -1)
+    items = items.filter(i => i['name_' + lang].toLowerCase().indexOf(excludeName) === -1)
   }
 
   if (includeName !== undefined) {
     includeName = includeName.toLowerCase()
-    items = items.filter(i => i.name.toLowerCase().indexOf(includeName) !== -1)
+    items = items.filter(i => i['name_' + lang].toLowerCase().indexOf(includeName) !== -1)
   }
 
   if (output !== 'prices') {
@@ -160,12 +169,10 @@ function query (request, response) {
   let buyPrices = items.filter(i => i.buy).map(i => i.buy.price)
   let sellPrices = items.filter(i => i.sell).map(i => i.sell.price)
 
-  items = {
+  response.send({
     buy: valueBreakdown(buyPrices),
     sell: valueBreakdown(sellPrices)
-  }
-
-  response.send(items)
+  })
 }
 
 // Filter an array of items by categories
@@ -191,6 +198,18 @@ function filterByCategories (items, categories) {
   }
 
   return items
+}
+
+// Localize the name and description of an item
+function localizeItem (item, lang) {
+  item = {...item}
+  item.name = item['name_' + lang]
+  item.description = item['description_' + lang]
+  languages.map(l => {
+    delete item['name_' + l]
+    delete item['description_' + l]
+  })
+  return item
 }
 
 // Get min, avg and max out of a list of values

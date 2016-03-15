@@ -7,6 +7,8 @@ const rarities = require('../static/rarities.js')
 const categories = require('../static/categories.js')
 const mergeById = require('../helpers/mergeById.js')
 
+const languages = ['en', 'de', 'fr', 'es']
+
 async function initialize () {
   if (storage.get('items') === undefined) {
     await execute(loadItems)
@@ -19,41 +21,49 @@ async function initialize () {
 }
 
 async function loadItems () {
-  let items = await async.parallel([
-    () => api().language('en').items().all(),
-    () => api().language('de').items().all(),
-    () => api().language('fr').items().all(),
-    () => api().language('es').items().all()
-  ])
+  let requests = languages.map(lang => () => api().language(lang).items().all())
+  let items = await async.parallel(requests)
 
-  let storedItems = storage.get('items', {})
-  storage.set('items', {
-    en: mergeById(storedItems.en, items[0].map(transformItem)),
-    de: mergeById(storedItems.de, items[1].map(transformItem)),
-    fr: mergeById(storedItems.fr, items[2].map(transformItem)),
-    es: mergeById(storedItems.es, items[3].map(transformItem))
+  // Go through the item array of each language, and save
+  // name and description as localized keys
+  items = languages.map((lang, i) => {
+    return items[i].map(item => {
+      item['name_' + lang] = item.name
+      item['description_' + lang] = item.description
+      delete item.name
+      delete item.description
+      return item
+    })
   })
+
+  // Merge the items of all languages together
+  let transformed = []
+  languages.map((l, i) => transformed = mergeById(transformed, items[i]))
+
+  // Save with the legacy format
+  let storedItems = storage.get('items', [])
+  storage.set('items', mergeById(storedItems, transformed.map(transformItem)))
   storage.save()
 }
 
 async function loadItemPrices () {
   let prices = await api().commerce().prices().all()
   let storedItems = storage.get('items', {})
-
-  for (let lang in storedItems) {
-    storedItems[lang] = mergeById(storedItems[lang], prices, true, transformPrices)
-  }
-
-  storage.set('items', storedItems)
+  storage.set('items', mergeById(storedItems, prices, true, transformPrices))
   storage.save()
 }
 
 // Transform an item into the expected legacy structure
 function transformItem (item) {
+  let localizedText = {}
+  languages.map(l => {
+    localizedText['name_' + l] = item['name_' + l]
+    localizedText['description_' + l] = transformDescription(item['description_' + l])
+  })
+
   return {
     id: item.id,
-    name: item.name,
-    description: transformDescription(item.description),
+    ...localizedText,
     image: item.icon,
     level: transformLevel(item.level),
     vendor_price: item.vendor_value,
