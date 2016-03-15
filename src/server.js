@@ -12,6 +12,7 @@ setInterval(sharedStorage.load, 60 * 1000)
 // Setup a server and connect the routes
 const server = restify.createServer({name: 'gw2-api.com'})
 server.use(restify.queryParser())
+server.use(restify.bodyParser())
 setupRoutes(server)
 setupErrorHandling(server)
 server.listen(8080, () => logger.info('Server listening on port 8080'))
