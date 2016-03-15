@@ -26,6 +26,17 @@ async function loadRecipeList () {
   // Convert the recipes into trees
   recipes = recipeNesting(recipes)
   storage.set('recipeTrees', recipes)
+
+  // Update the craftable flag for items
+  let items = storage.get('items')
+  for (let key in items) {
+    items[key] = items[key].map(item => {
+      item.craftable = recipeIds.indexOf(item.id) !== -1
+      return item
+    })
+  }
+  storage.set('items', items)
+
   storage.save()
 }
 

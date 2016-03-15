@@ -66,6 +66,8 @@ describe('workers > recipe worker', () => {
       })
     }))
 
+    storage.set('items', {en: [{id: 1}, {id: 9001}]})
+
     await worker.loadRecipeList()
 
     let expected = [
@@ -75,6 +77,7 @@ describe('workers > recipe worker', () => {
     ]
 
     expect(storage.get('recipeTrees')).to.deep.equal(expected)
+    expect(storage.get('items').en).to.deep.equal([{id: 1, craftable: true}, {id: 9001, craftable: false}])
     expect(nestingMock.calledOnce).to.equal(true)
     expect(nestingMock.args[0][0]).to.deep.equal(expected)
 
