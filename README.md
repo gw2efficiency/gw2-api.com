@@ -7,8 +7,8 @@
 
 ## Install
 
-- **Requirements**
-  - [Redis](http://redis.io/) for sharing memory between worker and servers
+- **Requirements:**
+  - [Redis](http://redis.io/) for sharing information between the worker and the servers
   - A process manager to keep the processes running, in this example [pm2](https://github.com/Unitech/pm2)
 
 ```sh
@@ -46,14 +46,19 @@ I wanted to this data for a tradingpost section on [gw2efficiency.com](https://g
 
 **Present**
 
-Now, [gw2efficiency.com](https://gw2efficiency.com/) still depends on this project and gets item data from [gw2-api.com](https://gw2-api.com), even tho the official API
-has gotten many more endpoints and a lot of things could be requested directly from it. Sadly in the way this page was written in PHP, it takes way too many resources to serve the millions of requests it gets every day. 
+Now, [gw2efficiency.com](https://gw2efficiency.com/) still depends on this project and gets item data 
+from [gw2-api.com](https://gw2-api.com), even tho the official API has gotten many more endpoints and
+a lot of things could be requested directly from it. Sadly in the way this page was written in PHP, 
+it takes way too many resources to serve the millions of requests it gets every day. 
 
-To fix this, and to try out the other node modules for [gw2efficiency.com](https://gw2efficiency.com/) in a production environment, this project has been rewritten in node.js with resource management and performance in mind.
+To fix this, and to extract re-usable modules that can get used for [gw2efficiency.com](https://gw2efficiency.com/) 
+as well, this project has been rewritten in node.js with resource management and performance in mind.
 
 **Future**
 
-In the future, [gw2-api.com](https://gw2-api.com) will stay online, but it will not be used in production anymore. Instead, it will be integrated into [gw2efficiency.com](https://gw2efficiency.com/) directly.
+In the future, [gw2-api.com](https://gw2-api.com) will stay online, but it will not be used 
+in production anymore. Instead, it will be integrated into the API of
+[gw2efficiency.com](https://gw2efficiency.com/) directly.
 
 ## Endpoints
 
