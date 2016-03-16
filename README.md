@@ -18,8 +18,8 @@ cd gw2-api.com/
 npm install
 npm run build
 
-# Start the server cluster
-pm2 start build/server.js --name="gw2api server" -i 3
+# Start a server cluster with 10 processes
+pm2 start build/server.js --name="gw2api server" -i 10
 
 # Start the background worker
 pm2 start build/worker.js --name="gw2api worker"
