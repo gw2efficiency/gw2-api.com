@@ -63,7 +63,7 @@ function loadItemPrices () {
       new Promise(async resolve => {
         // Find the item matching the price, update the price based on the first match
         // and then overwrite the prices for all matches (= all languages)
-        let item = await collection.find({id: price.id}).limit(1).next()
+        let item = await collection.find({id: price.id, tradable: true}).limit(1).next()
 
         if (!item) return resolve()
         item = transformPrices(item, price)
