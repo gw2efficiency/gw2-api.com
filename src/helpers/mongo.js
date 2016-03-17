@@ -14,6 +14,9 @@ function connect () {
 
       database = db
       logger.info('Connection established to ' + url)
+      db.on('close', () => logger.error('Connection to mongodb closed'))
+      db.on('reconnect', () => logger.info('Connection to mongodb reestablished'))
+
       resolve()
     })
   })
