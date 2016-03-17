@@ -1,12 +1,20 @@
 const logger = require('../helpers/logger.js')
-const storage = require('../helpers/sharedStorage.js')
+const mongo = require('../helpers/mongo.js')
 const {execute, schedule} = require('../helpers/workers.js')
 const api = require('../helpers/api.js')
 const requester = require('gw2e-requester')
+const async = require('gw2e-async-promises')
 const recipeNesting = require('gw2e-recipe-nesting')
 
 async function initialize () {
-  if (storage.get('items') !== undefined && storage.get('recipeTrees') === undefined) {
+  let recipesCollection = mongo.collection('recipe-trees')
+  recipesCollection.createIndex('id')
+  let recipeExists = !!await recipesCollection.find({}).limit(1).next()
+
+  let itemCollection = mongo.collection('items')
+  let itemExists = !!await itemCollection.find({}).limit(1).next()
+
+  if (itemExists && !recipeExists) {
     await execute(loadRecipeList)
   }
 
@@ -25,17 +33,23 @@ async function loadRecipeList () {
 
   // Convert the recipes into trees
   recipes = recipeNesting(recipes)
-  storage.set('recipeTrees', recipes)
+
+  // Create and execute the recipe updates
+  let collection = mongo.collection('recipe-trees')
+  let updateFunctions = []
+  recipes.map(recipe => {
+    updateFunctions.push(() =>
+      collection.update({id: recipe.id}, recipe, {upsert: true})
+    )
+  })
+
+  await async.parallel(updateFunctions)
 
   // Update the craftable flag for items
-  let items = storage.get('items')
-  items = items.map(item => {
-    item.craftable = recipeIds.indexOf(item.id) !== -1
-    return item
-  })
-  storage.set('items', items)
-
-  storage.save()
+  let itemCollection = mongo.collection('items')
+  let craftableIds = recipes.map(r => r.id)
+  await itemCollection.update({id: {'$nin': craftableIds}}, {'$set': {craftable: false}}, {multi: true})
+  await itemCollection.update({id: {'$in': craftableIds}}, {'$set': {craftable: true}}, {multi: true})
 }
 
 async function loadCustomRecipes () {
@@ -63,7 +77,8 @@ async function loadCustomRecipes () {
       return false
     }
 
-    // Remove circular dependencies
+    // Remove circular dependencies (promotions)
+    // Note: the nesting could handle that, but I don't want to blow up the recipe tree
     let ingredientIds = recipe.ingredients.map(i => i.item_id)
     if (ingredientIds.indexOf(recipe.output_item_id) !== -1) {
       return false
