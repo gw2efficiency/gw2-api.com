@@ -1,5 +1,6 @@
 require('babel-polyfill')
 require('pmx').init({http: true})
+require('newrelic')
 
 const restify = require('restify')
 const logger = require('./helpers/logger.js')
