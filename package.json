@@ -17,6 +17,7 @@
     "gw2e-gw2api-scraping": "^1.0.1",
     "gw2e-recipe-nesting": "^1.0.0",
     "mongodb": "^2.1.7",
+    "pmx": "^0.6.1",
     "restify": "^4.0.3"
   },
   "devDependencies": {
