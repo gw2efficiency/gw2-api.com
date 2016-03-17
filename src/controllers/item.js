@@ -3,9 +3,7 @@ const {invalidParameters, requestLanguage, multiParameter} = require('../helpers
 const categoryMap = require('../static/categories.js')
 const escapeRegex = require('escape-string-regexp')
 
-const languages = ['en', 'de', 'fr', 'es']
-
-function byId (request, response) {
+async function byId (request, response) {
   let lang = requestLanguage(request.params)
   let id = parseInt(request.params.id, 10)
 
@@ -13,46 +11,44 @@ function byId (request, response) {
     return invalidParameters(response)
   }
 
-  mongo.collection('items').find({id: id, lang: lang}, {_id: 0, lang: 0}).limit(1).next((err, item) => {
-    if (err) throw err
-    response.send(item)
-  })
+  let item = await mongo.collection('items').find({id: id, lang: lang}, {_id: 0, lang: 0}).limit(1).next()
+
+  if (!item) {
+    return response.send(404, {text: 'no such id'})
+  }
+
+  response.send(item)
 }
 
 async function byIds (request, response) {
   let lang = requestLanguage(request.params)
   let ids = multiParameter(request.params.ids, true)
 
-  mongo.collection('items').find({id: {'$in': ids}, lang: lang}, {_id: 0, lang: 0}).toArray((err, items) => {
-    if (err) throw err
-    response.send(items)
-  })
+  let items = await mongo.collection('items').find({id: {'$in': ids}, lang: lang}, {_id: 0, lang: 0}).toArray()
+  response.send(items)
 }
 
-function all (request, response) {
+async function all (request, response) {
   let lang = requestLanguage(request.params)
 
-  mongo.collection('items').find({tradable: true, lang: lang}, {_id: 0, lang: 0}).toArray((err, items) => {
-    if (err) throw err
-    response.send(items)
-  })
+  let items = await mongo.collection('items').find({tradable: true, lang: lang}, {_id: 0, lang: 0}).toArray()
+  response.send(items)
 }
 
-function allPrices (request, response) {
-  mongo.collection('items').aggregate([
+async function allPrices (request, response) {
+  let items = await mongo.collection('items').aggregate([
     {'$match': {tradable: true, lang: 'en'}},
     {'$project': {_id: 0, id: 1, price: {'$max': ['$sell.price', '$buy.price', '$vendor_price']}}}
-  ]).toArray((err, items) => {
-    if (err) throw err
-    response.send(items)
-  })
+  ]).toArray()
+
+  response.send(items)
 }
 
 function categories (request, response) {
   response.send(categoryMap)
 }
 
-function autocomplete (request, response) {
+async function autocomplete (request, response) {
   if (!request.params.q) {
     return invalidParameters(response)
   }
@@ -74,17 +70,15 @@ function autocomplete (request, response) {
     mongoQuery['craftable'] = true
   }
 
-  mongo.collection('items').find(mongoQuery, {_id: 0, lang: 0}).toArray((err, items) => {
-    if (err) throw err
+  let items = await mongo.collection('items').find(mongoQuery, {_id: 0, lang: 0}).toArray()
 
-    items.sort((a, b) => {
-      a = matchQuality(a.name.toLowerCase(), query)
-      b = matchQuality(b.name.toLowerCase(), query)
-      return a - b
-    })
-
-    response.send(items.slice(0, 20))
+  items.sort((a, b) => {
+    a = matchQuality(a.name.toLowerCase(), query)
+    b = matchQuality(b.name.toLowerCase(), query)
+    return a - b
   })
+
+  response.send(items.slice(0, 20))
 }
 
 // Determine the quality of matching a query string in a target string
@@ -97,7 +91,7 @@ function matchQuality (target, query) {
   return 1 + index
 }
 
-function byName (request, response) {
+async function byName (request, response) {
   let lang = requestLanguage(request.params)
 
   if (!request.params.names) {
@@ -106,26 +100,22 @@ function byName (request, response) {
 
   let names = multiParameter(request.params.names)
 
-  mongo.collection('items').find({name: {'$in': names}, lang: lang}, {_id: 0, lang: 0}).toArray((err, items) => {
-    if (err) throw err
-    response.send(items)
-  })
+  let items = await mongo.collection('items').find({name: {'$in': names}, lang: lang}, {_id: 0, lang: 0}).toArray()
+  response.send(items)
 }
 
-function bySkin (request, response) {
+async function bySkin (request, response) {
   let skin_id = parseInt(request.params.skin_id, 10)
 
   if (!skin_id) {
     return invalidParameters(response)
   }
 
-  mongo.collection('items').find({skin: skin_id, lang: 'en'}, {_id: 0, id: 1}).toArray((err, ids) => {
-    if (err) throw err
-    response.send(ids.map(x => x.id))
-  })
+  let items = await mongo.collection('items').find({skin: skin_id, lang: 'en'}, {_id: 0, id: 1}).toArray()
+  response.send(items.map(i => i.id))
 }
 
-function query (request, response) {
+async function query (request, response) {
   let categories = multiParameter(request.params.categories, false, ';')
   let rarities = multiParameter(request.params.rarities, true, ';')
   let craftable = request.params.craftable
@@ -171,20 +161,18 @@ function query (request, response) {
     mongoQuery['sell.price'] = {$ne: null}
   }
 
-  let fields = {_id: 0, id: 1, 'buy.price': 1, 'sell.price': 1}
-  mongo.collection('items').find(mongoQuery, fields).toArray((err, items) => {
-    if (err) throw err
+  let fields = {_id: 0, id: 1, name: 1, 'buy.price': 1, 'sell.price': 1}
+  let items = await mongo.collection('items').find(mongoQuery, fields).toArray()
 
-    if (output !== 'prices') {
-      return response.send(items.map(x => x.id))
-    }
+  if (output !== 'prices') {
+    return response.send(items.map(x => x.id))
+  }
 
-    let buyPrices = items.map(i => i.buy.price)
-    let sellPrices = items.map(i => i.sell.price)
-    response.send({
-      buy: valueBreakdown(buyPrices),
-      sell: valueBreakdown(sellPrices)
-    })
+  let buyPrices = items.map(i => i.buy.price)
+  let sellPrices = items.map(i => i.sell.price)
+  response.send({
+    buy: valueBreakdown(buyPrices),
+    sell: valueBreakdown(sellPrices)
   })
 }
 
@@ -194,6 +182,8 @@ Object.values(categoryMap).map(category => {
   categoryIdMap[category[0]] = !category[1] ? false : Object.values(category[1])
 })
 
+// Generate an array with the expanded allowed categories
+// so we can just do an "in" match in the database
 function allowedCategories (categories) {
   let categoryList = []
 
