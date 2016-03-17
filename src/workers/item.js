@@ -19,8 +19,12 @@ async function initialize () {
     await execute(loadItemPrices)
   }
 
-  schedule(loadItems, 60 * 60)
-  schedule(loadItemPrices, 60)
+  // Update the items once a day, at 2am
+  schedule('0 0 2 * * *', loadItems, 60 * 60)
+
+  // Update prices every 5 minutes (which is the gw2 cache time)
+  schedule('*/5 * * * *', loadItemPrices)
+
   logger.info('Initialized item worker')
 }
 

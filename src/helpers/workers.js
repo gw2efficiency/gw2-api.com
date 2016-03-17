@@ -1,4 +1,5 @@
 const logger = require('./logger.js')
+const scheduler = require('node-schedule')
 
 async function execute (callback) {
   let description = callback.name
@@ -6,16 +7,20 @@ async function execute (callback) {
   let start = new Date()
   try {
     await callback()
-    let ms = new Date() - start
-    logger.success('Finished task: ' + description + ' [' + ms + 'ms]')
+    let seconds = Math.round((new Date() - start) / 1000)
+    logger.success('Finished task: ' + description + ' [' + seconds + 's]')
   } catch (e) {
-    let ms = new Date() - start
-    logger.error('Failed task: ' + description + ' [' + ms + 'ms]\n' + e.stack)
+    let seconds = Math.round((new Date() - start) / 1000)
+    logger.error('Failed task: ' + description + ' [' + seconds + 's]\n' + e.stack)
   }
 }
 
-function schedule (callback, seconds) {
-  setInterval(() => execute(callback), seconds * 1000)
+function schedule (cronString, callback) {
+  let parser = require('cron-parser')
+  let interval = parser.parseExpression(cronString)
+  logger.info('Scheduling ' + callback.name + ' (first call: ' + interval.next().toString() + ')')
+
+  scheduler.scheduleJob(cronString, () => execute(callback))
 }
 
 module.exports = {execute, schedule}

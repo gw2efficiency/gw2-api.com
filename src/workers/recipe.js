@@ -18,7 +18,9 @@ async function initialize () {
     await execute(loadRecipeList)
   }
 
-  schedule(loadRecipeList, 60 * 60)
+  // Update the recipes every day at 4
+  schedule('0 0 4 * * *', loadRecipeList)
+
   logger.info('Initialized recipe worker')
 }
 

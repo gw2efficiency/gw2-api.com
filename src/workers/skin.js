@@ -15,7 +15,9 @@ async function initialize () {
     await execute(loadSkinList)
   }
 
-  schedule(loadSkinList, 60 * 60)
+  // Update the skin list every day at 3
+  schedule('0 0 3 * * *', loadSkinList)
+
   logger.info('Initialized skin worker')
 }
 

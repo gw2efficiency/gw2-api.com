@@ -12,7 +12,10 @@ async function initialize () {
     await execute(loadGemPriceHistory)
   }
 
-  schedule(loadGemPriceHistory, 15 * 60)
+  // Update the gem history every 30 mins since we
+  // have no idea how long this is cached for :(
+  schedule('30/* * * * *', loadGemPriceHistory)
+
   logger.info('Initialized gem worker')
 }
 
