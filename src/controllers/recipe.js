@@ -9,6 +9,11 @@ async function nested (request, response) {
   }
 
   let recipe = await mongo.collection('recipe-trees').find({id: id}, {_id: 0}).limit(1).next()
+
+  if (!recipe) {
+    return response.send(404, {text: 'no such id'})
+  }
+
   response.send(recipe)
 }
 
