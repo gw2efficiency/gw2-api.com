@@ -1,69 +1,90 @@
 const logger = require('../helpers/logger.js')
-const storage = require('../helpers/sharedStorage.js')
+const mongo = require('../helpers/mongo.js')
 const {execute, schedule} = require('../helpers/workers.js')
 const api = require('../helpers/api.js')
 const async = require('gw2e-async-promises')
 const rarities = require('../static/rarities.js')
 const categories = require('../static/categories.js')
-const mergeById = require('../helpers/mergeById.js')
 
 const languages = ['en', 'de', 'fr', 'es']
 
 async function initialize () {
-  if (storage.get('items') === undefined) {
+  let collection = mongo.collection('items')
+  collection.createIndex('id')
+  collection.createIndex('lang')
+  let exists = !!(await collection.find({}).limit(1).next())
+
+  if (!exists) {
     await execute(loadItems)
     await execute(loadItemPrices)
   }
 
-  schedule(loadItems, 60 * 60)
-  schedule(loadItemPrices, 60)
+  // Update the items once a day, at 2am
+  schedule('0 0 2 * * *', loadItems, 60 * 60)
+
+  // Update prices every 5 minutes (which is the gw2 cache time)
+  schedule('*/5 * * * *', loadItemPrices)
+
   logger.info('Initialized item worker')
 }
 
-async function loadItems () {
-  let requests = languages.map(lang => () => api().language(lang).items().all())
-  let items = await async.parallel(requests)
+function loadItems () {
+  return new Promise(async resolve => {
+    let itemRequests = languages.map(lang => () => api().language(lang).items().all())
+    let items = await async.parallel(itemRequests)
 
-  // Go through the item array of each language, and save
-  // name and description as localized keys
-  items = languages.map((lang, i) => {
-    return items[i].map(item => {
-      item['name_' + lang] = item.name
-      item['description_' + lang] = item.description
-      delete item.name
-      delete item.description
-      return item
-    })
+    // We save one row per item per language. This *does* take longer in
+    // the worker, but it enables the server part to serve requests using nearly
+    // no processing power, since it doesn't have to transform languages to
+    // match the request. We could move the transforming to the mongodb server
+    // using aggregates, but that's also processing for every request instead of a
+    // little overhead when adding new items.
+    let collection = mongo.collection('items')
+    let updateFunctions = []
+
+    for (let key in languages) {
+      let lang = languages[key]
+      let languageItems = items[key]
+      languageItems.map(item => {
+        item = {...transformItem(item), lang: lang}
+        updateFunctions.push(() => collection.update({id: item.id, lang: lang}, {'$set': item}, {upsert: true}))
+      })
+    }
+
+    await async.parallel(updateFunctions)
+    resolve()
   })
-
-  // Merge the items of all languages together
-  let transformed = []
-  languages.map((l, i) => transformed = mergeById(transformed, items[i]))
-
-  // Save with the legacy format
-  let storedItems = storage.get('items', [])
-  storage.set('items', mergeById(storedItems, transformed.map(transformItem)))
-  storage.save()
 }
 
-async function loadItemPrices () {
-  let prices = await api().commerce().prices().all()
-  let storedItems = storage.get('items', {})
-  storage.set('items', mergeById(storedItems, prices, true, transformPrices))
-  storage.save()
+function loadItemPrices () {
+  return new Promise(async resolve => {
+    let prices = await api().commerce().prices().all()
+    let collection = mongo.collection('items')
+
+    let updateFunctions = prices.map(price => () =>
+      new Promise(async resolve => {
+        // Find the item matching the price, update the price based on the first match
+        // and then overwrite the prices for all matches (= all languages)
+        let item = await collection.find({id: price.id, tradable: true}).limit(1).next()
+
+        if (!item) return resolve()
+        item = transformPrices(item, price)
+        await collection.update({id: price.id}, {'$set': item}, {multi: true})
+        resolve()
+      })
+    )
+
+    await async.parallel(updateFunctions)
+    resolve()
+  })
 }
 
 // Transform an item into the expected legacy structure
 function transformItem (item) {
-  let localizedText = {}
-  languages.map(l => {
-    localizedText['name_' + l] = item['name_' + l]
-    localizedText['description_' + l] = transformDescription(item['description_' + l])
-  })
-
   return {
     id: item.id,
-    ...localizedText,
+    name: item.name,
+    description: transformDescription(item.description),
     image: item.icon,
     level: transformLevel(item.level),
     vendor_price: item.vendor_value,

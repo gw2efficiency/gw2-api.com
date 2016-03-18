@@ -1,7 +1,8 @@
-const storage = require('../helpers/sharedStorage.js')
+const mongo = require('../helpers/mongo.js')
 
-function history (request, response) {
-  response.send(storage.get('gemPriceHistory'))
+async function history (request, response) {
+  let historyCache = await mongo.collection('cache').find({id: 'gemPriceHistory'}).limit(1).next()
+  response.send(historyCache.content)
 }
 
 module.exports = {history}

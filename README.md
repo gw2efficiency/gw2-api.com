@@ -7,9 +7,10 @@
 
 ## Install
 
-- **Requirements**
-  - [Redis](http://redis.io/) for sharing memory between worker and servers
+- **Requirements:**
+  - [MongoDB](http://mongodb.org/) as the database layer
   - A process manager to keep the processes running, in this example [pm2](https://github.com/Unitech/pm2)
+  - (Optional) Some sort of caching like [Varnish](https://www.varnish-cache.org/)
 
 ```sh
 # Clone the repository and build the worker and server files
@@ -18,42 +19,20 @@ cd gw2-api.com/
 npm install
 npm run build
 
-# Start the server cluster
-pm2 start build/server.js --name="gw2api server" -i 3
+# Start a server cluster with 10 processes
+pm2 start build/server.js --name="gw2api-server" -i 10
 
 # Start the background worker
-pm2 start build/worker.js --name="gw2api worker"
+pm2 start build/worker.js --name="gw2api-worker"
 ```
 
 ## Tests
 
+**Note:** Requires a running instance of mongodb and will execute on a test database
+
 ```
 npm test
 ```
-
-## History and reasoning of this module
-
-> You can find the old PHP version before the rewrite under the [v0.1 release tag](https://github.com/queicherius/gw2-api/tree/v0.1).
-
-**Past**
-
-In the old days, before the official API, you could get item and price data
-by requesting a session token from the official login page and then using the urls the tradingpost
-used ingame as a unofficial API. 
-
-This project originated when
-I wanted to this data for a tradingpost section on [gw2efficiency.com](https://gw2efficiency.com/), but I was not satisfied with the existing solutions (mainly because of cache time, update frequency and data format).
-
-**Present**
-
-Now, [gw2efficiency.com](https://gw2efficiency.com/) still depends on this project and gets item data from [gw2-api.com](https://gw2-api.com), even tho the official API
-has gotten many more endpoints and a lot of things could be requested directly from it. Sadly in the way this page was written in PHP, it takes way too many resources to serve the millions of requests it gets every day. 
-
-To fix this, and to try out the other node modules for [gw2efficiency.com](https://gw2efficiency.com/) in a production environment, this project has been rewritten in node.js with resource management and performance in mind.
-
-**Future**
-
-In the future, [gw2-api.com](https://gw2-api.com) will stay online, but it will not be used in production anymore. Instead, it will be integrated into [gw2efficiency.com](https://gw2efficiency.com/) directly.
 
 ## Endpoints
 
@@ -137,7 +116,7 @@ This endpoint returns an array of items.
 
 ### `/items/all`
 
-This endpoint returns an array of all tradeable items.
+This endpoint returns an array of all tradable items.
 
 **Parameters**
 
@@ -156,7 +135,7 @@ This endpoint returns an array of all tradeable items.
 
 ### `/items/all-prices`
 
-This endpoint returns an array of all tradeable item ids with their prices.
+This endpoint returns an array of all tradable item ids with their prices.
 
 **Parameters**
 
@@ -174,7 +153,7 @@ This endpoint returns an array of all tradeable item ids with their prices.
 
 ### `/items/autocomplete`
 
-This endpoint returns an array of items matching the search query.
+This endpoint returns an array of up to 20 items best matching the search query.
 
 **Parameters**
 
@@ -196,7 +175,7 @@ This endpoint returns an array of items matching the search query.
 
 ### `/items/by-name`
 
-This endpoint returns an array of all items matching the name exactly.
+This endpoint returns an array of all items matching the name exactly (case-sensitive!).
 
 **Parameters**
 
@@ -233,13 +212,17 @@ This endpoint returns an array of all item ids matching the skin id.
 
 ### `/items/query`
 
-This endpoint returns all items matching the query.
+This endpoint returns all items matching the query. 
+
+**PLEASE DO NOT USE THIS HEAVILY** Please note that this endpoint is not as 
+optimized as the others, since it should never be used directly user facing. This is
+supposed to be only used for server-side tasks that run every once in a while.
 
 **Parameters**
 
-- `categories`: Semicolon separated list of category ids that the queried items must match
-- `rarities`: Semicolon separated list of rarities that the queried items must match
-- `craftable`: If set, queried items must be craftable
+- `categories`: *Semicolon* separated list of category ids that the queried items must match
+- `rarities`: *Semicolon* separated list of rarities that the queried items must match
+- `craftable`: If set to any value, queried items must be craftable
 - `exclude_name`: Queried items must exclude this string in their name
 - `include_name`: Queried items must include this string in their name
 - `output`: If set, returns a object with price information across all matches instead of item ids
@@ -391,6 +374,35 @@ This endpoint returns price history data for gold to gems conversion.
     // ...
   ]
 ```
+
+## History and reasoning of this module
+
+> You can find the old PHP version before the rewrite under the [v0.1 release tag](https://github.com/queicherius/gw2-api/tree/v0.1).
+
+**Past**
+
+In the old days, before the official API, you could get item and price data
+by requesting a session token from the official login page and then using the urls the tradingpost
+used ingame as a unofficial API. 
+
+This project originated when
+I wanted to this data for a tradingpost section on [gw2efficiency.com](https://gw2efficiency.com/), but I was not satisfied with the existing solutions (mainly because of cache time, update frequency and data format).
+
+**Present**
+
+Now, [gw2efficiency.com](https://gw2efficiency.com/) still depends on this project and gets item data 
+from [gw2-api.com](https://gw2-api.com), even tho the official API has gotten many more endpoints and
+a lot of things could be requested directly from it. Sadly in the way this page was written in PHP, 
+it takes way too many resources to serve the millions of requests it gets every day. 
+
+To fix this, and to extract re-usable modules that can get used for [gw2efficiency.com](https://gw2efficiency.com/) 
+as well, this project has been rewritten in node.js with resource management and performance in mind.
+
+**Future**
+
+In the future, [gw2-api.com](https://gw2-api.com) will stay online, but it will not be used 
+in production anymore. Instead, it will be integrated into the API of
+[gw2efficiency.com](https://gw2efficiency.com/) directly.
 
 ## Licence
 

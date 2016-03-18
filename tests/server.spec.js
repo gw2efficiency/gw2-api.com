@@ -3,14 +3,19 @@ const proxyquire = require('proxyquire')
 const expect = require('chai').expect
 const sinon = require('sinon')
 
+const mongo = require('../src/helpers/mongo.js')
+mongo.logger.quiet(true)
+
 const routesSpy = sinon.spy()
 const server = proxyquire('../src/server.js', {
-  './helpers/sharedStorage.js': {load: () => true},
-  './helpers/logger.js': sinon.stub(require('../src/helpers/logger.js')),
   './routes.js': {setupRoutes: routesSpy, setupErrorHandling: routesSpy}
 })
 
-describe('server', () => {
+describe('server setup', () => {
+  before(async () => {
+    await mongo.connect('mongodb://127.0.0.1:27017/gw2api-test')
+  })
+
   it('can run the server', () => {
     expect(server).to.exist
     expect(server.name).to.equal('gw2-api.com')

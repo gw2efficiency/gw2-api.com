@@ -1,10 +1,9 @@
-const storage = require('../helpers/sharedStorage.js')
+const mongo = require('../helpers/mongo.js')
 const {invalidParameters, requestLanguage, multiParameter} = require('../helpers/controllers.js')
 const categoryMap = require('../static/categories.js')
+const escapeRegex = require('escape-string-regexp')
 
-const languages = ['en', 'de', 'fr', 'es']
-
-function byId (request, response) {
+async function byId (request, response) {
   let lang = requestLanguage(request.params)
   let id = parseInt(request.params.id, 10)
 
@@ -12,49 +11,45 @@ function byId (request, response) {
     return invalidParameters(response)
   }
 
-  let content = storage.get('items').find(x => x.id === id)
-  content = localizeItem(content, lang)
+  let item = await mongo.collection('items').find({id: id, lang: lang}, {_id: 0, lang: 0}).limit(1).next()
 
-  response.send(content)
+  if (!item) {
+    return response.send(404, {text: 'no such id'})
+  }
+
+  response.send(item)
 }
 
-function byIds (request, response) {
+async function byIds (request, response) {
   let lang = requestLanguage(request.params)
   let ids = multiParameter(request.params.ids, true)
 
-  let content = storage.get('items')
-    .filter(x => ids.indexOf(x.id) !== -1)
-
-  content = content.map(i => localizeItem(i, lang))
-
-  response.send(content)
+  let items = await mongo.collection('items').find({id: {'$in': ids}, lang: lang}, {_id: 0, lang: 0}).toArray()
+  response.send(items)
 }
 
-function all (request, response) {
+async function all (request, response) {
   let lang = requestLanguage(request.params)
 
-  let content = storage.get('items').filter(x => x.tradable)
-  content = content.map(i => localizeItem(i, lang))
-
-  response.send(content)
+  let items = await mongo.collection('items').find({tradable: true, lang: lang}, {_id: 0, lang: 0}).toArray()
+  response.send(items)
 }
 
-function allPrices (request, response) {
-  let content = storage.get('items')
-    .filter(x => x.sell && x.buy)
-    .map(x => ({
-      id: x.id,
-      price: Math.max(x.sell.price, x.buy.price)
-    }))
+async function allPrices (request, response) {
+  let items = await mongo.collection('items').aggregate([
+    {'$match': {tradable: true, lang: 'en'}},
+    {'$project': {_id: 0, id: 1, price: {'$max': ['$sell.price', '$buy.price', '$vendor_price']}}},
+    {'$match': {price: {'$ne': null}}}
+  ]).toArray()
 
-  response.send(content)
+  response.send(items)
 }
 
 function categories (request, response) {
   response.send(categoryMap)
 }
 
-function autocomplete (request, response) {
+async function autocomplete (request, response) {
   if (!request.params.q) {
     return invalidParameters(response)
   }
@@ -67,24 +62,24 @@ function autocomplete (request, response) {
     return response.send([])
   }
 
-  let matches = storage.get('items')
-
-  if (craftable) {
-    matches = matches.filter(x => x.craftable === true)
+  let mongoQuery = {
+    name: {'$regex': escapeRegex(query), '$options': 'i'},
+    lang: lang
   }
 
-  matches = matches.filter(x => x['name_' + lang].toLowerCase().indexOf(query) !== -1)
+  if (craftable) {
+    mongoQuery['craftable'] = true
+  }
 
-  matches.sort((a, b) => {
-    a = matchQuality(a['name_' + lang].toLowerCase(), query)
-    b = matchQuality(b['name_' + lang].toLowerCase(), query)
+  let items = await mongo.collection('items').find(mongoQuery, {_id: 0, lang: 0}).toArray()
+
+  items.sort((a, b) => {
+    a = matchQuality(a.name.toLowerCase(), query)
+    b = matchQuality(b.name.toLowerCase(), query)
     return a - b
   })
 
-  matches = matches.slice(0, 20)
-  matches = matches.map(i => localizeItem(i, lang))
-
-  response.send(matches)
+  response.send(items.slice(0, 20))
 }
 
 // Determine the quality of matching a query string in a target string
@@ -97,40 +92,31 @@ function matchQuality (target, query) {
   return 1 + index
 }
 
-function byName (request, response) {
+async function byName (request, response) {
   let lang = requestLanguage(request.params)
 
   if (!request.params.names) {
     return invalidParameters(response)
   }
 
-  let names = multiParameter(request.params.names).map(x => x.toLowerCase())
+  let names = multiParameter(request.params.names)
 
-  let content = storage.get('items')
-    .filter(x => names.indexOf(x['name_' + lang].toLowerCase()) !== -1)
-
-  content = content.map(i => localizeItem(i, lang))
-
-  response.send(content)
+  let items = await mongo.collection('items').find({name: {'$in': names}, lang: lang}, {_id: 0, lang: 0}).toArray()
+  response.send(items)
 }
 
-function bySkin (request, response) {
+async function bySkin (request, response) {
   let skin_id = parseInt(request.params.skin_id, 10)
 
   if (!skin_id) {
     return invalidParameters(response)
   }
 
-  let content = storage.get('items')
-    .filter(x => x.skin)
-    .filter(x => skin_id === x.skin)
-    .map(x => x.id)
-
-  response.send(content)
+  let items = await mongo.collection('items').find({skin: skin_id, lang: 'en'}, {_id: 0, id: 1}).toArray()
+  response.send(items.map(i => i.id))
 }
 
-function query (request, response) {
-  let lang = requestLanguage(request.params)
+async function query (request, response) {
   let categories = multiParameter(request.params.categories, false, ';')
   let rarities = multiParameter(request.params.rarities, true, ';')
   let craftable = request.params.craftable
@@ -138,78 +124,87 @@ function query (request, response) {
   let includeName = request.params.include_name
   let output = request.params.output
 
-  let items = storage.get('items')
+  let mongoQuery = {lang: 'en'}
 
+  // Only get items matching the categories
   if (categories.length > 0) {
-    items = filterByCategories(items, categories)
+    mongoQuery['category'] = {'$in': allowedCategories(categories)}
   }
 
+  // Only get items matching the rarities
   if (rarities.length > 0) {
-    items = items.filter(i => rarities.indexOf(i.rarity) !== -1)
+    mongoQuery['rarity'] = {'$in': rarities}
   }
 
+  // Only get craftable items
   if (craftable !== undefined) {
-    items = items.filter(i => i.craftable)
+    mongoQuery['craftable'] = true
   }
+
+  // Only get items where the name matches the included and excluded query
+  let nameQueries = []
 
   if (excludeName !== undefined) {
-    excludeName = excludeName.toLowerCase()
-    items = items.filter(i => i['name_' + lang].toLowerCase().indexOf(excludeName) === -1)
+    nameQueries.push({name: {'$regex': '^(?:(?!' + escapeRegex(excludeName) + ').)*$', '$options': 'i'}})
   }
 
   if (includeName !== undefined) {
-    includeName = includeName.toLowerCase()
-    items = items.filter(i => i['name_' + lang].toLowerCase().indexOf(includeName) !== -1)
+    nameQueries.push({name: {'$regex': escapeRegex(includeName), '$options': 'i'}})
   }
+
+  if (nameQueries.length > 0) {
+    mongoQuery['$and'] = nameQueries
+  }
+
+  // Make sure the prices are set if we output a price breakdown
+  if (output === 'prices') {
+    mongoQuery['buy.price'] = {$ne: null}
+    mongoQuery['sell.price'] = {$ne: null}
+  }
+
+  let fields = {_id: 0, id: 1, name: 1, 'buy.price': 1, 'sell.price': 1}
+  let items = await mongo.collection('items').find(mongoQuery, fields).toArray()
 
   if (output !== 'prices') {
-    return response.send(items.map(i => i.id))
+    return response.send(items.map(x => x.id))
   }
 
-  let buyPrices = items.filter(i => i.buy).map(i => i.buy.price)
-  let sellPrices = items.filter(i => i.sell).map(i => i.sell.price)
-
+  let buyPrices = items.map(i => i.buy.price)
+  let sellPrices = items.map(i => i.sell.price)
   response.send({
     buy: valueBreakdown(buyPrices),
     sell: valueBreakdown(sellPrices)
   })
 }
 
-// Filter an array of items by categories
-function filterByCategories (items, categories) {
-  categories = categories.map(x => x.split(',').map(y => parseInt(y, 10)))
-  items = items.filter(i => i.category)
+// Generate a mapping from category id => subcategories
+let categoryIdMap = {}
+Object.values(categoryMap).map(category => {
+  categoryIdMap[category[0]] = !category[1] ? false : Object.values(category[1])
+})
 
-  // Filter categories by the first level
-  let firstLevel = categories.map(x => x[0])
-  items = items.filter(i => firstLevel.indexOf(i.category[0]) !== -1)
+// Generate an array with the expanded allowed categories
+// so we can just do an "in" match in the database
+function allowedCategories (categories) {
+  let categoryList = []
 
-  // IF a second level is defined, generate a map of allowed second levels
-  // and see if the items with the first level match the second level
-  categories = categories.filter(c => c.length > 1)
-  let secondLevel = {}
-  categories.map(c => {
-    secondLevel[c[0]] = (secondLevel[c[0]] || []).concat([c[1]])
+  categories.map(category => {
+    // Parse categories from input
+    category = category.split(',').map(id => parseInt(id, 10))
+
+    // Category already has subcategory or has no subcategories in general
+    if (category[1] || !categoryIdMap[category[0]]) {
+      categoryList.push(category)
+      return
+    }
+
+    // Add all subcategories if only the main category is set
+    categoryIdMap[category[0]].map(subcategory => {
+      categoryList.push([category[0], subcategory])
+    })
   })
 
-  for (let c in secondLevel) {
-    c = parseInt(c, 10)
-    items = items.filter(i => c !== i.category[0] || secondLevel[c].indexOf(i.category[1]) !== -1)
-  }
-
-  return items
-}
-
-// Localize the name and description of an item
-function localizeItem (item, lang) {
-  item = {...item}
-  item.name = item['name_' + lang]
-  item.description = item['description_' + lang]
-  languages.map(l => {
-    delete item['name_' + l]
-    delete item['description_' + l]
-  })
-  return item
+  return categoryList
 }
 
 // Get min, avg and max out of a list of values

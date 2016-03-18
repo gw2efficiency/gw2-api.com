@@ -43,7 +43,12 @@ function wrapRequest (callback) {
     }
 
     // Call our controller function with the request and new response object
-    callback(request, response)
+    let call = callback(request, response)
+
+    // If the call is a promise, we want to catch errors on it since
+    // the restify error handling doesn't do that automatically
+    if (call instanceof Promise === false) return
+    call.catch(err => handleUncaughtException(request, response, null, err))
   }
 }
 
@@ -66,11 +71,13 @@ function setupErrorHandling (server) {
     res.send(405, {text: 'method not allowed'})
   })
 
-  server.on('uncaughtException', (req, res, route, err) => {
-    logger.error('Failed Route: ' + req.path() + '\n' + err.stack)
-    setDefaultResponseHeaders(res)
-    res.send(500, {text: 'internal error'})
-  })
+  server.on('uncaughtException', handleUncaughtException)
+}
+
+function handleUncaughtException (req, res, route, err) {
+  logger.error('Failed Route: ' + req.path() + '\n' + err.stack)
+  setDefaultResponseHeaders(res)
+  res.send(500, {text: 'internal error'})
 }
 
 module.exports = {setupRoutes, setupErrorHandling}

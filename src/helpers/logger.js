@@ -1,15 +1,27 @@
 const chalk = require('chalk')
 
 function info (string) {
-  console.log(chalk.gray(prefix() + string))
+  print(chalk.gray(prefix() + string))
 }
 
 function success (string) {
-  console.log(chalk.green(prefix() + string))
+  print(chalk.green(prefix() + string))
 }
 
 function error (string) {
-  console.log(chalk.bold.red(prefix() + string))
+  print(chalk.bold.red(prefix() + string))
+}
+
+let silenced = false
+
+function print (string) {
+  if (!silenced) {
+    console.log(string)
+  }
+}
+
+function quiet (bool) {
+  silenced = bool
 }
 
 function prefix () {
@@ -24,4 +36,4 @@ function prefix () {
   return '[' + day + '/' + month + ' ' + hours + ':' + minutes + '] '
 }
 
-module.exports = {info, success, error}
+module.exports = {info, success, error, quiet}
