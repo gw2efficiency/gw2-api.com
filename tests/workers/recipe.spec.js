@@ -75,7 +75,7 @@ describe('workers > recipe worker', () => {
     let recipes = await mongo.collection('recipe-trees').find({}, {_id: 0}).sort({id: 1}).toArray()
     expect(recipes).to.deep.equal(expectedRecipes)
 
-    let items = await mongo.collection('items').find({}, {_id: 0}).toArray()
+    let items = await mongo.collection('items').find({}, {_id: 0}).sort({id: 1}).toArray()
     expect(items).to.deep.equal([{id: 1, craftable: true}, {id: 9001, craftable: false}])
 
     worker.__set__('loadCustomRecipes', tmp)
