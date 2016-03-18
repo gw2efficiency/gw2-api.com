@@ -111,7 +111,8 @@ describe('workers > skin worker', () => {
       {id: 2, tradable: true, lang: 'en', sell: {price: 456}},
       {id: 3, tradable: true, lang: 'en', vendor_price: 789},
       {id: 4, tradable: true, lang: 'en'},
-      {id: 5, tradable: true, lang: 'en', buy: {price: 899}, sell: {price: 999}}
+      {id: 5, tradable: true, lang: 'en', buy: {price: 899}, sell: {price: 999}},
+      {id: 6, tradable: true, lang: 'en', vendor_price: 350, buy: {price: 500}, sell: {price: 250}}
     ])
     await mongo.collection('cache').insert({
       id: 'skinsToItems',
@@ -123,7 +124,8 @@ describe('workers > skin worker', () => {
         75: [1, 2, 3, 4],
         76: [5, 2],
         77: [20319],
-        78: [5, 1337]
+        78: [5, 1337],
+        79: [3, 5, 6]
       }
     })
 
@@ -136,10 +138,12 @@ describe('workers > skin worker', () => {
     expect(skinPrices).to.deep.equal({
       71: 123,
       72: 456,
+      73: 789,
       75: 123,
       76: 456,
       77: 135545,
-      78: 599
+      78: 599,
+      79: 500
     })
   })
 })
