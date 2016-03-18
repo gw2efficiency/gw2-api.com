@@ -8,12 +8,14 @@ const mongo = require('../../src/helpers/mongo.js')
 mongo.logger.quiet(true)
 
 describe('controllers > item', () => {
-  before(async () => {
+  before(async (done) => {
     await mongo.connect('mongodb://127.0.0.1:27017/gw2api-test')
+    done()
   })
 
-  beforeEach(async () => {
+  beforeEach(async (done) => {
     await mongo.collection('items').deleteMany({})
+    done()
   })
 
   it('handles /item/:id', async () => {

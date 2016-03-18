@@ -18,8 +18,9 @@ proxyquire('../src/worker.js', {
 })
 
 describe('worker setup', () => {
-  before(async () => {
+  before(async (done) => {
     await mongo.connect('mongodb://127.0.0.1:27017/gw2api-test')
+    done()
   })
 
   it('initializes the workers', () => {

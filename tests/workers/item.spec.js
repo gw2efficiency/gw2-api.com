@@ -15,14 +15,16 @@ const scheduleMock = sinon.spy()
 worker.__set__('schedule', scheduleMock)
 
 describe('workers > item worker', () => {
-  before(async () => {
+  before(async (done) => {
     await mongo.connect('mongodb://127.0.0.1:27017/gw2api-test')
+    done()
   })
 
-  beforeEach(async () => {
+  beforeEach(async (done) => {
     await mongo.collection('items').deleteMany({})
     executeMock.reset()
     scheduleMock.reset()
+    done()
   })
 
   it('initializes correctly without data', async () => {

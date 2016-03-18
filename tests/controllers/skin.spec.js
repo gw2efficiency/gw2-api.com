@@ -8,12 +8,14 @@ const mongo = require('../../src/helpers/mongo.js')
 mongo.logger.quiet(true)
 
 describe('controllers > skin', () => {
-  before(async () => {
+  before(async (done) => {
     await mongo.connect('mongodb://127.0.0.1:27017/gw2api-test')
+    done()
   })
 
-  beforeEach(async () => {
+  beforeEach(async (done) => {
     await mongo.collection('cache').deleteMany({})
+    done()
   })
 
   it('handles /skins/resolve', async () => {

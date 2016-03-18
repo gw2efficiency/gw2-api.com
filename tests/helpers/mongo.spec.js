@@ -8,8 +8,9 @@ const loggerMock = {info: sinon.spy(), success: sinon.spy(), error: sinon.spy()}
 mongo.__set__('logger', loggerMock)
 
 describe('helpers > mongo', () => {
-  before(async () => {
+  before(async (done) => {
     await mongo.connect('mongodb://127.0.0.1:27017/gw2api-test')
+    done()
   })
 
   beforeEach(() => {
