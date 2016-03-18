@@ -26,4 +26,15 @@ describe('controllers > skin', () => {
     expect(response.send.calledOnce).to.equal(true)
     expect(response.send.args[0][0]).to.deep.equal(content)
   })
+
+  it('handles /skins/prices', async () => {
+    let content = {'1': 123, '2': 456}
+    await mongo.collection('cache').insert({id: 'skinPrices', content: content})
+
+    let response = {send: sinon.spy()}
+    await controller.prices(null, response)
+
+    expect(response.send.calledOnce).to.equal(true)
+    expect(response.send.args[0][0]).to.deep.equal(content)
+  })
 })

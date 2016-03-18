@@ -13,10 +13,14 @@ async function initialize () {
 
   if (itemExists && !skinExists) {
     await execute(loadSkinList)
+    await execute(loadSkinPrices)
   }
 
   // Update the skin list every day at 3
   schedule('0 0 3 * * *', loadSkinList)
+
+  // Update the skin prices every 5 minutes
+  schedule('*/5 * * * *', loadSkinPrices)
 
   logger.info('Initialized skin worker')
 }
@@ -45,6 +49,35 @@ async function loadSkinList () {
   // Show how many skins we failed to resolve
   let missingSkinItems = skins.filter(s => s.items.length === 0)
   logger.info('No items found for ' + missingSkinItems.length + ' skins')
+}
+
+async function loadSkinPrices () {
+  let skins = (await mongo.collection('cache').find({id: 'skinsToItems'}).limit(1).next()).content
+  let items = await mongo.collection('items').aggregate([
+    {'$match': {tradable: true, lang: 'en'}},
+    {'$project': {_id: 0, id: 1, price: {'$min': ['$sell.price', '$buy.price']}}},
+    {'$match': {price: {'$ne': null}}}
+  ]).toArray()
+
+  let priceMap = {}
+  items.map(i => priceMap[i.id] = i.price)
+
+  for (let key in skins) {
+    let skinPrices = skins[key].map(i => priceMap[i] || 0).filter(x => x > 0)
+    let skinPrice = Math.min.apply(null, skinPrices)
+
+    if (skinPrices.length > 0 && skinPrice > 0) {
+      skins[key] = skinPrice
+    } else {
+      delete skins[key]
+    }
+  }
+
+  await mongo.collection('cache').update(
+    {id: 'skinPrices'},
+    {id: 'skinPrices', content: skins},
+    {upsert: true}
+  )
 }
 
 function resolveSkin (skin, items) {
@@ -77,4 +110,4 @@ function resolveSkin (skin, items) {
   return []
 }
 
-module.exports = {initialize, loadSkinList}
+module.exports = {initialize, loadSkinList, loadSkinPrices}

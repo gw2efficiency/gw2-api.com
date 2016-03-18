@@ -29,11 +29,13 @@ describe('workers > skin worker', () => {
     await mongo.collection('items').insert({id: 1, hint: 'placeholder item'})
     await worker.initialize()
 
-    expect(executeMock.callCount).to.equal(1)
+    expect(executeMock.callCount).to.equal(2)
     expect(executeMock.args[0][0].name).to.equal('loadSkinList')
+    expect(executeMock.args[1][0].name).to.equal('loadSkinPrices')
 
-    expect(scheduleMock.callCount).to.equal(1)
+    expect(scheduleMock.callCount).to.equal(2)
     expect(scheduleMock.args[0][1].name).to.equal('loadSkinList')
+    expect(scheduleMock.args[1][1].name).to.equal('loadSkinPrices')
   })
 
   it('initializes correctly with data', async () => {
@@ -43,8 +45,9 @@ describe('workers > skin worker', () => {
 
     expect(executeMock.callCount).to.equal(0)
 
-    expect(scheduleMock.callCount).to.equal(1)
+    expect(scheduleMock.callCount).to.equal(2)
     expect(scheduleMock.args[0][1].name).to.equal('loadSkinList')
+    expect(scheduleMock.args[1][1].name).to.equal('loadSkinPrices')
   })
 
   it('loads the skins and resolves into items', async () => {
@@ -95,5 +98,36 @@ describe('workers > skin worker', () => {
     expect(resolve({id: 3, name: 'Some'}, items)).to.deep.equal([4])
     expect(resolve({id: 4, name: 'cake'}, items)).to.deep.equal([5])
     expect(resolve({id: 5, name: 'herp'}, items)).to.deep.equal([])
+  })
+
+  it('calculates the skin prices correctly', async () => {
+    await mongo.collection('items').insert([
+      {id: 1, tradable: true, lang: 'en', buy: {price: 123}},
+      {id: 2, tradable: true, lang: 'en', sell: {price: 456}},
+      {id: 3, tradable: true, lang: 'en', vendor_price: 789},
+      {id: 4, tradable: true, lang: 'en'},
+      {id: 5, tradable: true, lang: 'en', buy: {price: 899}, sell: {price: 999}}
+    ])
+    await mongo.collection('cache').insert({
+      id: 'skinsToItems',
+      content: {
+        71: [1],
+        72: [2],
+        73: [3],
+        74: [4],
+        75: [1, 2, 3, 4],
+        76: [5, 2]
+      }
+    })
+
+    await worker.loadSkinPrices()
+
+    let skinPrices = (await mongo.collection('cache').find({id: 'skinPrices'}).limit(1).next()).content
+    expect(skinPrices).to.deep.equal({
+      71: 123,
+      72: 456,
+      75: 123,
+      76: 456
+    })
   })
 })

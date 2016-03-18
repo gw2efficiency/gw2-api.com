@@ -34,7 +34,8 @@ routes.__set__('item', {
 
 // skin controller overwrite
 routes.__set__('skin', {
-  resolve: (req, res) => res.send('SkinController.resolve')
+  resolve: (req, res) => res.send('SkinController.resolve'),
+  prices: (req, res) => res.send('SkinController.prices')
 })
 
 // recipe controller overwrite
@@ -156,6 +157,14 @@ server.listen(12345, () => {
       client.get('/skins/resolve', (err, req, res, data) => {
         if (err) throw err
         expect(data).to.equal('SkinController.resolve')
+        done()
+      })
+    })
+
+    it('/skins/prices gets called correctly', (done) => {
+      client.get('/skins/prices', (err, req, res, data) => {
+        if (err) throw err
+        expect(data).to.equal('SkinController.prices')
         done()
       })
     })

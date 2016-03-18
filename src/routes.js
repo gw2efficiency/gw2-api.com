@@ -18,6 +18,7 @@ function setupRoutes (server) {
   anyMethod(server, '/items/query', wrapRequest(item.query))
   anyMethod(server, '/items/:ids', wrapRequest(item.byIds))
   anyMethod(server, '/skins/resolve', wrapRequest(skin.resolve))
+  anyMethod(server, '/skins/prices', wrapRequest(skin.prices))
   anyMethod(server, '/recipe/nested/:id', wrapRequest(recipe.nested))
   anyMethod(server, '/gems/history', wrapRequest(gem.history))
 }
