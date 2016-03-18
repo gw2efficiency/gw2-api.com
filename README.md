@@ -46,7 +46,7 @@ npm test
 - [X] [`/items/query`](#itemsquery)
 - [X] [`/items/categories`](#itemscategories)
 - [X] [`/skins/resolve`](#skinsresolve)
-- [ ] [`/skins/prices`](#skinsprices)
+- [X] [`/skins/prices`](#skinsprices)
 - [X] [`/recipe/nested/:id`](#recipenestedid)
 - [ ] [`/recipe/cost/:ids`](#recipecostids)
 - [X] [`/gems/history`](#gemshistory)
