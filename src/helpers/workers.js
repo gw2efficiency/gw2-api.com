@@ -20,7 +20,7 @@ function schedule (cronString, callback) {
   let interval = parser.parseExpression(cronString)
   logger.info('Scheduling ' + callback.name + ' (first call: ' + interval.next().toString() + ')')
 
-  scheduler.scheduleJob(cronString, () => execute(callback))
+  return scheduler.scheduleJob(cronString, () => execute(callback))
 }
 
 module.exports = {execute, schedule}

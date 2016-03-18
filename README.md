@@ -28,6 +28,8 @@ pm2 start build/worker.js --name="gw2api-worker"
 
 ## Tests
 
+**Note:** Requires a running instance of mongodb and will execute on a test database
+
 ```
 npm test
 ```

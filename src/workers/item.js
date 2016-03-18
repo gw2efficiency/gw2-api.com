@@ -12,7 +12,7 @@ async function initialize () {
   let collection = mongo.collection('items')
   collection.createIndex('id')
   collection.createIndex('lang')
-  let exists = !!await collection.find({}).limit(1).next()
+  let exists = !!(await collection.find({}).limit(1).next())
 
   if (!exists) {
     await execute(loadItems)
@@ -47,9 +47,7 @@ function loadItems () {
       let languageItems = items[key]
       languageItems.map(item => {
         item = {...transformItem(item), lang: lang}
-        updateFunctions.push(() =>
-          collection.update({id: item.id, lang: lang}, {'$set': item}, {upsert: true})
-        )
+        updateFunctions.push(() => collection.update({id: item.id, lang: lang}, {'$set': item}, {upsert: true}))
       })
     }
 

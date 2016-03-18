@@ -196,6 +196,30 @@ server.listen(12345, () => {
       expect(next.calledOnce).to.equal(true)
       expect(res.sendParent.args[0][0]).to.deep.equal({text: 'Some'})
     })
+
+    it('catches rejections from promises', (done) => {
+      let wrap = routes.__get__('wrapRequest')
+
+      function someMethod () {
+        return new Promise((resolve, reject) => {
+          let err = new Error('some message')
+          err.stack = 'OH NO SOMETHING BAD :('
+          reject(err)
+        })
+      }
+
+      let boundController = wrap(someMethod)
+      let res = {cache: sinon.spy(), charSet: sinon.spy(), send: sinon.spy(), setHeader: sinon.spy()}
+      let next = sinon.spy()
+      boundController({path: () => ''}, res, next)
+
+      setTimeout(() => {
+        expect(loggerMock.error.calledOnce).to.equal(true)
+        expect(res.sendParent.args[0][0]).to.equal(500)
+        expect(res.sendParent.args[0][1]).to.deep.equal({text: 'internal error'})
+        done()
+      }, 25)
+    })
   })
 
   describe('routes > setup error handling', () => {

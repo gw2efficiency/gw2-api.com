@@ -2,10 +2,10 @@
 const expect = require('chai').expect
 const sinon = require('sinon')
 const rewire = require('rewire')
-const worker = rewire('../../src/workers/skin.js')
 
-const loggerMock = {info: sinon.spy()}
-worker.__set__('logger', loggerMock)
+const worker = rewire('../../src/workers/skin.js')
+const mongo = require('../../src/helpers/mongo.js')
+mongo.logger.quiet(true)
 
 const executeMock = sinon.spy()
 worker.__set__('execute', executeMock)
@@ -13,55 +13,47 @@ worker.__set__('execute', executeMock)
 const scheduleMock = sinon.spy()
 worker.__set__('schedule', scheduleMock)
 
-let storage = worker.__get__('storage')
-storage.save = () => true
-
 describe('workers > skin worker', () => {
-  beforeEach(() => {
-    loggerMock.info.reset()
+  before(async () => {
+    await mongo.connect('mongodb://localhost:27017/gw2api-test')
+  })
+
+  beforeEach(async () => {
+    await mongo.collection('cache').deleteMany({})
+    await mongo.collection('items').deleteMany({})
     executeMock.reset()
     scheduleMock.reset()
-    storage.set('gemPriceHistory')
   })
 
   it('initializes correctly without data', async () => {
-    worker.__set__('storage', {
-      set: () => true,
-      get: (key) => (key === 'items') ? '...' : undefined
-    })
+    await mongo.collection('items').insert({id: 1, hint: 'placeholder item'})
     await worker.initialize()
 
-    expect(executeMock.calledOnce).to.equal(true)
+    expect(executeMock.callCount).to.equal(1)
     expect(executeMock.args[0][0].name).to.equal('loadSkinList')
-    expect(scheduleMock.calledOnce).to.equal(true)
-    expect(scheduleMock.args[0][0].name).to.equal('loadSkinList')
-    expect(scheduleMock.args[0][1]).to.be.an.integer
-    expect(loggerMock.info.calledOnce).to.equal(true)
-    worker.__set__('storage', storage)
+
+    expect(scheduleMock.callCount).to.equal(1)
+    expect(scheduleMock.args[0][1].name).to.equal('loadSkinList')
   })
 
   it('initializes correctly with data', async () => {
-    worker.__set__('storage', {
-      set: () => true,
-      get: () => 'we have data!'
-    })
+    await mongo.collection('items').insert({id: 1, hint: 'placeholder item'})
+    await mongo.collection('cache').insert({id: 'skinsToItems', content: 'i am some content'})
     await worker.initialize()
 
     expect(executeMock.callCount).to.equal(0)
-    expect(scheduleMock.calledOnce).to.equal(true)
-    expect(scheduleMock.args[0][0].name).to.equal('loadSkinList')
-    expect(scheduleMock.args[0][1]).to.be.an.integer
-    expect(loggerMock.info.calledOnce).to.equal(true)
-    worker.__set__('storage', storage)
+
+    expect(scheduleMock.callCount).to.equal(1)
+    expect(scheduleMock.args[0][1].name).to.equal('loadSkinList')
   })
 
   it('loads the skins and resolves into items', async () => {
-    storage.set('items', [
-      {id: 1, name_en: 'Foo', skin: 1},
-      {id: 2, name_en: 'Bar'},
-      {id: 3, name_en: 'Bar'},
-      {id: 4, name_en: 'Some Skin'},
-      {id: 5, name_en: 'Something about cake'}
+    await mongo.collection('items').insert([
+      {id: 1, name: 'Foo', skin: 1, lang: 'en'},
+      {id: 2, name: 'Bar', lang: 'en'},
+      {id: 3, name: 'Bar', lang: 'en'},
+      {id: 4, name: 'Some Skin', lang: 'en'},
+      {id: 5, name: 'Something about cake', lang: 'en'}
     ])
 
     worker.__set__('api', () => ({
@@ -77,25 +69,25 @@ describe('workers > skin worker', () => {
     }))
 
     await worker.loadSkinList()
-    expect(storage.get('skinsToItems')).to.deep.equal({
+
+    let content = (await mongo.collection('cache').find({id: 'skinsToItems'}).limit(1).next()).content
+    expect(content).to.deep.equal({
       '1': [1],
       '2': [2, 3],
       '3': [4],
       '4': [5],
       '5': []
     })
-
-    expect(loggerMock.info.calledOnce).to.equal(true)
   })
 
   it('resolves skins correctly', () => {
     let resolve = worker.__get__('resolveSkin')
     let items = [
-      {id: 1, name_en: 'Foo', skin: 1},
-      {id: 2, name_en: 'Bar'},
-      {id: 3, name_en: 'Bar'},
-      {id: 4, name_en: 'Some Skin'},
-      {id: 5, name_en: 'Something about cake'}
+      {id: 1, name: 'Foo', skin: 1},
+      {id: 2, name: 'Bar'},
+      {id: 3, name: 'Bar'},
+      {id: 4, name: 'Some Skin'},
+      {id: 5, name: 'Something about cake'}
     ]
 
     expect(resolve({id: 1, name: 'Foo'}, items)).to.deep.equal([1])

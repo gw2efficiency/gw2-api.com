@@ -3,10 +3,10 @@ const expect = require('chai').expect
 const sinon = require('sinon')
 const rewire = require('rewire')
 const mockdate = require('mockdate')
-const worker = rewire('../../src/workers/item.js')
 
-const loggerMock = {info: sinon.spy()}
-worker.__set__('logger', loggerMock)
+const worker = rewire('../../src/workers/item.js')
+const mongo = require('../../src/helpers/mongo.js')
+mongo.logger.quiet(true)
 
 const executeMock = sinon.spy()
 worker.__set__('execute', executeMock)
@@ -14,13 +14,13 @@ worker.__set__('execute', executeMock)
 const scheduleMock = sinon.spy()
 worker.__set__('schedule', scheduleMock)
 
-let storage = worker.__get__('storage')
-storage.save = () => true
-
 describe('workers > item worker', () => {
-  beforeEach(() => {
-    storage.set('items')
-    loggerMock.info.reset()
+  before(async () => {
+    await mongo.connect('mongodb://localhost:27017/gw2api-test')
+  })
+
+  beforeEach(async () => {
+    await mongo.collection('items').deleteMany({})
     executeMock.reset()
     scheduleMock.reset()
   })
@@ -28,37 +28,29 @@ describe('workers > item worker', () => {
   it('initializes correctly without data', async () => {
     await worker.initialize()
 
-    expect(executeMock.calledTwice).to.equal(true)
+    expect(executeMock.callCount).to.equal(2)
     expect(executeMock.args[0][0].name).to.equal('loadItems')
     expect(executeMock.args[1][0].name).to.equal('loadItemPrices')
-    expect(scheduleMock.calledTwice).to.equal(true)
-    expect(scheduleMock.args[0][0].name).to.equal('loadItems')
-    expect(scheduleMock.args[0][1]).to.be.an.integer
-    expect(scheduleMock.args[1][0].name).to.equal('loadItemPrices')
-    expect(scheduleMock.args[1][1]).to.be.an.integer
-    expect(loggerMock.info.calledOnce).to.equal(true)
+
+    expect(scheduleMock.callCount).to.equal(2)
+    expect(scheduleMock.args[0][1].name).to.equal('loadItems')
+    expect(scheduleMock.args[1][1].name).to.equal('loadItemPrices')
   })
 
   it('initializes correctly with data', async () => {
-    worker.__set__('storage', {
-      set: () => true,
-      get: () => 'we have data!'
-    })
+    await mongo.collection('items').insert({id: 1, hint: 'placeholder item'})
     await worker.initialize()
 
     expect(executeMock.callCount).to.equal(0)
-    expect(scheduleMock.calledTwice).to.equal(true)
-    expect(scheduleMock.args[0][0].name).to.equal('loadItems')
-    expect(scheduleMock.args[0][1]).to.be.an.integer
-    expect(scheduleMock.args[1][0].name).to.equal('loadItemPrices')
-    expect(scheduleMock.args[1][1]).to.be.an.integer
-    expect(loggerMock.info.calledOnce).to.equal(true)
-    worker.__set__('storage', storage)
+
+    expect(scheduleMock.callCount).to.equal(2)
+    expect(scheduleMock.args[0][1].name).to.equal('loadItems')
+    expect(scheduleMock.args[1][1].name).to.equal('loadItemPrices')
   })
 
   it('loads the items', async () => {
-    let transformer = worker.__get__('transformItem')
-    worker.__set__('transformItem', x => x.name_en)
+    let tmp = worker.__get__('transformItem')
+    worker.__set__('transformItem', x => x)
     worker.__set__('api', () => ({
       language: () => ({
         items: () => ({
@@ -68,79 +60,55 @@ describe('workers > item worker', () => {
     }))
 
     await worker.loadItems()
-    worker.__set__('transformItem', transformer)
+    worker.__set__('transformItem', tmp)
 
-    expect(storage.get('items')).to.deep.equal(['Fiz Buz'])
+    let items = await mongo.collection('items').find({}, {_id: 0}).sort({lang: 1}).toArray()
+    expect(items).to.deep.equal([
+      {id: 1, name: 'Fiz Buz', lang: 'de'},
+      {id: 1, name: 'Fiz Buz', lang: 'en'},
+      {id: 1, name: 'Fiz Buz', lang: 'es'},
+      {id: 1, name: 'Fiz Buz', lang: 'fr'}
+    ])
   })
 
   it('doesn\'t overwrite the items', async () => {
-    let transformer = worker.__get__('transformItem')
+    let tmp = worker.__get__('transformItem')
     worker.__set__('transformItem', x => x)
 
-    storage.set('items', [
-      {id: 1, name_en: 'Fiz', someKey: 'someValue'},
-      {id: 2, name_en: 'Herp'}
+    await mongo.collection('items').insert([
+      {id: 1, name: 'Fiz', lang: 'en', someKey: 'someValue'},
+      {id: 2, name: 'Herp', lang: 'en'}
     ])
 
     worker.__set__('api', () => ({
       language: () => ({
         items: () => ({
           all: () => new Promise(r => r([
-            {id: 1, name: 'Fiz Buz', description: ''},
-            {id: 2, name: 'Herp', description: '', someOtherKey: 'someOtherValue'},
-            {id: 3, name: 'Shiny new item', description: ''}
+            {id: 1, name: 'Fiz Buz'},
+            {id: 2, name: 'Herp', someOtherKey: 'someOtherValue'},
+            {id: 3, name: 'Shiny new item'}
           ]))
         })
       })
     }))
 
     await worker.loadItems()
-    expect(storage.get('items')).to.deep.equal([
-      {
-        id: 1,
-        name_en: 'Fiz Buz',
-        name_de: 'Fiz Buz',
-        name_fr: 'Fiz Buz',
-        name_es: 'Fiz Buz',
-        description_en: '',
-        description_de: '',
-        description_fr: '',
-        description_es: '',
-        someKey: 'someValue'
-      },
-      {
-        id: 2,
-        name_en: 'Herp',
-        name_de: 'Herp',
-        name_fr: 'Herp',
-        name_es: 'Herp',
-        description_en: '',
-        description_de: '',
-        description_fr: '',
-        description_es: '',
-        someOtherKey: 'someOtherValue'
-      },
-      {
-        id: 3,
-        name_en: 'Shiny new item',
-        name_de: 'Shiny new item',
-        name_fr: 'Shiny new item',
-        name_es: 'Shiny new item',
-        description_en: '',
-        description_de: '',
-        description_fr: '',
-        description_es: ''
-      }
-    ])
+    worker.__set__('transformItem', tmp)
 
-    worker.__set__('transformItem', transformer)
+    let items = await mongo.collection('items').find({lang: 'en'}, {_id: 0, lang: 0}).sort({id: 1}).toArray()
+    expect(items).to.deep.equal([
+      {id: 1, name: 'Fiz Buz', someKey: 'someValue'},
+      {id: 2, name: 'Herp', someOtherKey: 'someOtherValue'},
+      {id: 3, name: 'Shiny new item'}
+    ])
   })
 
   it('loads the item prices', async () => {
     let currentDate = worker.__get__('isoDate')()
-    storage.set('items', [
-      {id: 1, name: 'Test Item'},
-      {id: 2, name: 'Another test item'}
+
+    await mongo.collection('items').insert([
+      {id: 1, name: 'Test Item', lang: 'en', tradable: true},
+      {id: 2, name: 'Another test item', tradable: false, lang: 'en'}
     ])
 
     worker.__set__('api', () => ({
@@ -162,7 +130,9 @@ describe('workers > item worker', () => {
     }))
 
     await worker.loadItemPrices()
-    expect(storage.get('items')).to.deep.equal([
+
+    let items = await mongo.collection('items').find({lang: 'en'}, {_id: 0, lang: 0}).sort({id: 1}).toArray()
+    expect(items).to.deep.equal([
       {
         id: 1,
         name: 'Test Item',
@@ -176,9 +146,10 @@ describe('workers > item worker', () => {
           price: 133,
           last_change: {quantity: 0, price: 0, time: currentDate}
         },
-        last_update: currentDate
+        last_update: currentDate,
+        tradable: true
       },
-      {id: 2, name: 'Another test item'}
+      {id: 2, name: 'Another test item', tradable: false}
     ])
   })
 
@@ -194,14 +165,8 @@ describe('workers > item worker', () => {
   it('transforms an API item into the legacy structure', () => {
     let input = {
       id: 72,
-      name_en: "Berserker's Sneakthief Mask of the Afflicted",
-      description_en: '',
-      name_de: 'Berserkerhafte Leisetreter-Maske der Befallenen',
-      description_de: '',
-      name_fr: 'Masque de cambrioleur berserker des Affligés',
-      description_fr: '',
-      name_es: 'Máscara de ratero de los afligidos de berserker',
-      description_es: '',
+      name: "Berserker's Sneakthief Mask of the Afflicted",
+      description: '',
       type: 'Armor',
       level: 62,
       rarity: 'Exotic',
@@ -246,14 +211,8 @@ describe('workers > item worker', () => {
     }
     let output = {
       id: 72,
-      name_en: "Berserker's Sneakthief Mask of the Afflicted",
-      description_en: null,
-      name_de: 'Berserkerhafte Leisetreter-Maske der Befallenen',
-      description_de: null,
-      name_fr: 'Masque de cambrioleur berserker des Affligés',
-      description_fr: null,
-      name_es: 'Máscara de ratero de los afligidos de berserker',
-      description_es: null,
+      name: "Berserker's Sneakthief Mask of the Afflicted",
+      description: null,
       level: 62,
       rarity: 5,
       image: 'https://render.guildwars2.com/file/65A0C7367206E6CE4EC7C8CBE07EABAE0191BFBA/561548.png',

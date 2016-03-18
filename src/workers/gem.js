@@ -6,7 +6,7 @@ const scraping = require('gw2e-gw2api-scraping')
 async function initialize () {
   let collection = mongo.collection('cache')
   collection.createIndex('id')
-  let exists = !!await collection.find({id: 'gemPriceHistory'}).limit(1).next()
+  let exists = !!(await collection.find({id: 'gemPriceHistory'}).limit(1).next())
 
   if (!exists) {
     await execute(loadGemPriceHistory)

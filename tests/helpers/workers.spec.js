@@ -5,30 +5,35 @@ const rewire = require('rewire')
 const worker = rewire('../../src/helpers/workers.js')
 
 const loggerMock = {info: sinon.spy(), success: sinon.spy(), error: sinon.spy()}
+const schedulerMock = {scheduleJob: sinon.spy()}
 worker.__set__('logger', loggerMock)
+worker.__set__('scheduler', schedulerMock)
 
 describe('helpers > worker helpers', function () {
-  this.timeout(5000)
   beforeEach(() => {
     loggerMock.info.reset()
     loggerMock.success.reset()
     loggerMock.error.reset()
   })
 
-  it('can schedule a task', async (done) => {
-    let execute = worker.__get__('execute')
+  it('can schedule a task', async () => {
+    let tmp = worker.__get__('execute')
     let executeMock = sinon.spy()
     worker.__set__('execute', executeMock)
-    let callback = 'i should be a callback function'
-    let interval = worker.schedule(callback, 0.05)
 
-    setTimeout(() => {
-      expect(executeMock.calledTwice).to.equal(true)
-      expect(executeMock.args[0][0]).to.equal(callback)
-      clearInterval(interval)
-      worker.__set__('execute', execute)
-      done()
-    }, 125)
+    let callback = 'i should be a callback function'
+    worker.schedule('* * * * * *', callback)
+
+    // Check if the scheduler got called
+    expect(schedulerMock.scheduleJob.called).to.equal(true)
+    expect(schedulerMock.scheduleJob.args[0][0]).to.equal('* * * * * *')
+
+    // Check if the wrapped callback is correct
+    schedulerMock.scheduleJob.args[0][1]()
+    expect(executeMock.called).to.equal(true)
+    expect(executeMock.args[0][0]).to.equal(callback)
+
+    worker.__set__('execute', tmp)
   })
 
   it('can execute and log a successful task with passed time', async () => {
@@ -51,8 +56,8 @@ describe('helpers > worker helpers', function () {
 
     // Success log includes measured time
     let message = loggerMock.success.args[0][0]
-    let ms = parseInt(/(\d+)ms/.exec(message)[1], 10)
-    expect(ms).to.be.below(9)
+    let seconds = parseInt(/(\d+)s/.exec(message)[1], 10)
+    expect(seconds).to.equal(0)
   })
 
   it('can execute and log a failed task with passed time', async () => {
@@ -74,7 +79,7 @@ describe('helpers > worker helpers', function () {
 
     // Error log includes measured time
     let message = loggerMock.error.args[0][0]
-    let ms = parseInt(/(\d+)ms/.exec(message)[1], 10)
-    expect(ms).to.be.below(9)
+    let seconds = parseInt(/(\d+)s/.exec(message)[1], 10)
+    expect(seconds).to.equal(0)
   })
 })

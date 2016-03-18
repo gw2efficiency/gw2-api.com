@@ -6,10 +6,10 @@ const api = require('../helpers/api.js')
 async function initialize () {
   let skinCollection = mongo.collection('cache')
   skinCollection.createIndex('id')
-  let skinExists = !!await skinCollection.find({id: 'skinsToItems'}).limit(1).next()
+  let skinExists = !!(await skinCollection.find({id: 'skinsToItems'}).limit(1).next())
 
   let itemCollection = mongo.collection('items')
-  let itemExists = !!await itemCollection.find({}).limit(1).next()
+  let itemExists = !!(await itemCollection.find({}).limit(1).next())
 
   if (itemExists && !skinExists) {
     await execute(loadSkinList)
@@ -21,7 +21,6 @@ async function initialize () {
   logger.info('Initialized skin worker')
 }
 
-let items = []
 async function loadSkinList () {
   let skins = await api().skins().all()
   let items = await mongo.collection('items').find({lang: 'en'}, {_id: 0, id: 1, name: 1, skin: 1}).toArray()

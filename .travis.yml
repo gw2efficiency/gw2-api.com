@@ -5,3 +5,4 @@ after_script: "./node_modules/.bin/codecov"
 branches:
   only:
     - master
+services: mongodb

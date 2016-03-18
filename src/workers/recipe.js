@@ -9,10 +9,10 @@ const recipeNesting = require('gw2e-recipe-nesting')
 async function initialize () {
   let recipesCollection = mongo.collection('recipe-trees')
   recipesCollection.createIndex('id')
-  let recipeExists = !!await recipesCollection.find({}).limit(1).next()
+  let recipeExists = !!(await recipesCollection.find({}).limit(1).next())
 
   let itemCollection = mongo.collection('items')
-  let itemExists = !!await itemCollection.find({}).limit(1).next()
+  let itemExists = !!(await itemCollection.find({}).limit(1).next())
 
   if (itemExists && !recipeExists) {
     await execute(loadRecipeList)
@@ -39,11 +39,7 @@ async function loadRecipeList () {
   // Create and execute the recipe updates
   let collection = mongo.collection('recipe-trees')
   let updateFunctions = []
-  recipes.map(recipe => {
-    updateFunctions.push(() =>
-      collection.update({id: recipe.id}, recipe, {upsert: true})
-    )
-  })
+  recipes.map(recipe => updateFunctions.push(() => collection.update({id: recipe.id}, recipe, {upsert: true})))
 
   await async.parallel(updateFunctions)
 
