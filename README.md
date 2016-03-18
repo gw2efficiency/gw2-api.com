@@ -400,7 +400,7 @@ as well, this project has been rewritten in node.js with resource management and
 
 **Future**
 
-In the future, [gw2-api.com](https://gw2-api.com) will stay online, but it will not be used 
+In the future, [gw2-api.com](https://gw2-api.com) will stay online for a while, but it will not be used 
 in production anymore. Instead, it will be integrated into the API of
 [gw2efficiency.com](https://gw2efficiency.com/) directly.
 
