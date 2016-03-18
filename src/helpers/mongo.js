@@ -1,7 +1,7 @@
 const mongodb = require('mongodb').MongoClient
 const logger = require('./logger.js')
 
-const defaultUrl = 'mongodb://localhost:27017/gw2api'
+const defaultUrl = 'mongodb://127.0.0.1:27017/gw2api'
 let database
 
 function connect (url) {

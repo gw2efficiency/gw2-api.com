@@ -9,7 +9,7 @@ mongo.__set__('logger', loggerMock)
 
 describe('helpers > mongo', () => {
   before(async () => {
-    await mongo.connect('mongodb://localhost:27017/gw2api-test')
+    await mongo.connect('mongodb://127.0.0.1:27017/gw2api-test')
   })
 
   beforeEach(() => {
@@ -20,7 +20,7 @@ describe('helpers > mongo', () => {
 
   it('can connect successfully', async () => {
     try {
-      await mongo.connect('mongodb://localhost:27017/gw2api-test')
+      await mongo.connect('mongodb://127.0.0.1:27017/gw2api-test')
     } catch (e) {
     }
     expect(loggerMock.info.callCount).to.equal(1)
@@ -29,7 +29,7 @@ describe('helpers > mongo', () => {
 
   it('logs when an error happens connecting', async () => {
     try {
-      await mongo.connect('mongodb://localhost:27014/gw2api-test')
+      await mongo.connect('mongodb://127.0.0.1:27014/gw2api-test')
     } catch (e) {
     }
     expect(loggerMock.error.callCount).to.equal(1)

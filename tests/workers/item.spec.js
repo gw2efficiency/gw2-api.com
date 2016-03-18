@@ -16,7 +16,7 @@ worker.__set__('schedule', scheduleMock)
 
 describe('workers > item worker', () => {
   before(async () => {
-    await mongo.connect('mongodb://localhost:27017/gw2api-test')
+    await mongo.connect('mongodb://127.0.0.1:27017/gw2api-test')
   })
 
   beforeEach(async () => {
