@@ -2,6 +2,7 @@ const logger = require('../helpers/logger.js')
 const mongo = require('../helpers/mongo.js')
 const {execute, schedule} = require('../helpers/workers.js')
 const api = require('../helpers/api.js')
+const requester = require('gw2e-requester')
 
 async function initialize () {
   let skinCollection = mongo.collection('cache')
@@ -58,15 +59,19 @@ async function loadSkinPrices () {
     {'$project': {_id: 0, id: 1, price: {'$min': ['$sell.price', '$buy.price']}}},
     {'$match': {price: {'$ne': null}}}
   ]).toArray()
+  let customPrices = await requester.single('https://gw2efficiency.com/api/tradingpost/custom-item-prices')
 
   let priceMap = {}
   items.map(i => priceMap[i.id] = i.price)
 
   for (let key in skins) {
     let skinPrices = skins[key].map(i => priceMap[i] || 0).filter(x => x > 0)
-    let skinPrice = Math.min.apply(null, skinPrices)
+    let skinCustomPrices = skins[key].map(i => customPrices[i] || 0).filter(x => x > 0)
+    let prices = skinPrices.concat(skinCustomPrices)
 
-    if (skinPrices.length > 0 && skinPrice > 0) {
+    let skinPrice = Math.min.apply(null, prices)
+
+    if (prices.length > 0 && skinPrice > 0) {
       skins[key] = skinPrice
     } else {
       delete skins[key]

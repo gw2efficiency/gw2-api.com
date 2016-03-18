@@ -13,6 +13,9 @@ worker.__set__('execute', executeMock)
 const scheduleMock = sinon.spy()
 worker.__set__('schedule', scheduleMock)
 
+const requesterMock = require('gw2e-requester/mock')
+worker.__set__('requester', requesterMock)
+
 describe('workers > skin worker', () => {
   before(async () => {
     await mongo.connect('mongodb://127.0.0.1:27017/gw2api-test')
@@ -116,9 +119,14 @@ describe('workers > skin worker', () => {
         73: [3],
         74: [4],
         75: [1, 2, 3, 4],
-        76: [5, 2]
+        76: [5, 2],
+        77: [20319],
+        78: [5, 1337]
       }
     })
+
+    // Mock custom item prices (temporary)
+    requesterMock.addResponse({'20319': 135545, '1337': 599})
 
     await worker.loadSkinPrices()
 
@@ -127,7 +135,9 @@ describe('workers > skin worker', () => {
       71: 123,
       72: 456,
       75: 123,
-      76: 456
+      76: 456,
+      77: 135545,
+      78: 599
     })
   })
 })
