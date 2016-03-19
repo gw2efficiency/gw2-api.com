@@ -293,7 +293,8 @@ This endpoint returns a list of all skin ids with their respective item ids.
 
 ### `/skins/prices`
 
-This endpoint returns a list of all buyable skin ids with their respective cheapest prices.
+This endpoint returns a list of all buyable skin ids with their respective cheapest item price. 
+(Note: the item price itself is the highest of buy price, sell price and vendor price)
 
 ```js
 {
