@@ -15,7 +15,7 @@
     "gw2e-async-promises": "^1.0.2",
     "gw2e-gw2api-client": "^1.0.0",
     "gw2e-gw2api-scraping": "^1.0.1",
-    "gw2e-recipe-nesting": "^1.0.0",
+    "gw2e-recipe-nesting": "^2.0.0",
     "gw2e-requester": "^1.0.0",
     "mongodb": "^2.1.7",
     "newrelic": "^1.25.5",
