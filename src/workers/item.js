@@ -134,7 +134,7 @@ function transformTradable (flags) {
 }
 
 function transformPrices (item, prices) {
-  return {
+  let transformed = {
     buy: {
       quantity: prices.buys.quantity,
       price: prices.buys.unit_price,
@@ -147,6 +147,13 @@ function transformPrices (item, prices) {
     },
     last_update: isoDate()
   }
+
+  if (item.crafting) {
+    let craftPrice = item.craftingWithoutPrecursors || item.crafting
+    transformed.craftingProfit = Math.round(transformed.sell.price * 0.85 - craftPrice.buy)
+  }
+
+  return transformed
 }
 
 function lastPriceChange (memory, current) {
