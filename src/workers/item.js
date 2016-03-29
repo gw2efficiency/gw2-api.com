@@ -138,12 +138,14 @@ function transformPrices (item, prices) {
     buy: {
       quantity: prices.buys.quantity,
       price: prices.buys.unit_price,
-      last_change: lastPriceChange(item.buy, prices.buys)
+      last_change: lastPriceChange(item.buy, prices.buys),
+      last_known: prices.buys.unit_price || item.buy.price || item.buy.last_known
     },
     sell: {
       quantity: prices.sells.quantity,
       price: prices.sells.unit_price,
-      last_change: lastPriceChange(item.sell, prices.sells)
+      last_change: lastPriceChange(item.sell, prices.sells),
+      last_known: prices.sells.unit_price || item.sell.price || item.sell.last_known
     },
     last_update: isoDate()
   }
