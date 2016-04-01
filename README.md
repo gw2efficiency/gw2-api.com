@@ -48,7 +48,6 @@ npm test
 - [X] [`/skins/resolve`](#skinsresolve)
 - [X] [`/skins/prices`](#skinsprices)
 - [X] [`/recipe/nested/:id`](#recipenestedid)
-- [ ] [`/recipe/cost/:ids`](#recipecostids)
 - [X] [`/gems/history`](#gemshistory)
 
 ### `/item/:id`
@@ -89,6 +88,10 @@ This endpoint returns a single item.
       "quantity": 16,
       "price": -140
     }
+  },
+  "crafting": {
+    "buy": 1337,
+    "sell": 4242
   },
   "last_update": "2015-06-09T05:55:44+0000"
 }
@@ -330,24 +333,6 @@ All components that can be crafted include their respective recipe and subcompon
     },
     // ...
   ]
-}
-```
-
-### `/recipe/cost/:ids`
-
-This endpoint returns the crafting costs for the given item ids. `craft_buy` is the price if you order the materials, `craft_sell` the price if you instantly buy the materials.
-
-**Parameters**
-
-- `ids`: An array or a comma separated list of one or more item ids, either in the url or as a GET/POST parameter
-
-```js
-{
-  "31083": {
-    "craft_buy": 123,
-    "craft_sell": 456
-  },
-  // ...
 }
 ```
 
