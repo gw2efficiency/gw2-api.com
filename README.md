@@ -36,19 +36,19 @@ npm test
 
 ## Endpoints
 
-- [X] [`/item/:id`](#itemid)
-- [X] [`/items/:ids`](#itemsids)
-- [X] [`/items/all`](#itemsall)
-- [X] [`/items/all-prices`](#itemsall-prices)
-- [X] [`/items/autocomplete`](#itemsautocomplete)
-- [X] [`/items/by-name`](#itemsby-name)
-- [X] [`/items/by-skin`](#itemsby-skin)
-- [X] [`/items/query`](#itemsquery)
-- [X] [`/items/categories`](#itemscategories)
-- [X] [`/skins/resolve`](#skinsresolve)
-- [X] [`/skins/prices`](#skinsprices)
-- [X] [`/recipe/nested/:id`](#recipenestedid)
-- [X] [`/gems/history`](#gemshistory)
+- [`/item/:id`](#itemid)
+- [`/items/:ids`](#itemsids)
+- [`/items/all`](#itemsall)
+- [`/items/all-prices`](#itemsall-prices)
+- [`/items/autocomplete`](#itemsautocomplete)
+- [`/items/by-name`](#itemsby-name)
+- [`/items/by-skin`](#itemsby-skin)
+- [`/items/query`](#itemsquery)
+- [`/items/categories`](#itemscategories)
+- [`/skins/resolve`](#skinsresolve)
+- [`/skins/prices`](#skinsprices)
+- [`/recipe/nested/:id`](#recipenestedid)
+- [`/gems/history`](#gemshistory)
 
 ### `/item/:id`
 
