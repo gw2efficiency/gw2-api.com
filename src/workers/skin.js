@@ -54,15 +54,13 @@ async function loadSkinList () {
 
 async function loadSkinPrices () {
   let skins = (await mongo.collection('cache').find({id: 'skinsToItems'}).limit(1).next()).content
-  let items = await mongo.collection('items').aggregate([
-    {'$match': {tradable: true, lang: 'en'}},
-    {'$project': {_id: 0, id: 1, price: {'$max': ['$sell.price', '$buy.price', '$vendor_price']}}},
-    {'$match': {price: {'$ne': null}}}
-  ]).toArray()
-  let customPrices = await requester.single('https://gw2efficiency.com/api/tradingpost/custom-item-prices')
+  let items = await mongo.collection('items').aggregate(
+    {lang: 'en', value: {'$ne': null}, valueIsVendor: false},
+    {_id: 0, id: 1, value: 1}
+  ).toArray()
 
   let priceMap = {}
-  items.map(i => priceMap[i.id] = i.price)
+  items.map(i => priceMap[i.id] = i.value)
 
   for (let key in skins) {
     let skinPrices = skins[key].map(i => priceMap[i] || 0).filter(x => x > 0)

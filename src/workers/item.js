@@ -5,6 +5,7 @@ const api = require('../helpers/api.js')
 const async = require('gw2e-async-promises')
 const rarities = require('../static/rarities.js')
 const categories = require('../static/categories.js')
+const accountValue = require('gw2e-account-value')
 
 const languages = ['en', 'de', 'fr', 'es']
 
@@ -17,6 +18,7 @@ async function initialize () {
   if (!exists) {
     await execute(loadItems)
     await execute(loadItemPrices)
+    await execute(updateItemValues)
   }
 
   // Update the items once a day, at 2am
@@ -24,6 +26,9 @@ async function initialize () {
 
   // Update prices every 5 minutes (which is the gw2 cache time)
   schedule('*/5 * * * *', loadItemPrices)
+
+  // Update item values every 5 minutes
+  schedule('*/5 * * * *', updateItemValues)
 
   logger.info('Initialized item worker')
 }
@@ -70,6 +75,53 @@ function loadItemPrices () {
         if (!item) return resolve()
         item = transformPrices(item, price)
         await collection.update({id: price.id}, {'$set': item}, {multi: true})
+        resolve()
+      })
+    )
+
+    await async.parallel(updateFunctions)
+    resolve()
+  })
+}
+
+function updateItemValues () {
+  return new Promise(async resolve => {
+    let collection = mongo.collection('items')
+    let attributes = {_id: 0, id: 1, sell: 1, buy: 1, crafting: 1, vendor_price: 1}
+    let items = await collection.find({lang: 'en'}, attributes).toArray()
+
+    let updateFunctions = items.map(item => () =>
+      new Promise(async resolve => {
+        let itemValue
+        let inheritedItem = accountValue.itemInherits(item.id)
+
+        // This item inherits the value of an other item
+        if (inheritedItem && inheritedItem.id) {
+          let valueItem = items.find(i => i.id === inheritedItem.id)
+          itemValue = accountValue.itemValue(valueItem) * inheritedItem.count + (inheritedItem.gold || 0)
+        }
+
+        // This item has a hardcoded gold value
+        if (inheritedItem && !inheritedItem.id) {
+          itemValue = inheritedItem.gold
+        }
+
+        // This item is just worth what it is worth! :)
+        if (!inheritedItem) {
+          itemValue = accountValue.itemValue(item)
+        }
+
+        // Don't update the value if it's still the same
+        if (itemValue === item.value) {
+          resolve()
+        }
+
+        let update = {
+          value: itemValue,
+          valueIsVendor: itemValue === item.vendor_price
+        }
+
+        await collection.update({id: item.id}, {'$set': update}, {multi: true})
         resolve()
       })
     )
@@ -150,6 +202,7 @@ function transformPrices (item, prices) {
     last_update: isoDate()
   }
 
+  // Add the crafting profit if a crafting price is set
   if (item.crafting) {
     let craftPrice = item.craftingWithoutPrecursors || item.crafting
     transformed.craftingProfit = Math.round(transformed.sell.price * 0.85 - craftPrice.buy)
@@ -180,4 +233,4 @@ function isoDate (date) {
   return date.toISOString().slice(0, 19) + '+0000'
 }
 
-module.exports = {initialize, loadItems, loadItemPrices}
+module.exports = {initialize, loadItems, loadItemPrices, updateItemValues}

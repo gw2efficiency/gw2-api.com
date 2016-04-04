@@ -40,6 +40,7 @@ npm test
 - [`/items/:ids`](#itemsids)
 - [`/items/all`](#itemsall)
 - [`/items/all-prices`](#itemsall-prices)
+- [`/items/all-values`](#itemsall-values)
 - [`/items/autocomplete`](#itemsautocomplete)
 - [`/items/by-name`](#itemsby-name)
 - [`/items/by-skin`](#itemsby-skin)
@@ -140,15 +141,26 @@ This endpoint returns an array of all tradable items.
 
 This endpoint returns an array of all tradable item ids with their prices.
 
-**Parameters**
-
-- `lang` (optional): The requested language (defaults to english)
-
 ```js
 [
   {
     "id": 123, 
     "price": 1337
+  },
+  // ...
+]
+```
+
+### `/items/all-values`
+
+This endpoint returns an array of all items with their value. If you want to
+learn more about how the value of an item is calculated, [read more here](https://github.com/gw2efficiency/account-value).
+
+```js
+[
+  {
+    "id": 456, 
+    "value": 42
   },
   // ...
 ]
@@ -296,8 +308,8 @@ This endpoint returns a list of all skin ids with their respective item ids.
 
 ### `/skins/prices`
 
-This endpoint returns a list of all buyable skin ids with their respective cheapest item price. 
-(Note: the item price itself is the highest of buy price, sell price and vendor price)
+This endpoint returns a list of all buyable skin ids with their respective cheapest value. If you want to
+learn more about how the value of an item is calculated, [read more here](https://github.com/gw2efficiency/account-value).
 
 ```js
 {
