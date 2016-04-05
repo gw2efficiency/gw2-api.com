@@ -127,6 +127,39 @@ function updateItemValues () {
     )
 
     await async.parallel(updateFunctions)
+
+    // Get the average value for ascended boxes based on the average
+    // of all ascended weapon and armor that might come out of boxes
+    let ascendedAverage = await collection.aggregate([
+      {
+        $match: {
+          rarity: 6,
+          craftable: true,
+          lang: 'en',
+          'category.0': {$in: [0, 14]},
+          valueIsVendor: false,
+          name: {$regex: '(\'s|wupwup|Veldrunner|Zintl|Veldrunner|Angchu)', $options: 'i'}
+        }
+      },
+      {$group: {_id: null, average: {$avg: '$value'}}}
+    ]).limit(1).next()
+    ascendedAverage = Math.round(ascendedAverage.average)
+
+    // Find ascended boxes ids (we are filtering out the recipes here)
+    let ids = await collection.find(
+      {
+        rarity: 6,
+        'category.0': 4,
+        'category.1': {$in: [0, 1]},
+        lang: 'en',
+        name: {'$regex': '(chest|hoard)', '$options': 'i'}
+      },
+      {_id: 0, id: 1}
+    ).toArray()
+
+    // Update all ascended boxes with the average price
+    await collection.update({id: {$in: ids.map(i => i.id)}}, {$set: {value: ascendedAverage}}, {multi: true})
+
     resolve()
   })
 }
