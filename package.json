@@ -10,6 +10,7 @@
   "author": "queicherius@gmail.com",
   "license": "MIT",
   "dependencies": {
+    "babel-polyfill": "^6.7.4",
     "chalk": "^1.1.1",
     "escape-string-regexp": "^1.0.5",
     "gw2e-async-promises": "^1.0.2",
