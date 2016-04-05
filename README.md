@@ -5,6 +5,8 @@
 
 > Proxy-layer server for the official GuildWars 2 API.
 
+:construction: Please note that this is not versioned and stuff may change without notice. :construction:
+
 ## Install
 
 - **Requirements:**
