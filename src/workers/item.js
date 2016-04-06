@@ -87,7 +87,7 @@ function loadItemPrices () {
 function updateItemValues () {
   return new Promise(async resolve => {
     let collection = mongo.collection('items')
-    let attributes = {_id: 0, id: 1, sell: 1, buy: 1, crafting: 1, vendor_price: 1}
+    let attributes = {_id: 0, id: 1, sell: 1, buy: 1, crafting: 1, vendor_price: 1, value: 1}
     let items = await collection.find({lang: 'en'}, attributes).toArray()
 
     let updateFunctions = items.map(item => () =>
@@ -113,7 +113,7 @@ function updateItemValues () {
 
         // Don't update the value if it's still the same
         if (itemValue === item.value) {
-          resolve()
+          return resolve()
         }
 
         let update = {
@@ -138,11 +138,19 @@ function updateItemValues () {
           lang: 'en',
           'category.0': {$in: [0, 14]},
           valueIsVendor: false,
-          name: {$regex: '(\'s|wupwup|Veldrunner|Zintl|Veldrunner|Angchu)', $options: 'i'}
+          name: {$regex: '(\'s|wupwup|Veldrunner|Zintl|Veldrunner|Angchu)', $options: 'i'},
+          value: {$gt: 0}
         }
       },
       {$group: {_id: null, average: {$avg: '$value'}}}
     ]).limit(1).next()
+
+    // We don't have any ascended items, so let's not bother
+    // This can happen during testing or during server setup
+    if (ascendedAverage === null) {
+      return resolve()
+    }
+
     ascendedAverage = Math.round(ascendedAverage.average)
 
     // Find ascended boxes ids (we are filtering out the recipes here)
@@ -159,7 +167,6 @@ function updateItemValues () {
 
     // Update all ascended boxes with the average price
     await collection.update({id: {$in: ids.map(i => i.id)}}, {$set: {value: ascendedAverage}}, {multi: true})
-
     resolve()
   })
 }
