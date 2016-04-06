@@ -104,6 +104,25 @@ describe('controllers > item', () => {
     ])
   })
 
+  it('handles /items/all-values', async () => {
+    await mongo.collection('items').insert([
+      {id: 1, lang: 'en', value: 123},
+      {id: 2, lang: 'en', value: 456},
+      {id: 3, lang: 'en'},
+      {id: 4, lang: 'en', value: 910}
+    ])
+
+    let response = {send: sinon.spy()}
+    await controller.allValues({params: {}}, response)
+
+    expect(response.send.calledOnce).to.equal(true)
+    expect(response.send.args[0][0]).to.deep.equal([
+      {id: 1, value: 123},
+      {id: 2, value: 456},
+      {id: 4, value: 910}
+    ])
+  })
+
   it('handles /items/categories', async () => {
     let response = {send: sinon.spy()}
     await controller.categories({params: {}}, response)
