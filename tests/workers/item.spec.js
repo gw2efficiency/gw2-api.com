@@ -30,13 +30,15 @@ describe('workers > item worker', () => {
   it('initializes correctly without data', async () => {
     await worker.initialize()
 
-    expect(executeMock.callCount).to.equal(2)
+    expect(executeMock.callCount).to.equal(3)
     expect(executeMock.args[0][0].name).to.equal('loadItems')
     expect(executeMock.args[1][0].name).to.equal('loadItemPrices')
+    expect(executeMock.args[2][0].name).to.equal('updateItemValues')
 
-    expect(scheduleMock.callCount).to.equal(2)
+    expect(scheduleMock.callCount).to.equal(3)
     expect(scheduleMock.args[0][1].name).to.equal('loadItems')
     expect(scheduleMock.args[1][1].name).to.equal('loadItemPrices')
+    expect(scheduleMock.args[2][1].name).to.equal('updateItemValues')
   })
 
   it('initializes correctly with data', async () => {
@@ -45,9 +47,10 @@ describe('workers > item worker', () => {
 
     expect(executeMock.callCount).to.equal(0)
 
-    expect(scheduleMock.callCount).to.equal(2)
+    expect(scheduleMock.callCount).to.equal(3)
     expect(scheduleMock.args[0][1].name).to.equal('loadItems')
     expect(scheduleMock.args[1][1].name).to.equal('loadItemPrices')
+    expect(scheduleMock.args[2][1].name).to.equal('updateItemValues')
   })
 
   it('loads the items', async () => {
