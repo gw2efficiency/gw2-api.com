@@ -1,5 +1,6 @@
 language: node_js
 node_js:
+  - "4"
   - "5"
 after_script: "./node_modules/.bin/codecov"
 branches:
