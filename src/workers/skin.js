@@ -2,7 +2,6 @@ const logger = require('../helpers/logger.js')
 const mongo = require('../helpers/mongo.js')
 const {execute, schedule} = require('../helpers/workers.js')
 const api = require('../helpers/api.js')
-const requester = require('gw2e-requester')
 
 async function initialize () {
   let skinCollection = mongo.collection('cache')
@@ -54,7 +53,7 @@ async function loadSkinList () {
 
 async function loadSkinPrices () {
   let skins = (await mongo.collection('cache').find({id: 'skinsToItems'}).limit(1).next()).content
-  let items = await mongo.collection('items').aggregate(
+  let items = await mongo.collection('items').find(
     {lang: 'en', value: {'$ne': null}, valueIsVendor: false},
     {_id: 0, id: 1, value: 1}
   ).toArray()
@@ -63,10 +62,7 @@ async function loadSkinPrices () {
   items.map(i => priceMap[i.id] = i.value)
 
   for (let key in skins) {
-    let skinPrices = skins[key].map(i => priceMap[i] || 0).filter(x => x > 0)
-    let skinCustomPrices = skins[key].map(i => customPrices[i] || 0).filter(x => x > 0)
-    let prices = skinPrices.concat(skinCustomPrices)
-
+    let prices = skins[key].map(i => priceMap[i] || 0).filter(x => x > 0)
     let skinPrice = Math.min.apply(null, prices)
 
     if (prices.length > 0 && skinPrice > 0) {
