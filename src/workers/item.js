@@ -89,7 +89,7 @@ function transformItem (item) {
     level: transformLevel(item.level),
     vendor_price: item.vendor_value,
     rarity: transformRarity(item.rarity),
-    skin: transformSkin(item.default_skin),
+    default_skin: transformSkin(item.default_skin),
     tradable: transformTradable(item.flags),
     category: transformCategory(item.type, item.details)
   }

@@ -28,7 +28,7 @@ async function initialize () {
 
 async function loadSkinList () {
   let skins = await api().skins().all()
-  let items = await mongo.collection('items').find({lang: 'en'}, {_id: 0, id: 1, name: 1, skin: 1}).toArray()
+  let items = await mongo.collection('items').find({lang: 'en'}, {_id: 0, id: 1, name: 1, default_skin: 1}).toArray()
 
   // Try and resolve the skins from items
   skins = skins.map(skin => {
@@ -87,7 +87,7 @@ async function loadSkinPrices () {
 
 function resolveSkin (skin, items) {
   // Resolve by id
-  let skinItems = items.filter(x => x.skin === skin.id)
+  let skinItems = items.filter(x => x.default_skin === skin.id)
   if (skinItems.length > 0) {
     return skinItems.map(x => x.id)
   }

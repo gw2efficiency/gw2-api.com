@@ -225,7 +225,7 @@ describe('workers > item worker', () => {
         3
       ],
       vendor_price: 265,
-      skin: 95,
+      default_skin: 95,
       tradable: true
     }
 

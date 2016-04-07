@@ -112,7 +112,7 @@ async function bySkin (request, response) {
     return invalidParameters(response)
   }
 
-  let items = await mongo.collection('items').find({skin: skin_id, lang: 'en'}, {_id: 0, id: 1}).toArray()
+  let items = await mongo.collection('items').find({default_skin: skin_id, lang: 'en'}, {_id: 0, id: 1}).toArray()
   response.send(items.map(i => i.id))
 }
 
