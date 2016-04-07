@@ -242,6 +242,11 @@ describe('workers > item worker', () => {
     expect(worker.__get__('transformRarity')('Ascended')).to.equal(6)
   })
 
+  it('transforms the API item vendor price', () => {
+    expect(worker.__get__('transformVendorPrice')(123, [])).to.equal(123)
+    expect(worker.__get__('transformVendorPrice')(123, ['NoSell', 'AccountBound'])).to.equal(null)
+  })
+
   it('transforms the API item level', () => {
     expect(worker.__get__('transformSkin')()).to.equal(null)
     expect(worker.__get__('transformSkin')('80')).to.equal(80)

@@ -87,7 +87,7 @@ function transformItem (item) {
     description: transformDescription(item.description),
     image: item.icon,
     level: transformLevel(item.level),
-    vendor_price: item.vendor_value,
+    vendor_price: transformVendorPrice(item.vendor_value, item.flags),
     rarity: transformRarity(item.rarity),
     default_skin: transformSkin(item.default_skin),
     tradable: transformTradable(item.flags),
@@ -97,6 +97,10 @@ function transformItem (item) {
 
 function transformLevel (level) {
   return level === 0 ? null : parseInt(level, 10)
+}
+
+function transformVendorPrice (vendor_price, flags) {
+  return flags.indexOf('NoSell') !== -1 ? null : vendor_price
 }
 
 function transformRarity (rarity) {
