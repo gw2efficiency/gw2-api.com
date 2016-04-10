@@ -138,28 +138,19 @@ function transformTradable (flags) {
 }
 
 function transformPrices (item, prices) {
-  let transformed = {
+  return {
     buy: {
       quantity: prices.buys.quantity,
       price: prices.buys.unit_price,
-      last_change: lastPriceChange(item.buy, prices.buys),
-      last_known: prices.buys.unit_price || item.buy.price || item.buy.last_known
+      last_change: lastPriceChange(item.buy, prices.buys)
     },
     sell: {
       quantity: prices.sells.quantity,
       price: prices.sells.unit_price,
-      last_change: lastPriceChange(item.sell, prices.sells),
-      last_known: prices.sells.unit_price || item.sell.price || item.sell.last_known
+      last_change: lastPriceChange(item.sell, prices.sells)
     },
     last_update: isoDate()
   }
-
-  if (item.crafting) {
-    let craftPrice = item.craftingWithoutPrecursors || item.crafting
-    transformed.craftingProfit = Math.round(transformed.sell.price * 0.85 - craftPrice.buy)
-  }
-
-  return transformed
 }
 
 function lastPriceChange (memory, current) {
