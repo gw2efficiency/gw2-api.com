@@ -66,7 +66,7 @@ This endpoint returns a single item.
   "id": 123,
   "name": "Zho's Mask",
   "description": "Some item description",
-  "default_skin": 123,
+  "skins": [123],
   "level": 80,
   "rarity": 5,
   "tradable": true,
