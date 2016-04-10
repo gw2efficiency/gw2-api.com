@@ -38,13 +38,11 @@ describe('workers > recipe worker', () => {
     await mongo.collection('items').insert({id: 1, name: 'placeholder item'})
     await worker.initialize()
 
-    expect(executeMock.callCount).to.equal(2)
+    expect(executeMock.callCount).to.equal(1)
     expect(executeMock.args[0][0].name).to.equal('loadRecipeList')
-    expect(executeMock.args[1][0].name).to.equal('updateCraftingPrices')
 
-    expect(scheduleMock.callCount).to.equal(2)
+    expect(scheduleMock.callCount).to.equal(1)
     expect(scheduleMock.args[0][1].name).to.equal('loadRecipeList')
-    expect(scheduleMock.args[1][1].name).to.equal('updateCraftingPrices')
   })
 
   it('initializes correctly with data', async () => {
@@ -54,9 +52,8 @@ describe('workers > recipe worker', () => {
 
     expect(executeMock.callCount).to.equal(0)
 
-    expect(scheduleMock.callCount).to.equal(2)
+    expect(scheduleMock.callCount).to.equal(1)
     expect(scheduleMock.args[0][1].name).to.equal('loadRecipeList')
-    expect(scheduleMock.args[1][1].name).to.equal('updateCraftingPrices')
   })
 
   it('loads the recipe list correctly', async () => {
@@ -84,65 +81,6 @@ describe('workers > recipe worker', () => {
     expect(items).to.deep.equal([{id: 1, craftable: true}, {id: 9001, craftable: false}])
 
     worker.__set__('loadCustomRecipes', tmp)
-  })
-
-  it('updates the crafting prices correctly', async () => {
-    await mongo.collection('recipe-trees').insert([
-      {
-        id: 30686,
-        quantity: 1,
-        output: 1,
-        components: [
-          {id: 46742, quantity: 1},
-          {id: 29170, quantity: 1, components: [{id: 46747, quantity: 1}]},
-          {id: 12324, quantity: 1}
-        ]
-      },
-      {
-        id: 1,
-        quantity: 1,
-        output: 1,
-        components: [
-          {id: 12324, quantity: 1}
-        ]
-      }
-    ])
-
-    await mongo.collection('items').insert([
-      {id: 30686},
-      {id: 1},
-      {id: 46742, tradable: true, buy: {price: 100}, sell: {price: 200}},
-      {id: 29170, tradable: true, buy: {price: 500}, sell: {price: 1000}},
-      {id: 12324, tradable: true, buy: {price: 10000}, sell: {price: 20000}}
-    ])
-
-    await worker.updateCraftingPrices()
-
-    let legendary = await mongo.collection('items').find({id: 30686}, {_id: 0}).limit(1).next()
-    expect(legendary).to.deep.equal({
-      id: 30686,
-      crafting: {
-        buy: 258,
-        buyNoDaily: 258,
-        sell: 358,
-        sellNoDaily: 358
-      },
-      craftingWithoutPrecursors: {
-        buy: 608,
-        buyNoDaily: 608,
-        sell: 1208,
-        sellNoDaily: 1208
-      }
-    })
-
-    let nonLegendary = await mongo.collection('items').find({id: 1}, {_id: 0}).limit(1).next()
-    expect(nonLegendary).to.deep.equal({
-      id: 1,
-      crafting: {
-        buy: 8,
-        sell: 8
-      }
-    })
   })
 
   it('loads and filters custom recipes correctly', async () => {
