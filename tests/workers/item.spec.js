@@ -141,12 +141,14 @@ describe('workers > item worker', () => {
         buy: {
           quantity: 29731,
           price: 58,
-          last_change: {quantity: 0, price: 0, time: currentDate}
+          last_change: {quantity: 0, price: 0, time: currentDate},
+          last_known: 58
         },
         sell: {
           quantity: 42594,
           price: 133,
-          last_change: {quantity: 0, price: 0, time: currentDate}
+          last_change: {quantity: 0, price: 0, time: currentDate},
+          last_known: 133
         },
         last_update: currentDate,
         tradable: true
@@ -299,7 +301,8 @@ describe('workers > item worker', () => {
           time: currentDate,
           quantity: 0,
           price: 0
-        }
+        },
+        last_known: 18053
       },
       sell: {
         quantity: 56,
@@ -308,7 +311,8 @@ describe('workers > item worker', () => {
           time: currentDate,
           quantity: 0,
           price: 0
-        }
+        },
+        last_known: 48053
       },
       last_update: currentDate
     }
@@ -329,7 +333,8 @@ describe('workers > item worker', () => {
           time: '2014-11-17T04:07:00+0000',
           quantity: 0,
           price: 0
-        }
+        },
+        last_known: 18053
       },
       sell: {
         quantity: 56,
@@ -338,7 +343,8 @@ describe('workers > item worker', () => {
           time: '2014-11-17T04:07:00+0000',
           quantity: 0,
           price: 0
-        }
+        },
+        last_known: 48053
       },
       last_update: '2014-11-17T04:07:00+0000'
     }
@@ -360,7 +366,8 @@ describe('workers > item worker', () => {
           time: '2014-11-17T04:07:00+0000',
           quantity: 0,
           price: 0
-        }
+        },
+        last_known: 18053
       },
       sell: {
         quantity: 56,
@@ -369,7 +376,8 @@ describe('workers > item worker', () => {
           time: '2014-11-17T04:07:00+0000',
           quantity: 0,
           price: 0
-        }
+        },
+        last_known: 48053
       },
       last_update: currentDate
     }
@@ -388,7 +396,8 @@ describe('workers > item worker', () => {
           time: '2014-11-17T04:07:00+0000',
           quantity: 0,
           price: 0
-        }
+        },
+        last_known: 18053
       },
       sell: {
         quantity: 56,
@@ -397,7 +406,8 @@ describe('workers > item worker', () => {
           time: '2014-11-17T04:07:00+0000',
           quantity: 0,
           price: 0
-        }
+        },
+        last_known: 48053
       },
       last_update: '2014-11-17T04:07:00+0000'
     }
@@ -419,7 +429,8 @@ describe('workers > item worker', () => {
           time: currentDate,
           quantity: -50,
           price: 100
-        }
+        },
+        last_known: 18153
       },
       sell: {
         quantity: 66,
@@ -428,9 +439,211 @@ describe('workers > item worker', () => {
           time: currentDate,
           quantity: 10,
           price: -50
-        }
+        },
+        last_known: 48003
       },
       last_update: currentDate
+    }
+
+    let x = worker.__get__('transformPrices')(itemInput, priceInput)
+    expect(x).to.deep.equal(expectedOutput)
+  })
+
+  it('updates the crafting price if the item has crafting information', () => {
+    let currentDate = worker.__get__('isoDate')()
+    let itemInput = {
+      buy: {
+        quantity: 156,
+        price: 18053,
+        last_change: {
+          time: '2014-11-17T04:07:00+0000',
+          quantity: 0,
+          price: 0
+        },
+        last_known: 18053
+      },
+      sell: {
+        quantity: 56,
+        price: 48053,
+        last_change: {
+          time: '2014-11-17T04:07:00+0000',
+          quantity: 0,
+          price: 0
+        },
+        last_known: 48053
+      },
+      last_update: '2014-11-17T04:07:00+0000',
+      crafting: {
+        buy: 10000
+      }
+    }
+    let priceInput = {
+      buys: {
+        quantity: 106,
+        unit_price: 18153
+      },
+      sells: {
+        quantity: 66,
+        unit_price: 48003
+      }
+    }
+    let expectedOutput = {
+      buy: {
+        quantity: 106,
+        price: 18153,
+        last_change: {
+          time: currentDate,
+          quantity: -50,
+          price: 100
+        },
+        last_known: 18153
+      },
+      sell: {
+        quantity: 66,
+        price: 48003,
+        last_change: {
+          time: currentDate,
+          quantity: 10,
+          price: -50
+        },
+        last_known: 48003
+      },
+      last_update: currentDate,
+      craftingProfit: 30803
+    }
+
+    let x = worker.__get__('transformPrices')(itemInput, priceInput)
+    expect(x).to.deep.equal(expectedOutput)
+  })
+
+  it('keeps the last known price if the current price gets set to 0', () => {
+    let currentDate = worker.__get__('isoDate')()
+    let itemInput = {
+      buy: {
+        quantity: 156,
+        price: 200,
+        last_change: {
+          time: '2014-11-17T04:07:00+0000',
+          quantity: 0,
+          price: 0
+        },
+        last_known: 100
+      },
+      sell: {
+        quantity: 56,
+        price: 200,
+        last_change: {
+          time: '2014-11-17T04:07:00+0000',
+          quantity: 0,
+          price: 0
+        },
+        last_known: 48053
+      },
+      last_update: '2014-11-17T04:07:00+0000',
+      crafting: {
+        buy: 10000
+      }
+    }
+    let priceInput = {
+      buys: {
+        quantity: 106,
+        unit_price: 0
+      },
+      sells: {
+        quantity: 66,
+        unit_price: 0
+      }
+    }
+    let expectedOutput = {
+      buy: {
+        quantity: 106,
+        price: 0,
+        last_change: {
+          time: currentDate,
+          quantity: -50,
+          price: -200
+        },
+        last_known: 200
+      },
+      sell: {
+        quantity: 66,
+        price: 0,
+        last_change: {
+          time: currentDate,
+          quantity: 10,
+          price: -200
+        },
+        last_known: 200
+      },
+      last_update: currentDate,
+      craftingProfit: -10000
+    }
+
+    let x = worker.__get__('transformPrices')(itemInput, priceInput)
+    expect(x).to.deep.equal(expectedOutput)
+  })
+
+  it('keeps the last known price if there is no current price', () => {
+    let currentDate = worker.__get__('isoDate')()
+    let itemInput = {
+      buy: {
+        quantity: 156,
+        price: 0,
+        last_change: {
+          time: '2014-11-17T04:07:00+0000',
+          quantity: 0,
+          price: 0
+        },
+        last_known: 100
+      },
+      sell: {
+        quantity: 56,
+        price: 0,
+        last_change: {
+          time: '2014-11-17T04:07:00+0000',
+          quantity: 0,
+          price: 0
+        },
+        last_known: 48053
+      },
+      last_update: '2014-11-17T04:07:00+0000',
+      crafting: {
+        buy: 10000
+      }
+    }
+    let priceInput = {
+      buys: {
+        quantity: 106,
+        unit_price: 0
+      },
+      sells: {
+        quantity: 66,
+        unit_price: 0
+      }
+    }
+    let expectedOutput = {
+      buy: {
+        quantity: 106,
+        price: 0,
+        last_change: {
+          time: currentDate,
+          quantity: -50,
+          price: 0
+        },
+        last_known: 100
+      },
+      sell: {
+        quantity: 66,
+        price: 0,
+        last_change: {
+          time: currentDate,
+          quantity: 10,
+          price: 0
+        },
+        last_known: 48053
+      },
+      last_update: currentDate,
+      craftingProfit: -10000
     }
 
     let x = worker.__get__('transformPrices')(itemInput, priceInput)
