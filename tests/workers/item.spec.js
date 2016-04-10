@@ -193,6 +193,7 @@ describe('workers > item worker', () => {
         weight_class: 'Medium',
         defense: 68,
         infusion_slots: [],
+        skins: [123],
         infix_upgrade: {
           attributes: [
             {
@@ -225,7 +226,7 @@ describe('workers > item worker', () => {
         3
       ],
       vendor_price: 265,
-      default_skin: 95,
+      skins: [95, 123],
       tradable: true
     }
 
@@ -247,9 +248,10 @@ describe('workers > item worker', () => {
     expect(worker.__get__('transformVendorPrice')(123, ['NoSell', 'AccountBound'])).to.equal(null)
   })
 
-  it('transforms the API item level', () => {
-    expect(worker.__get__('transformSkin')()).to.equal(null)
-    expect(worker.__get__('transformSkin')('80')).to.equal(80)
+  it('transforms the API item skin', () => {
+    expect(worker.__get__('transformSkins')({default_skin: 80})).to.deep.equal([80])
+    expect(worker.__get__('transformSkins')({details: {skins: [123, 456]}})).to.deep.equal([123, 456])
+    expect(worker.__get__('transformSkins')({})).to.deep.equal([])
   })
 
   it('transforms the API item description', () => {
@@ -644,6 +646,47 @@ describe('workers > item worker', () => {
       },
       last_update: currentDate,
       craftingProfit: -10000
+    }
+
+    let x = worker.__get__('transformPrices')(itemInput, priceInput)
+    expect(x).to.deep.equal(expectedOutput)
+  })
+
+  it('sets the last known price even if there is no item yet', () => {
+    let currentDate = worker.__get__('isoDate')()
+    let itemInput = {}
+    let priceInput = {
+      buys: {
+        quantity: 106,
+        unit_price: 0
+      },
+      sells: {
+        quantity: 66,
+        unit_price: 0
+      }
+    }
+    let expectedOutput = {
+      buy: {
+        quantity: 106,
+        price: 0,
+        last_change: {
+          time: currentDate,
+          quantity: 0,
+          price: 0
+        },
+        last_known: false
+      },
+      sell: {
+        quantity: 66,
+        price: 0,
+        last_change: {
+          time: currentDate,
+          quantity: 0,
+          price: 0
+        },
+        last_known: false
+      },
+      last_update: currentDate
     }
 
     let x = worker.__get__('transformPrices')(itemInput, priceInput)

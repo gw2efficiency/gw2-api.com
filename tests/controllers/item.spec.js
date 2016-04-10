@@ -211,10 +211,10 @@ describe('controllers > item', () => {
 
   it('handles /items/by-skin', async () => {
     await mongo.collection('items').insert([
-      {id: 1, default_skin: 42, lang: 'en'},
+      {id: 1, skins: [42], lang: 'en'},
       {id: 2, lang: 'en'},
-      {id: 3, default_skin: 123, lang: 'en'},
-      {id: 4, default_skin: 42, lang: 'en'}
+      {id: 3, skins: [123], lang: 'en'},
+      {id: 4, skins: [42], lang: 'en'}
     ])
 
     let response = {send: sinon.spy()}

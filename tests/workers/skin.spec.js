@@ -57,11 +57,11 @@ describe('workers > skin worker', () => {
 
   it('loads the skins and resolves into items', async () => {
     await mongo.collection('items').insert([
-      {id: 1000, name: 'Lol', default_skin: 1, lang: 'en'},
-      {id: 2000, name: 'Bar', lang: 'en'},
-      {id: 3000, name: 'Bar', lang: 'en'},
-      {id: 4000, name: 'Some Skin', lang: 'en'},
-      {id: 5000, name: 'Something about cake', lang: 'en'}
+      {id: 1000, lang: 'en', skins: [1, 4]},
+      {id: 2000, lang: 'en', skins: [2]},
+      {id: 3000, lang: 'en', skins: [2]},
+      {id: 4000, lang: 'en', skins: [3]},
+      {id: 5000, lang: 'en', skins: [4]}
     ])
 
     worker.__set__('api', () => ({
@@ -83,26 +83,9 @@ describe('workers > skin worker', () => {
       '1': [1000],
       '2': [2000, 3000],
       '3': [4000],
-      '4': [5000],
+      '4': [1000, 5000],
       '5': []
     })
-  })
-
-  it('resolves skins correctly', () => {
-    let resolve = worker.__get__('resolveSkin')
-    let items = [
-      {id: 1, name: 'Foo', default_skin: 1},
-      {id: 2, name: 'Bar'},
-      {id: 3, name: 'Bar'},
-      {id: 4, name: 'Some Skin'},
-      {id: 5, name: 'Something about cake'}
-    ]
-
-    expect(resolve({id: 1, name: 'Lol'}, items)).to.deep.equal([1])
-    expect(resolve({id: 2, name: 'Bar'}, items)).to.deep.equal([2, 3])
-    expect(resolve({id: 3, name: 'Some'}, items)).to.deep.equal([4])
-    expect(resolve({id: 4, name: 'cake'}, items)).to.deep.equal([5])
-    expect(resolve({id: 5, name: 'herp'}, items)).to.deep.equal([])
   })
 
   it('calculates the skin prices correctly', async () => {

@@ -28,12 +28,11 @@ async function initialize () {
 
 async function loadSkinList () {
   let skins = await api().skins().all()
-  let items = await mongo.collection('items').find({lang: 'en'}, {_id: 0, id: 1, name: 1, default_skin: 1}).toArray()
+  let items = await mongo.collection('items').find({lang: 'en'}, {_id: 0, id: 1, skins: 1}).toArray()
 
   // Try and resolve the skins from items
   skins = skins.map(skin => {
-    skin.name = skin.name.trim()
-    skin.items = resolveSkin(skin, items)
+    skin.items = items.filter(i => i.skins.indexOf(skin.id) !== -1).map(i => i.id)
     return skin
   })
 
@@ -83,36 +82,6 @@ async function loadSkinPrices () {
     {id: 'skinPrices', content: skins},
     {upsert: true}
   )
-}
-
-function resolveSkin (skin, items) {
-  // Resolve by id
-  let skinItems = items.filter(x => x.default_skin === skin.id)
-  if (skinItems.length > 0) {
-    return skinItems.map(x => x.id)
-  }
-
-  // Resolve by name + ' Skin'
-  let skinName = skin.name + ' Skin'
-  skinItems = items.filter(x => x.name === skinName)
-  if (skinItems.length > 0) {
-    return skinItems.map(x => x.id)
-  }
-
-  // Resolve by exact name
-  skinItems = items.filter(x => x.name === skin.name)
-  if (skinItems.length > 0) {
-    return skinItems.map(x => x.id)
-  }
-
-  // Resolve by any part of the name
-  let skinNamePart = new RegExp('(^| )' + skin.name + '( |$)')
-  skinItems = items.filter(x => x.name.match(skinNamePart))
-  if (skinItems.length > 0) {
-    return skinItems.map(x => x.id)
-  }
-
-  return []
 }
 
 module.exports = {initialize, loadSkinList, loadSkinPrices}

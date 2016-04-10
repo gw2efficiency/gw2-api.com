@@ -89,7 +89,7 @@ function transformItem (item) {
     level: transformLevel(item.level),
     vendor_price: transformVendorPrice(item.vendor_value, item.flags),
     rarity: transformRarity(item.rarity),
-    default_skin: transformSkin(item.default_skin),
+    skins: transformSkins(item),
     tradable: transformTradable(item.flags),
     category: transformCategory(item.type, item.details)
   }
@@ -107,8 +107,18 @@ function transformRarity (rarity) {
   return rarities[rarity]
 }
 
-function transformSkin (skin) {
-  return skin ? parseInt(skin, 10) : null
+function transformSkins (item) {
+  let skins = []
+
+  if (item.default_skin) {
+    skins.push(item.default_skin)
+  }
+
+  if (item.details && item.details.skins) {
+    skins = skins.concat(item.details.skins)
+  }
+
+  return skins
 }
 
 function transformDescription (description) {
@@ -143,13 +153,13 @@ function transformPrices (item, prices) {
       quantity: prices.buys.quantity,
       price: prices.buys.unit_price,
       last_change: lastPriceChange(item.buy, prices.buys),
-      last_known: prices.buys.unit_price || item.buy.price || item.buy.last_known
+      last_known: lastKnown(prices, item, 'buy')
     },
     sell: {
       quantity: prices.sells.quantity,
       price: prices.sells.unit_price,
       last_change: lastPriceChange(item.sell, prices.sells),
-      last_known: prices.sells.unit_price || item.sell.price || item.sell.last_known
+      last_known: lastKnown(prices, item, 'sell')
     },
     last_update: isoDate()
   }
@@ -176,6 +186,22 @@ function lastPriceChange (memory, current) {
     price: current.unit_price - memory.price,
     time: isoDate()
   }
+}
+
+function lastKnown (prices, item, type) {
+  if (prices[type + 's'].unit_price) {
+    return prices[type + 's'].unit_price
+  }
+
+  if (item[type] && item[type].price) {
+    return item[type].price
+  }
+
+  if (item[type] && item[type].last_known) {
+    return item[type].last_known
+  }
+
+  return false
 }
 
 // Return the date as a ISO 8601 string
