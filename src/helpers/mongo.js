@@ -28,4 +28,8 @@ function collection (name) {
   return database.collection(name)
 }
 
-module.exports = {connect, collection, logger}
+function dropDatabase () {
+  return database.dropDatabase()
+}
+
+module.exports = {connect, collection, dropDatabase, logger}
