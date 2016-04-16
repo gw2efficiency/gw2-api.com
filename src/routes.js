@@ -11,6 +11,7 @@ function setupRoutes (server) {
   anyMethod(server, '/items', wrapRequest(item.byIds))
   anyMethod(server, '/items/all', wrapRequest(item.all))
   anyMethod(server, '/items/all-prices', wrapRequest(item.allPrices))
+  anyMethod(server, '/items/all-values', wrapRequest(item.allValues))
   anyMethod(server, '/items/categories', wrapRequest(item.categories))
   anyMethod(server, '/items/autocomplete', wrapRequest(item.autocomplete))
   anyMethod(server, '/items/by-name', wrapRequest(item.byName))

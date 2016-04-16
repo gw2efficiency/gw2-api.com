@@ -14,6 +14,7 @@
     "chalk": "^1.1.1",
     "cron-parser": "^2.0.2",
     "escape-string-regexp": "^1.0.5",
+    "gw2e-account-value": "^1.0.0",
     "gw2e-async-promises": "^1.0.2",
     "gw2e-gw2api-client": "^1.0.0",
     "gw2e-gw2api-scraping": "^1.0.1",

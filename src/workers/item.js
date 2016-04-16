@@ -5,6 +5,7 @@ const api = require('../helpers/api.js')
 const async = require('gw2e-async-promises')
 const rarities = require('../static/rarities.js')
 const categories = require('../static/categories.js')
+const accountValue = require('gw2e-account-value')
 
 const languages = ['en', 'de', 'fr', 'es']
 
@@ -17,6 +18,7 @@ async function initialize () {
   if (!exists) {
     await execute(loadItems)
     await execute(loadItemPrices)
+    await execute(updateItemValues)
   }
 
   // Update the items once a day, at 2am
@@ -24,6 +26,9 @@ async function initialize () {
 
   // Update prices every 5 minutes (which is the gw2 cache time)
   schedule('*/5 * * * *', loadItemPrices)
+
+  // Update item values every 5 minutes
+  schedule('*/5 * * * *', updateItemValues)
 
   logger.info('Initialized item worker')
 }
@@ -75,6 +80,93 @@ function loadItemPrices () {
     )
 
     await async.parallel(updateFunctions)
+    resolve()
+  })
+}
+
+function updateItemValues () {
+  return new Promise(async resolve => {
+    let collection = mongo.collection('items')
+    let attributes = {_id: 0, id: 1, sell: 1, buy: 1, crafting: 1, vendor_price: 1, value: 1}
+    let items = await collection.find({lang: 'en'}, attributes).toArray()
+
+    let updateFunctions = items.map(item => () =>
+      new Promise(async resolve => {
+        let itemValue
+        let inheritedItem = accountValue.itemInherits(item.id)
+
+        // This item inherits the value of an other item
+        if (inheritedItem && inheritedItem.id) {
+          let valueItem = items.find(i => i.id === inheritedItem.id)
+          itemValue = accountValue.itemValue(valueItem) * inheritedItem.count + (inheritedItem.gold || 0)
+        }
+
+        // This item has a hardcoded gold value
+        if (inheritedItem && !inheritedItem.id) {
+          itemValue = inheritedItem.gold
+        }
+
+        // This item is just worth what it is worth! :)
+        if (!inheritedItem) {
+          itemValue = accountValue.itemValue(item)
+        }
+
+        // Don't update the value if it's still the same
+        if (itemValue === item.value) {
+          return resolve()
+        }
+
+        let update = {
+          value: itemValue,
+          valueIsVendor: itemValue === item.vendor_price
+        }
+
+        await collection.update({id: item.id}, {'$set': update}, {multi: true})
+        resolve()
+      })
+    )
+
+    await async.parallel(updateFunctions)
+
+    // Get the average value for ascended boxes based on the average
+    // of all ascended weapon and armor that might come out of boxes
+    let ascendedAverage = await collection.aggregate([
+      {
+        $match: {
+          rarity: 6,
+          craftable: true,
+          lang: 'en',
+          'category.0': {$in: [0, 14]},
+          valueIsVendor: false,
+          name: {$regex: '(\'s|wupwup|Veldrunner|Zintl|Veldrunner|Angchu)', $options: 'i'},
+          value: {$gt: 0}
+        }
+      },
+      {$group: {_id: null, average: {$avg: '$value'}}}
+    ]).limit(1).next()
+
+    // We don't have any ascended items, so let's not bother
+    // This can happen during testing or during server setup
+    if (ascendedAverage === null) {
+      return resolve()
+    }
+
+    ascendedAverage = Math.round(ascendedAverage.average)
+
+    // Find ascended boxes ids (we are filtering out the recipes here)
+    let ids = await collection.find(
+      {
+        rarity: 6,
+        'category.0': 4,
+        'category.1': {$in: [0, 1]},
+        lang: 'en',
+        name: {'$regex': '(chest|hoard)', '$options': 'i'}
+      },
+      {_id: 0, id: 1}
+    ).toArray()
+
+    // Update all ascended boxes with the average price
+    await collection.update({id: {$in: ids.map(i => i.id)}}, {$set: {value: ascendedAverage}}, {multi: true})
     resolve()
   })
 }
@@ -164,6 +256,7 @@ function transformPrices (item, prices) {
     last_update: isoDate()
   }
 
+  // Add the crafting profit if a crafting price is set
   if (item.crafting) {
     let craftPrice = item.craftingWithoutPrecursors || item.crafting
     transformed.craftingProfit = Math.round(transformed.sell.price * 0.85 - craftPrice.buy)
@@ -210,4 +303,4 @@ function isoDate (date) {
   return date.toISOString().slice(0, 19) + '+0000'
 }
 
-module.exports = {initialize, loadItems, loadItemPrices}
+module.exports = {initialize, loadItems, loadItemPrices, updateItemValues}

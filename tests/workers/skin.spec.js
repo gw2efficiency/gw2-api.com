@@ -13,9 +13,6 @@ worker.__set__('execute', executeMock)
 const scheduleMock = sinon.spy()
 worker.__set__('schedule', scheduleMock)
 
-const requesterMock = require('gw2e-requester/mock')
-worker.__set__('requester', requesterMock)
-
 describe('workers > skin worker', () => {
   before(async (done) => {
     await mongo.connect('mongodb://127.0.0.1:27017/gw2api-test')
@@ -90,12 +87,12 @@ describe('workers > skin worker', () => {
 
   it('calculates the skin prices correctly', async () => {
     await mongo.collection('items').insert([
-      {id: 1, tradable: true, lang: 'en', buy: {price: 123}},
-      {id: 2, tradable: true, lang: 'en', sell: {price: 456}},
-      {id: 3, tradable: true, lang: 'en', vendor_price: 789},
+      {id: 1, tradable: true, lang: 'en', value: 123, valueIsVendor: false},
+      {id: 2, tradable: true, lang: 'en', value: 456, valueIsVendor: false},
+      {id: 3, tradable: true, lang: 'en', value: 789, valueIsVendor: true},
       {id: 4, tradable: true, lang: 'en'},
-      {id: 5, tradable: true, lang: 'en', buy: {price: 899}, sell: {price: 999}},
-      {id: 6, tradable: true, lang: 'en', vendor_price: 350, buy: {price: 500}, sell: {price: 250}}
+      {id: 5, tradable: true, lang: 'en', value: 999, valueIsVendor: false},
+      {id: 6, tradable: true, lang: 'en', value: 500, valueIsVendor: false}
     ])
     await mongo.collection('cache').insert({
       id: 'skinsToItems',
@@ -112,20 +109,15 @@ describe('workers > skin worker', () => {
       }
     })
 
-    // Mock custom item prices (temporary)
-    requesterMock.addResponse({'20319': 135545, '1337': 599})
-
     await worker.loadSkinPrices()
 
     let skinPrices = (await mongo.collection('cache').find({id: 'skinPrices'}).limit(1).next()).content
     expect(skinPrices).to.deep.equal({
       71: 123,
       72: 456,
-      73: 789,
       75: 123,
       76: 456,
-      77: 135545,
-      78: 599,
+      78: 999,
       79: 500
     })
   })

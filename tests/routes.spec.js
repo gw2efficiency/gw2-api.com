@@ -25,6 +25,7 @@ routes.__set__('item', {
   byIds: (req, res) => res.send('ItemController.byIds'),
   all: (req, res) => res.send('ItemController.all'),
   allPrices: (req, res) => res.send('ItemController.allPrices'),
+  allValues: (req, res) => res.send('ItemController.allValues'),
   autocomplete: (req, res) => res.send('ItemController.autocomplete'),
   byName: (req, res) => res.send('ItemController.byName'),
   bySkin: (req, res) => res.send('ItemController.bySkin'),
@@ -109,6 +110,14 @@ server.listen(12345, () => {
       client.get('/items/all-prices', (err, req, res, data) => {
         if (err) throw err
         expect(data).to.equal('ItemController.allPrices')
+        done()
+      })
+    })
+
+    it('/items/all-values gets called correctly', (done) => {
+      client.get('/items/all-values', (err, req, res, data) => {
+        if (err) throw err
+        expect(data).to.equal('ItemController.allValues')
         done()
       })
     })

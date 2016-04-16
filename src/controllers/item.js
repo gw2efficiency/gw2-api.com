@@ -2,6 +2,7 @@ const mongo = require('../helpers/mongo.js')
 const {invalidParameters, requestLanguage, multiParameter} = require('../helpers/controllers.js')
 const categoryMap = require('../static/categories.js')
 const escapeRegex = require('escape-string-regexp')
+const ignoredFields = {_id: 0, lang: 0, valueIsVendor: 0}
 
 async function byId (request, response) {
   let lang = requestLanguage(request.params)
@@ -11,7 +12,7 @@ async function byId (request, response) {
     return invalidParameters(response)
   }
 
-  let item = await mongo.collection('items').find({id: id, lang: lang}, {_id: 0, lang: 0}).limit(1).next()
+  let item = await mongo.collection('items').find({id: id, lang: lang}, ignoredFields).limit(1).next()
 
   if (!item) {
     return response.send(404, {text: 'no such id'})
@@ -24,14 +25,14 @@ async function byIds (request, response) {
   let lang = requestLanguage(request.params)
   let ids = multiParameter(request.params.ids, true)
 
-  let items = await mongo.collection('items').find({id: {'$in': ids}, lang: lang}, {_id: 0, lang: 0}).toArray()
+  let items = await mongo.collection('items').find({id: {'$in': ids}, lang: lang}, ignoredFields).toArray()
   response.send(items)
 }
 
 async function all (request, response) {
   let lang = requestLanguage(request.params)
 
-  let items = await mongo.collection('items').find({tradable: true, lang: lang}, {_id: 0, lang: 0}).toArray()
+  let items = await mongo.collection('items').find({tradable: true, lang: lang}, ignoredFields).toArray()
   response.send(items)
 }
 
@@ -42,6 +43,14 @@ async function allPrices (request, response) {
     {'$match': {price: {'$ne': null}}}
   ]).toArray()
 
+  response.send(items)
+}
+
+async function allValues (request, response) {
+  let items = await mongo.collection('items').find(
+    {lang: 'en', value: {'$ne': null}},
+    {_id: 0, id: 1, value: 1}
+  ).toArray()
   response.send(items)
 }
 
@@ -71,7 +80,7 @@ async function autocomplete (request, response) {
     mongoQuery['craftable'] = true
   }
 
-  let items = await mongo.collection('items').find(mongoQuery, {_id: 0, lang: 0}).toArray()
+  let items = await mongo.collection('items').find(mongoQuery, ignoredFields).toArray()
 
   items.sort((a, b) => {
     a = matchQuality(a.name.toLowerCase(), query)
@@ -101,7 +110,7 @@ async function byName (request, response) {
 
   let names = multiParameter(request.params.names)
 
-  let items = await mongo.collection('items').find({name: {'$in': names}, lang: lang}, {_id: 0, lang: 0}).toArray()
+  let items = await mongo.collection('items').find({name: {'$in': names}, lang: lang}, ignoredFields).toArray()
   response.send(items)
 }
 
@@ -216,4 +225,4 @@ function valueBreakdown (array) {
   }
 }
 
-module.exports = {byId, byIds, all, allPrices, categories, autocomplete, byName, bySkin, query}
+module.exports = {byId, byIds, all, allPrices, allValues, categories, autocomplete, byName, bySkin, query}

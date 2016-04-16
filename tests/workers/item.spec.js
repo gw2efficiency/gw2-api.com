@@ -30,13 +30,15 @@ describe('workers > item worker', () => {
   it('initializes correctly without data', async () => {
     await worker.initialize()
 
-    expect(executeMock.callCount).to.equal(2)
+    expect(executeMock.callCount).to.equal(3)
     expect(executeMock.args[0][0].name).to.equal('loadItems')
     expect(executeMock.args[1][0].name).to.equal('loadItemPrices')
+    expect(executeMock.args[2][0].name).to.equal('updateItemValues')
 
-    expect(scheduleMock.callCount).to.equal(2)
+    expect(scheduleMock.callCount).to.equal(3)
     expect(scheduleMock.args[0][1].name).to.equal('loadItems')
     expect(scheduleMock.args[1][1].name).to.equal('loadItemPrices')
+    expect(scheduleMock.args[2][1].name).to.equal('updateItemValues')
   })
 
   it('initializes correctly with data', async () => {
@@ -45,9 +47,10 @@ describe('workers > item worker', () => {
 
     expect(executeMock.callCount).to.equal(0)
 
-    expect(scheduleMock.callCount).to.equal(2)
+    expect(scheduleMock.callCount).to.equal(3)
     expect(scheduleMock.args[0][1].name).to.equal('loadItems')
     expect(scheduleMock.args[1][1].name).to.equal('loadItemPrices')
+    expect(scheduleMock.args[2][1].name).to.equal('updateItemValues')
   })
 
   it('loads the items', async () => {
@@ -154,6 +157,124 @@ describe('workers > item worker', () => {
         tradable: true
       },
       {id: 2, name: 'Another test item', tradable: false}
+    ])
+  })
+
+  it('updates the item values', async () => {
+    await mongo.collection('items').insert([
+      {id: 1, lang: 'en', sell: {price: 123}},
+      {id: 2, lang: 'en', buy: {price: 456}, value: 456},
+      {id: 38506, lang: 'en', buy: {price: 555}, value: 10},
+      {id: 38507, lang: 'en', sell: {price: 12345}},
+      {id: 73476, lang: 'en'}
+    ])
+
+    await worker.updateItemValues()
+
+    let items = await mongo.collection('items')
+      .find({lang: 'en'}, {_id: 0, lang: 0, valueIsVendor: 0})
+      .sort({id: 1}).toArray()
+
+    expect(items).to.deep.equal([
+      {id: 1, sell: {price: 123}, value: 123},
+      {id: 2, buy: {price: 456}, value: 456},
+      {id: 38506, buy: {price: 555}, value: 12345},
+      {id: 38507, sell: {price: 12345}, value: 12345},
+      {id: 73476, value: 100000}
+    ])
+  })
+
+  it('updates the item values for ascended boxes', async () => {
+    await mongo.collection('items').insert([
+      {
+        id: 123,
+        name: 'wupwup item',
+        rarity: 6,
+        craftable: true,
+        sell: {price: 100},
+        lang: 'en',
+        category: [0]
+      },
+      {
+        id: 124,
+        name: 'wupwup item',
+        rarity: 6,
+        craftable: true,
+        lang: 'en',
+        category: [0]
+      },
+      {
+        id: 125,
+        name: 'wupwup item',
+        rarity: 6,
+        craftable: true,
+        sell: {price: 200},
+        lang: 'en',
+        category: [14]
+      },
+      {
+        id: 126,
+        name: 'wupwup item',
+        rarity: 6,
+        craftable: false,
+        sell: {price: 300},
+        lang: 'en',
+        category: [14]
+      },
+      {
+        id: 127,
+        name: 'wupwup item',
+        rarity: 6,
+        craftable: true,
+        sell: {price: 400},
+        lang: 'en',
+        category: [3]
+      },
+      {
+        id: 128,
+        name: 'wupwup item',
+        rarity: 5,
+        craftable: true,
+        sell: {price: 500},
+        lang: 'en',
+        category: [14]
+      },
+      {
+        id: 129,
+        name: 'wupwup item',
+        rarity: 6,
+        craftable: true,
+        vendor_price: 600,
+        sell: {price: 600},
+        lang: 'en',
+        category: [14]
+      },
+      {
+        id: 130,
+        name: 'Nightfury',
+        rarity: 6,
+        craftable: true,
+        sell: {price: 700},
+        lang: 'en',
+        category: [14]
+      },
+      {id: 1, rarity: 6, category: [4, 0], lang: 'en', sell: {price: 1}, name: 'Wupwup Chest'},
+      {id: 2, rarity: 6, category: [4, 0], lang: 'en', sell: {price: 1}, name: 'Recipe for something'},
+      {id: 3, rarity: 6, category: [4, 1], lang: 'en', sell: {price: 1}, name: 'Another Chest'},
+      {id: 4, rarity: 6, category: [4, 1], lang: 'en', sell: {price: 1}, name: 'Worldboss Hoard'}
+    ])
+
+    await worker.updateItemValues()
+
+    let items = await mongo.collection('items')
+      .find({lang: 'en', id: {$in: [1, 2, 3, 4]}}, {_id: 0, id: 1, value: 1})
+      .sort({id: 1}).toArray()
+
+    expect(items).to.deep.equal([
+      {id: 1, value: 150},
+      {id: 2, value: 1},
+      {id: 3, value: 150},
+      {id: 4, value: 150}
     ])
   })
 
