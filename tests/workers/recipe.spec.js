@@ -105,15 +105,25 @@ describe('workers > recipe worker', () => {
         components: [
           {id: 12324, quantity: 1}
         ]
+      },
+      {
+        id: 3,
+        quantity: 1,
+        output: 5,
+        components: [
+          {id: 4, quantity: 1}
+        ]
       }
     ])
 
     await mongo.collection('items').insert([
       {id: 30686},
       {id: 1},
+      {id: 3},
       {id: 46742, tradable: true, buy: {price: 100}, sell: {price: 200}},
       {id: 29170, tradable: true, buy: {price: 500}, sell: {price: 1000}},
-      {id: 12324, tradable: true, buy: {price: 10000}, sell: {price: 20000}}
+      {id: 12324, tradable: true, buy: {price: 10000}, sell: {price: 20000}},
+      {id: 4, tradable: true, buy: {price: 100}, sell: {price: 100}}
     ])
 
     await worker.updateCraftingPrices()
@@ -141,6 +151,15 @@ describe('workers > recipe worker', () => {
       crafting: {
         buy: 8,
         sell: 8
+      }
+    })
+
+    let higherOutput = await mongo.collection('items').find({id: 3}, {_id: 0}).limit(1).next()
+    expect(higherOutput).to.deep.equal({
+      id: 3,
+      crafting: {
+        buy: 20,
+        sell: 20
       }
     })
   })
