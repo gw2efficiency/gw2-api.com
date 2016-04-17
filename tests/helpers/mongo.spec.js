@@ -47,4 +47,18 @@ describe('helpers > mongo', () => {
     db.emit('reconnect')
     expect(loggerMock.info.callCount).to.equal(1)
   })
+
+  it('can get the underlying functions', () => {
+    let tmp = mongo.__get__('database')
+    let spies = {collection: sinon.spy(), dropDatabase: sinon.spy()}
+    mongo.__set__('database', spies)
+
+    mongo.collection('stuff')
+    expect(spies.collection.called).to.equal(true)
+
+    mongo.dropDatabase()
+    expect(spies.dropDatabase.called).to.equal(true)
+
+    mongo.__set__('database', tmp)
+  })
 })
