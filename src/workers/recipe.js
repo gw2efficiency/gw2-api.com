@@ -106,8 +106,8 @@ function calculateCraftingPrice (recipe, buyPrices, sellPrices, ignoreItems = []
   let sellCraftPrice = recipeCalculation.cheapestTree(1, recipe, sellPrices, {}, ignoreItems).craftPrice
   // Calculate the normal crafting prices
   let prices = {
-    buy: buyCraftPrice / recipe.output,
-    sell: sellCraftPrice / recipe.output
+    buy: Math.round(buyCraftPrice / recipe.output),
+    sell: Math.round(sellCraftPrice / recipe.output)
   }
 
   // Calculate the crafting price without daily cooldowns
@@ -116,8 +116,8 @@ function calculateCraftingPrice (recipe, buyPrices, sellPrices, ignoreItems = []
     buyCraftPrice = recipeCalculation.cheapestTree(1, recipe, buyPrices, {}, ignoreItems).craftPrice
     sellCraftPrice = recipeCalculation.cheapestTree(1, recipe, sellPrices, {}, ignoreItems).craftPrice
 
-    prices.buyNoDaily = buyCraftPrice / recipe.output
-    prices.sellNoDaily = sellCraftPrice / recipe.output
+    prices.buyNoDaily = Math.round(buyCraftPrice / recipe.output)
+    prices.sellNoDaily = Math.round(sellCraftPrice / recipe.output)
   }
 
   return prices

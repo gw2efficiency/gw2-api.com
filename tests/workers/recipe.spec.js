@@ -123,7 +123,7 @@ describe('workers > recipe worker', () => {
       {id: 46742, tradable: true, buy: {price: 100}, sell: {price: 200}},
       {id: 29170, tradable: true, buy: {price: 500}, sell: {price: 1000}},
       {id: 12324, tradable: true, buy: {price: 10000}, sell: {price: 20000}},
-      {id: 4, tradable: true, buy: {price: 100}, sell: {price: 100}}
+      {id: 4, tradable: true, buy: {price: 101}, sell: {price: 101}}
     ])
 
     await worker.updateCraftingPrices()
