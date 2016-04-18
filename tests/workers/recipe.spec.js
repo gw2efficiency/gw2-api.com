@@ -113,6 +113,14 @@ describe('workers > recipe worker', () => {
         components: [
           {id: 4, quantity: 1}
         ]
+      },
+      {
+        id: 99,
+        quantity: 1,
+        output: 0.5,
+        components: [
+          {id: 4, quantity: 1}
+        ]
       }
     ])
 
@@ -120,6 +128,7 @@ describe('workers > recipe worker', () => {
       {id: 30686},
       {id: 1},
       {id: 3},
+      {id: 99},
       {id: 46742, tradable: true, buy: {price: 100}, sell: {price: 200}},
       {id: 29170, tradable: true, buy: {price: 500}, sell: {price: 1000}},
       {id: 12324, tradable: true, buy: {price: 10000}, sell: {price: 20000}},
@@ -151,6 +160,15 @@ describe('workers > recipe worker', () => {
       crafting: {
         buy: 8,
         sell: 8
+      }
+    })
+
+    let lowerOutput = await mongo.collection('items').find({id: 99}, {_id: 0}).limit(1).next()
+    expect(lowerOutput).to.deep.equal({
+      id: 99,
+      crafting: {
+        buy: 202,
+        sell: 202
       }
     })
 
