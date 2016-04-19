@@ -6,6 +6,7 @@ const async = require('gw2e-async-promises')
 const rarities = require('../static/rarities.js')
 const categories = require('../static/categories.js')
 const accountValue = require('gw2e-account-value')
+const tradingpostBlacklist = require('../static/tradingpostBlacklist.js')
 
 const languages = ['en', 'de', 'fr', 'es']
 
@@ -182,7 +183,7 @@ function transformItem (item) {
     vendor_price: transformVendorPrice(item.vendor_value, item.flags),
     rarity: transformRarity(item.rarity),
     skins: transformSkins(item),
-    tradable: transformTradable(item.flags),
+    tradable: transformTradable(item.flags, item.id),
     category: transformCategory(item.type, item.details)
   }
 }
@@ -234,7 +235,11 @@ function transformCategory (type, details) {
   return categoryIds
 }
 
-function transformTradable (flags) {
+function transformTradable (flags, id) {
+  if (tradingpostBlacklist.indexOf(id) !== -1) {
+    return false
+  }
+
   let untradableFlags = ['AccountBound', 'MonsterOnly', 'SoulbindOnAcquire']
   return flags.filter(x => untradableFlags.indexOf(x) !== -1).length === 0
 }

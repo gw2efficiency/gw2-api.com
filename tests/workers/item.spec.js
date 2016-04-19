@@ -129,6 +129,16 @@ describe('workers > item worker', () => {
               quantity: 42594,
               unit_price: 133
             }
+          }, {
+            id: 2,
+            buys: {
+              quantity: 29731,
+              unit_price: 58
+            },
+            sells: {
+              quantity: 42594,
+              unit_price: 133
+            }
           }]))
         })
       })
@@ -397,11 +407,16 @@ describe('workers > item worker', () => {
   })
 
   it('transforms the API item tradable flag', () => {
-    let x = worker.__get__('transformTradable')(['AccountBound'])
+    worker.__set__('tradingpostBlacklist', [123])
+
+    let x = worker.__get__('transformTradable')(['AccountBound'], 1)
     expect(x).to.equal(false)
 
-    let y = worker.__get__('transformTradable')(['SomeFlag'])
+    let y = worker.__get__('transformTradable')(['SomeFlag'], 2)
     expect(y).to.equal(true)
+
+    let z = worker.__get__('transformTradable')([], 123)
+    expect(z).to.equal(false)
   })
 
   it('transforms an API item price into the legacy structure', () => {
