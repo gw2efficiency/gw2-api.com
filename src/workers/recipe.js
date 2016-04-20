@@ -146,6 +146,11 @@ async function loadCustomRecipes () {
   })
 
   recipes = recipes.filter(recipe => {
+    // Remove "merchant" recipes, because they break more than they fix
+    if (recipe.disciplines.indexOf('Merchant') !== -1) {
+      return false
+    }
+
     // Remove currency item output
     if (recipe.output_item_id < 0) {
       return false
