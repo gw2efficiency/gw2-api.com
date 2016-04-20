@@ -13,7 +13,9 @@ module.exports = [
   20800, // Arcane Crystal
   20802, // Arcane Sliver
   20801, // Arcane Powder
-  23046, // PvP Salvage kit
+  23046, // PvP Salvage Kit
+  19979, // Tournament Ticket
+  20853, // Paid Tournament Token
 
   // Guild decorations
   73485, // Crooked Mushroom
