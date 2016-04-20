@@ -9,7 +9,7 @@ const recipeWorker = require('./workers/recipe.js')
 
 function log (string, error = false) {
   let formatting = error ? chalk.red.bold : chalk.green.bold
-  console.log(formatting('\n-'.repeat(string.length + 4)))
+  console.log(formatting('\n' + '-'.repeat(string.length + 4)))
   console.log(formatting('| ' + string.toUpperCase() + ' |'))
   console.log(formatting('-'.repeat(string.length + 4) + '\n'))
 }
