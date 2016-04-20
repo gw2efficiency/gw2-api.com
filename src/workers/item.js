@@ -93,23 +93,23 @@ function updateItemValues () {
 
     let updateFunctions = items.map(item => () =>
       new Promise(async resolve => {
-        let itemValue
-        let inheritedItem = accountValue.itemInherits(item.id)
+        let itemValue = accountValue.itemValue(item)
 
-        // This item inherits the value of an other item
-        if (inheritedItem && inheritedItem.id) {
-          let valueItem = items.find(i => i.id === inheritedItem.id)
-          itemValue = accountValue.itemValue(valueItem) * inheritedItem.count + (inheritedItem.gold || 0)
-        }
+        // If the value is not set or the value is the vendor price,
+        // check if we can inherit the value from somewhere else
+        if (!itemValue || itemValue === item.vendor_price) {
+          let inheritedItem = accountValue.itemInherits(item.id)
 
-        // This item has a hardcoded gold value
-        if (inheritedItem && !inheritedItem.id) {
-          itemValue = inheritedItem.gold
-        }
+          // This item inherits the value of an other item
+          if (inheritedItem && inheritedItem.id) {
+            let valueItem = items.find(i => i.id === inheritedItem.id)
+            itemValue = accountValue.itemValue(valueItem) * inheritedItem.count + (inheritedItem.gold || 0)
+          }
 
-        // This item is just worth what it is worth! :)
-        if (!inheritedItem) {
-          itemValue = accountValue.itemValue(item)
+          // This item has a hardcoded gold value
+          if (inheritedItem && !inheritedItem.id) {
+            itemValue = inheritedItem.gold
+          }
         }
 
         // Don't update the value if it's still the same

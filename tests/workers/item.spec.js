@@ -175,6 +175,8 @@ describe('workers > item worker', () => {
       {id: 1, lang: 'en', sell: {price: 123}},
       {id: 2, lang: 'en', buy: {price: 456}, value: 456},
       {id: 38506, lang: 'en', buy: {price: 555}, value: 10},
+      {id: 66893, lang: 'en', sell: {price: 777}},
+      {id: 66897, lang: 'en', value: 10},
       {id: 38507, lang: 'en', sell: {price: 12345}},
       {id: 73476, lang: 'en'}
     ])
@@ -188,8 +190,10 @@ describe('workers > item worker', () => {
     expect(items).to.deep.equal([
       {id: 1, sell: {price: 123}, value: 123},
       {id: 2, buy: {price: 456}, value: 456},
-      {id: 38506, buy: {price: 555}, value: 12345},
+      {id: 38506, buy: {price: 555}, value: 555},
       {id: 38507, sell: {price: 12345}, value: 12345},
+      {id: 66893, sell: {price: 777}, value: 777},
+      {id: 66897, value: 777},
       {id: 73476, value: 100000}
     ])
   })
