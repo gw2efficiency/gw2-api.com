@@ -1,5 +1,13 @@
-const logger = require('./logger.js')
+const logger = require('../helpers/logger.js')
 const scheduler = require('node-schedule')
+
+function schedule (cronString, callback) {
+  let parser = require('cron-parser')
+  let interval = parser.parseExpression(cronString)
+  logger.info('Scheduling ' + callback.name + ' (first call: ' + interval.next().toString() + ')')
+
+  return scheduler.scheduleJob(cronString, () => execute(callback))
+}
 
 async function execute (callback) {
   let description = callback.name
@@ -13,14 +21,6 @@ async function execute (callback) {
     let seconds = Math.round((new Date() - start) / 1000)
     logger.error('Failed task: ' + description + ' [' + seconds + 's]\n' + e.stack)
   }
-}
-
-function schedule (cronString, callback) {
-  let parser = require('cron-parser')
-  let interval = parser.parseExpression(cronString)
-  logger.info('Scheduling ' + callback.name + ' (first call: ' + interval.next().toString() + ')')
-
-  return scheduler.scheduleJob(cronString, () => execute(callback))
 }
 
 module.exports = {execute, schedule}

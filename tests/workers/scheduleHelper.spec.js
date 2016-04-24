@@ -2,14 +2,14 @@
 const expect = require('chai').expect
 const sinon = require('sinon')
 const rewire = require('rewire')
-const worker = rewire('../../src/helpers/workers.js')
+const worker = rewire('../../src/workers/scheduleHelper.js')
 
 const loggerMock = {info: sinon.spy(), success: sinon.spy(), error: sinon.spy()}
 const schedulerMock = {scheduleJob: sinon.spy()}
 worker.__set__('logger', loggerMock)
 worker.__set__('scheduler', schedulerMock)
 
-describe('helpers > worker helpers', function () {
+describe('workers > scheduleHelper', function () {
   beforeEach(() => {
     loggerMock.info.reset()
     loggerMock.success.reset()

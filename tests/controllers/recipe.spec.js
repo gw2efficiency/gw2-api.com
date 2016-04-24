@@ -14,6 +14,7 @@ describe('controllers > recipe', () => {
   })
 
   beforeEach(async (done) => {
+    await mongo.collection('recipe-trees').deleteMany({})
     await mongo.collection('cache').deleteMany({})
     done()
   })

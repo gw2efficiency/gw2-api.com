@@ -21,8 +21,8 @@ cd gw2-api.com/
 npm install
 npm run build
 
-# Rebuild the database initially (takes a few mins)
-node build/rebuild-database.js
+# Build the database initially (takes a few mins)
+node build/setup.js
 
 # Start a server cluster with 5 processes
 pm2 start build/server.js --name="gw2api-server" -i 5
