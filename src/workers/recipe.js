@@ -134,7 +134,8 @@ function needsDailyCooldowns (recipe) {
 async function loadCustomRecipes () {
   let outputBlacklist = [
     38014, 36060, 36061, 38115, 38116, 38117, 38118, 38119,
-    39120, 39121, 39122, 39123, 39124, 39125, 39126, 39127
+    39120, 39121, 39122, 39123, 39124, 39125, 39126, 39127,
+    41886
   ]
   let recipes = await requester.single('https://raw.githubusercontent.com/queicherius/gw2-mystic-forge-recipes/master/recipes.json')
 
