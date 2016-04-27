@@ -2,7 +2,8 @@ const requester = require('gw2e-requester')
 
 const outputBlacklist = [
   38014, 36060, 36061, 38115, 38116, 38117, 38118, 38119,
-  39120, 39121, 39122, 39123, 39124, 39125, 39126, 39127
+  39120, 39121, 39122, 39123, 39124, 39125, 39126, 39127,
+  41886
 ]
 
 async function customRecipes () {
