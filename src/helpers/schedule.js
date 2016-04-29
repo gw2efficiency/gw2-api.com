@@ -23,4 +23,4 @@ async function execute (callback) {
   }
 }
 
-module.exports = {execute, schedule}
+module.exports = schedule

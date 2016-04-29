@@ -15,10 +15,7 @@ describe('workers > recipes > craftingPrices', () => {
   beforeEach(async (done) => {
     await mongo.collection('recipe-trees').deleteMany({})
     await mongo.collection('items').deleteMany({})
-    done()
-  })
 
-  it('calculates the crafting prices', async () => {
     await mongo.collection('recipe-trees').insert([
       {
         id: 30686,
@@ -67,56 +64,78 @@ describe('workers > recipes > craftingPrices', () => {
       {id: 4, tradable: true, buy: {price: 101}, sell: {price: 101}}
     ])
 
+    done()
+  })
+
+  it('calculates the crafting prices for normal recipes', async () => {
     await craftingPrices()
 
     let output = await mongo.collection('items')
-      .find({id: {$in: [1, 3, 99, 30686]}}, {_id: 0})
-      .sort({id: 1}).toArray()
+      .find({id: 1}, {_id: 0})
+      .limit(1).next()
 
-    expect(output).to.deep.equal([
-      // Non-legendary
-      {
-        id: 1,
-        crafting: {
-          buy: 8,
-          sell: 8
-        }
-      },
-
-      // Recipe output < 0
-      {
-        id: 3,
-        crafting: {
-          buy: 20,
-          sell: 20
-        }
-      },
-
-      // Recipe output > 0
-      {
-        id: 99,
-        crafting: {
-          buy: 202,
-          sell: 202
-        }
-      },
-
-      // Legendary
-      {
-        id: 30686,
-        crafting: {
-          buy: 258,
-          buyNoDaily: 258,
-          sell: 358,
-          sellNoDaily: 358
-        },
-        craftingWithoutPrecursors: {
-          buy: 608,
-          buyNoDaily: 608,
-          sell: 1208,
-          sellNoDaily: 1208
-        }
+    expect(output).to.deep.equal({
+      id: 1,
+      crafting: {
+        buy: 8,
+        sell: 8
       }
-    ])
+    })
+  })
+
+  it('calculates the crafting prices for recipes with output > 1', async () => {
+    await craftingPrices()
+
+    let output = await mongo.collection('items')
+      .find({id: 3}, {_id: 0})
+      .limit(1).next()
+
+    expect(output).to.deep.equal({
+      id: 3,
+      crafting: {
+        buy: 20,
+        sell: 20
+      }
+    })
+  })
+
+  it('calculates the crafting prices for recipes with output < 1', async () => {
+    await craftingPrices()
+
+    let output = await mongo.collection('items')
+      .find({id: 99}, {_id: 0})
+      .limit(1).next()
+
+    expect(output).to.deep.equal({
+      id: 99,
+      crafting: {
+        buy: 202,
+        sell: 202
+      }
+    })
+  })
+
+  it('calculates the crafting prices for legendaries', async () => {
+    await craftingPrices()
+
+    let output = await mongo.collection('items')
+      .find({id: 30686}, {_id: 0})
+      .limit(1).next()
+
+    expect(output).to.deep.equal({
+      id: 30686,
+      crafting: {
+        buy: 258,
+        buyNoDaily: 258,
+        sell: 358,
+        sellNoDaily: 358
+      },
+      craftingWithoutPrecursors: {
+        buy: 608,
+        buyNoDaily: 608,
+        sell: 1208,
+        sellNoDaily: 1208
+      }
+    })
   })
 })

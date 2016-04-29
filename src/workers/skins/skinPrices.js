@@ -8,16 +8,16 @@ async function skinPrices () {
   ).toArray()
 
   // Get all items as a value map
-  let priceMap = {}
-  items.map(i => priceMap[i.id] = i.value)
+  let valueMap = {}
+  items.map(i => valueMap[i.id] = i.value)
 
   // Go through the skins and find the minimal price for them
   for (let key in skins) {
-    let prices = skins[key].map(i => priceMap[i] || 0).filter(x => x > 0)
-    let skinPrice = Math.min.apply(null, prices)
+    let values = skins[key].map(i => valueMap[i] || 0).filter(x => x > 0)
+    let skinValue = Math.min.apply(null, values)
 
-    if (prices.length > 0 && skinPrice > 0) {
-      skins[key] = skinPrice
+    if (values.length > 0 && skinValue > 0) {
+      skins[key] = skinValue
     } else {
       delete skins[key]
     }

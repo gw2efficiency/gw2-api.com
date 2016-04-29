@@ -1,5 +1,5 @@
-const mongo = require('../helpers/mongo.js')
-const {invalidParameters} = require('../helpers/controllers.js')
+const mongo = require('../../helpers/mongo.js')
+const {invalidParameters} = require('../../helpers/controllers.js')
 
 async function nested (request, response) {
   let id = parseInt(request.params.id, 10)
@@ -8,7 +8,9 @@ async function nested (request, response) {
     return invalidParameters(response)
   }
 
-  let recipe = await mongo.collection('recipe-trees').find({id: id}, {_id: 0}).limit(1).next()
+  let recipe = await mongo.collection('recipe-trees')
+    .find({id: id}, {_id: 0})
+    .limit(1).next()
 
   if (!recipe) {
     return response.send(404, {text: 'no such id'})
@@ -17,4 +19,4 @@ async function nested (request, response) {
   response.send(recipe)
 }
 
-module.exports = {nested}
+module.exports = nested

@@ -18,6 +18,7 @@ describe('workers > recipes > customRecipes', () => {
       {output_item_id: 38116, ingredients: [{item_id: 6}]},
       {output_item_id: 5, ingredients: [{item_id: 6}]}
     ]
+
     let output = [
       {output_item_id: 3, ingredients: [{item_id: 5}]},
       {output_item_id: 5, ingredients: [{item_id: 6}]}

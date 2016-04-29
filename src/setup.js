@@ -18,7 +18,16 @@ function log (string, error = false) {
 
 // Connect to the DB and get working! :)
 mongo.connect().then(async () => {
-  require('./workers/setup.js')
+  // Setup all the database collections
+  let recipesCollection = mongo.collection('recipe-trees')
+  recipesCollection.createIndex('id')
+
+  let skinCollection = mongo.collection('cache')
+  skinCollection.createIndex('id')
+
+  let collection = mongo.collection('items')
+  collection.createIndex('id')
+  collection.createIndex('lang')
 
   try {
     await mongo.dropDatabase()

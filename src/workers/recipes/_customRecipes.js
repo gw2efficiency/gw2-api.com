@@ -1,5 +1,7 @@
 const requester = require('gw2e-requester')
 
+// These are the recipes that are blacklisted. These are usually circular dependencies,
+// but also include some recipes that are not really done and distort the value of items
 const outputBlacklist = [
   38014, 36060, 36061, 38115, 38116, 38117, 38118, 38119,
   39120, 39121, 39122, 39123, 39124, 39125, 39126, 39127,
@@ -10,7 +12,7 @@ async function customRecipes () {
   let recipes = await requester.single('https://raw.githubusercontent.com/queicherius/gw2-mystic-forge-recipes/master/recipes.json')
 
   // Remove the currency items (tokens etc) from the ingredients,
-  // since we can't make any use of them atm
+  // since we can't make any use of them at the moment
   recipes = recipes.map(recipe => {
     recipe.ingredients = recipe.ingredients.filter(i => i.item_id > 0)
     return recipe
@@ -28,7 +30,6 @@ async function customRecipes () {
     }
 
     // Remove circular dependencies (promotions)
-    // Note: the nesting could handle that, but I don't want to blow up the recipe tree
     let ingredientIds = recipe.ingredients.map(i => i.item_id)
     if (ingredientIds.indexOf(recipe.output_item_id) !== -1) {
       return false
@@ -39,7 +40,7 @@ async function customRecipes () {
       return false
     }
 
-    // Remove blacklisted items (circular dependencies)
+    // Remove blacklisted items (usually circular dependencies)
     if (outputBlacklist.indexOf(recipe.output_item_id) !== -1) {
       return false
     }

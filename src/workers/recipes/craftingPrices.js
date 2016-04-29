@@ -71,7 +71,7 @@ function calculateCraftingPrice (recipe, buyPrices, sellPrices, ignoreItems = []
   return prices
 }
 
-// Check if any daily cooldown is used in the recipe
+// Check if any daily cooldowns are used in the recipe
 function needsDailyCooldowns (recipe) {
   let items = recipeCalculation.recipeItems(recipe)
   items = items.filter(i => i !== recipe.id && recipeCalculation.static.dailyCooldowns.indexOf(i) !== -1)

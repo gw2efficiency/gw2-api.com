@@ -28,6 +28,15 @@ describe('helpers > mongo', () => {
     expect(loggerMock.error.callCount).to.equal(0)
   })
 
+  it('can connect successfully with the default connection', async () => {
+    try {
+      await mongo.connect()
+    } catch (e) {
+    }
+    expect(loggerMock.info.callCount).to.equal(1)
+    expect(loggerMock.error.callCount).to.equal(0)
+  })
+
   it('logs when an error happens connecting', async () => {
     try {
       await mongo.connect('mongodb://127.0.0.1:27014/gw2api-test')

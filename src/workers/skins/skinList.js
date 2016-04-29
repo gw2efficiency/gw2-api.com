@@ -5,7 +5,7 @@ async function skinList () {
   let skins = await api().skins().all()
   let items = await mongo.collection('items').find({lang: 'en'}, {_id: 0, id: 1, skins: 1}).toArray()
 
-  // Try and resolve the skins from items
+  // Resolve the skins from items
   skins = skins.map(skin => {
     skin.items = items.filter(i => i.skins.indexOf(skin.id) !== -1).map(i => i.id)
     return skin

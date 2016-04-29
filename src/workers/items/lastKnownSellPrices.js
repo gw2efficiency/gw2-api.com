@@ -21,21 +21,21 @@ async function lastKnownSellPrices () {
 }
 
 async function loadPrice (id) {
-  let page = await requester.single('http://www.gw2spidy.com/api/v0.9/json/listings/' + id + '/sell/1')
-  page = page.last_page
+  let page = 0
+  let lastPage = 1
 
-  // Go through all pages in reverse, and find the first entry
-  // where the price indicates, that the item was in the tradingpost
-  while (page > 0) {
+  // Go through all pages and find the first entry
+  // where the price indicates that the item was in the tradingpost
+  while (page <= lastPage) {
     let pageContent = await requester.single('http://www.gw2spidy.com/api/v0.9/json/listings/' + id + '/sell/' + page)
-    pageContent = pageContent.results.reverse()
-    let price = pageContent.find(c => c.unit_price > 0)
+    lastPage = page.last_page
+    let price = pageContent.results.find(c => c.quantity > 0)
 
     if (price) {
       return price.unit_price
     }
 
-    page--
+    page++
   }
 
   return false
