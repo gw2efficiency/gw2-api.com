@@ -1,33 +1,13 @@
-const logger = require('./helpers/logger.js')
-const item = require('./controllers/item.js')
-const gem = require('./controllers/gem.js')
-const skin = require('./controllers/skin.js')
-const recipe = require('./controllers/recipe.js')
+const logger = require('./logger.js')
 
-function setupRoutes (server) {
+function setupRoutes (server, routes) {
   server.get('/', (req, res, next) => res.redirect('https://github.com/gw2efficiency/gw2-api.com/', next))
-  anyMethod(server, '/item', wrapRequest(item.byId))
-  anyMethod(server, '/item/:id', wrapRequest(item.byId))
-  anyMethod(server, '/items', wrapRequest(item.byIds))
-  anyMethod(server, '/items/all', wrapRequest(item.all))
-  anyMethod(server, '/items/all-prices', wrapRequest(item.allPrices))
-  anyMethod(server, '/items/all-values', wrapRequest(item.allValues))
-  anyMethod(server, '/items/categories', wrapRequest(item.categories))
-  anyMethod(server, '/items/autocomplete', wrapRequest(item.autocomplete))
-  anyMethod(server, '/items/by-name', wrapRequest(item.byName))
-  anyMethod(server, '/items/by-skin', wrapRequest(item.bySkin))
-  anyMethod(server, '/items/query', wrapRequest(item.query))
-  anyMethod(server, '/items/:ids', wrapRequest(item.byIds))
-  anyMethod(server, '/skins/resolve', wrapRequest(skin.resolve))
-  anyMethod(server, '/skins/prices', wrapRequest(skin.prices))
-  anyMethod(server, '/recipe/nested/:id', wrapRequest(recipe.nested))
-  anyMethod(server, '/gems/history', wrapRequest(gem.history))
-}
 
-// Adds get and post routes for a single url
-function anyMethod (server, url, callback) {
-  server.get(url, callback)
-  server.post(url, callback)
+  for (var url in routes) {
+    let callback = routes[url]
+    server.get(url, wrapRequest(callback))
+    server.post(url, wrapRequest(callback))
+  }
 }
 
 // Wrap a request to offer a easier to use interface

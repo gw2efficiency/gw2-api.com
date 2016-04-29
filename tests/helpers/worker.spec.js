@@ -2,14 +2,14 @@
 const expect = require('chai').expect
 const sinon = require('sinon')
 const rewire = require('rewire')
-const schedule = rewire('../../src/helpers/schedule.js')
+const worker = rewire('../../src/helpers/worker.js')
 
 const loggerMock = {info: sinon.spy(), success: sinon.spy(), error: sinon.spy()}
 const schedulerMock = {scheduleJob: sinon.spy()}
-schedule.__set__('logger', loggerMock)
-schedule.__set__('scheduler', schedulerMock)
+worker.__set__('logger', loggerMock)
+worker.__set__('scheduler', schedulerMock)
 
-describe('helpers > schedule', function () {
+describe('helpers > worker', function () {
   beforeEach(() => {
     loggerMock.info.reset()
     loggerMock.success.reset()
@@ -17,12 +17,12 @@ describe('helpers > schedule', function () {
   })
 
   it('can schedule a task', async () => {
-    let tmp = schedule.__get__('execute')
+    let tmp = worker.__get__('execute')
     let executeMock = sinon.spy()
-    schedule.__set__('execute', executeMock)
+    worker.__set__('execute', executeMock)
 
     let callback = 'i should be a callback function'
-    schedule('* * * * * *', callback)
+    worker('* * * * * *', callback)
 
     // Check if the scheduler got called
     expect(schedulerMock.scheduleJob.called).to.equal(true)
@@ -33,7 +33,7 @@ describe('helpers > schedule', function () {
     expect(executeMock.called).to.equal(true)
     expect(executeMock.args[0][0]).to.equal(callback)
 
-    schedule.__set__('execute', tmp)
+    worker.__set__('execute', tmp)
   })
 
   it('can execute and log a successful task with passed time', async () => {
@@ -43,7 +43,7 @@ describe('helpers > schedule', function () {
       })
     }
 
-    await schedule.__get__('execute')(callback)
+    await worker.__get__('execute')(callback)
 
     // Worker start gets logged
     expect(loggerMock.info.calledOnce).to.equal(true)
@@ -67,7 +67,7 @@ describe('helpers > schedule', function () {
       })
     }
 
-    await schedule.__get__('execute')(callback)
+    await worker.__get__('execute')(callback)
 
     // Worker end gets logged correctly
     expect(loggerMock.success.calledOnce).to.equal(false)

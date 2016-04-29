@@ -1,13 +1,16 @@
 require('babel-polyfill')
 
-// TODO use env variables somehow
-// require('pmx').init({http: true})
-// require('newrelic')
+// If we are on the production environment, enable logging
+if (process.env.ENVIRONMENT === 'production') {
+  require('pmx').init({http: true})
+  require('newrelic')
+}
 
 const restify = require('restify')
-const logger = require('./helpers/logger.js')
-const mongo = require('./helpers/mongo.js')
-const {setupRoutes, setupErrorHandling} = require('./routes.js')
+const logger = require('../helpers/logger.js')
+const mongo = require('../helpers/mongo.js')
+const {setupRoutes, setupErrorHandling} = require('../helpers/server.js')
+const routes = require('../config/routes.js')
 
 // Connect to the database
 mongo.connect()
@@ -16,7 +19,7 @@ mongo.connect()
 const server = restify.createServer({name: 'gw2-api.com'})
 server.use(restify.queryParser())
 server.use(restify.bodyParser())
-setupRoutes(server)
+setupRoutes(server, routes)
 setupErrorHandling(server)
 server.listen(8080, () => logger.info('Server listening on port 8080'))
 
