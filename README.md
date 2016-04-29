@@ -31,6 +31,8 @@ pm2 start build/bin/server.js --name="gw2api-server" -i 5
 
 # Start the background worker
 pm2 start build/bin/worker.js --name="gw2api-worker"
+
+# Note: Logs will be written in "~/.pm2/logs"
 ```
 
 ## Rebuild specific parts
