@@ -39,7 +39,7 @@ pm2 start build/bin/worker.js --name="gw2api-worker"
 
 You can also rebuild specific parts of the database using the following commands:
 
-```
+```bash
 node build/bin/rebuild.js # Full rebuild
 node build/bin/rebuild.js items # Rebuild all item specific data
 node build/bin/rebuild.js recipes # Rebuild all recipe specific data
