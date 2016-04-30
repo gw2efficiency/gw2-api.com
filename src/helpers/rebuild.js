@@ -24,10 +24,10 @@ function setupDatabaseCollections () {
 async function rebuild (type, log) {
   if (type === 'full') {
     await mongo.dropDatabase()
-    log('Cleared database')
+    log('Dropped database')
 
     setupDatabaseCollections()
-    log('Setup database collections')
+    log('Setup database collections & indexes')
   }
 
   if (type === 'full' || type === 'items') {
