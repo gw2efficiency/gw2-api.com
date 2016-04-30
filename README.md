@@ -25,7 +25,7 @@ npm run build
 node build/bin/rebuild.js
 
 # Start a server cluster with 5 processes
-# Note: to start the server with logging to Newrelic & Keymetrics,
+# Note: to start the server with logging to keymetrics.io
 # set the env variable "ENVIRONMENT=production"
 pm2 start build/bin/server.js --name="gw2api-server" -i 5
 

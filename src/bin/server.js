@@ -3,7 +3,6 @@ require('babel-polyfill')
 // If we are on the production environment, enable logging
 if (process.env.ENVIRONMENT === 'production') {
   require('pmx').init({http: true})
-  require('newrelic')
 }
 
 const restify = require('restify')
