@@ -14,6 +14,7 @@
     "chalk": "^1.1.1",
     "cron-parser": "^2.0.2",
     "escape-string-regexp": "^1.0.5",
+    "exit": "^0.1.2",
     "gw2e-account-value": "^1.0.0",
     "gw2e-async-promises": "^1.0.2",
     "gw2e-gw2api-client": "^1.0.0",
@@ -22,7 +23,6 @@
     "gw2e-recipe-nesting": "^2.0.0",
     "gw2e-requester": "^1.0.0",
     "mongodb": "^2.1.7",
-    "newrelic": "^1.25.5",
     "node-schedule": "^1.1.0",
     "pmx": "^0.6.1",
     "restify": "^4.0.3"

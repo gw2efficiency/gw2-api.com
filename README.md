@@ -21,16 +21,30 @@ cd gw2-api.com/
 npm install
 npm run build
 
-# Rebuild the database initially (takes a few mins)
-node build/rebuild-database.js
+# Build the initial database (this may take a few minutes)
+node build/bin/rebuild.js
 
 # Start a server cluster with 5 processes
-pm2 start build/server.js --name="gw2api-server" -i 5
+# Note: to start the server with logging to keymetrics.io
+# set the env variable "ENVIRONMENT=production"
+pm2 start build/bin/server.js --name="gw2api-server" -i 5
 
 # Start the background worker
-pm2 start build/worker.js --name="gw2api-worker"
+pm2 start build/bin/worker.js --name="gw2api-worker"
 
 # Note: Logs will be written in "~/.pm2/logs"
+```
+
+## Rebuild specific parts
+
+You can also rebuild specific parts of the database using the following commands:
+
+```
+node build/bin/rebuild.js # Full rebuild
+node build/bin/rebuild.js items # Rebuild all item specific data
+node build/bin/rebuild.js recipes # Rebuild all recipe specific data
+node build/bin/rebuild.js skins # Rebuild all skin specific data
+node build/bin/rebuild.js gems # Rebuild all gem specific data
 ```
 
 ## Tests

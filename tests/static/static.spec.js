@@ -13,4 +13,9 @@ describe('static files', () => {
     expect(data).to.be.an.object
     expect(Object.keys(data).length).to.equal(8)
   })
+
+  it('has static information blacklisted tradingpost items', () => {
+    let data = require('../../src/static/tradingpostBlacklist.js')
+    expect(data).to.be.an.array
+  })
 })
