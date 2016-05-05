@@ -7,6 +7,8 @@
 
 :construction: Please note that this is not versioned and stuff may change without notice. :construction:
 
+*This is part of [gw2efficiency](https://gw2efficiency.com). Please report all issues in [the central repository](https://github.com/gw2efficiency/issues/issues).*
+
 ## Install
 
 - **Requirements:**
