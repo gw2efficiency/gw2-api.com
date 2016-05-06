@@ -16,7 +16,7 @@ const routes = {
   '/items/:ids': require('../controllers/items/byIds.js'),
   '/skins/resolve': require('../controllers/skins/resolve.js'),
   '/skins/prices': require('../controllers/skins/prices.js'),
-  '/recipe/nested/:id': require('../controllers/recipes/nested.js'),
+  '/recipe/nested/:ids': require('../controllers/recipes/nested.js'),
   '/gems/history': require('../controllers/gems/history.js')
 }
 
