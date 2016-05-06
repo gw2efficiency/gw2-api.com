@@ -19,7 +19,7 @@ describe('controllers > recipes > nested', () => {
     done()
   })
 
-  it('returns the nested recipe tree', async () => {
+  it('returns multiple nested recipe trees', async () => {
     let recipes = [
       {id: 1, ingredients: [1, 2, 3]},
       {id: 2, ingredients: [4, 5, 6]},
@@ -28,27 +28,12 @@ describe('controllers > recipes > nested', () => {
     await mongo.collection('recipe-trees').insert(recipes)
 
     let response = {send: sinon.spy()}
-    await nested({params: {id: 2}}, response)
+    await nested({params: {ids: [2, 3]}}, response)
 
     expect(response.send.calledOnce).to.equal(true)
-    expect(response.send.args[0][0]).to.deep.equal({id: 2, ingredients: [4, 5, 6]})
-  })
-
-  it('returns an error if the recipe does not exist', async () => {
-    let response = {send: sinon.spy()}
-    await nested({params: {id: 999}}, response)
-
-    expect(response.send.calledOnce).to.equal(true)
-    expect(response.send.args[0][0]).to.equal(404)
-    expect(response.send.args[0][1]).to.deep.equal({text: 'no such id'})
-  })
-
-  it('returns an error if the request has invalid parameters', async () => {
-    let response = {send: sinon.spy()}
-    await nested({params: {}}, response)
-
-    expect(response.send.calledOnce).to.equal(true)
-    expect(response.send.args[0][0]).to.equal(400)
-    expect(response.send.args[0][1]).to.deep.equal({text: 'invalid request parameters'})
+    expect(response.send.args[0][0]).to.deep.equal([
+      {id: 2, ingredients: [4, 5, 6]},
+      {id: 3, ingredients: [4, 5, 6]}
+    ])
   })
 })

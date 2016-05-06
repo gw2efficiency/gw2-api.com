@@ -71,7 +71,7 @@ npm test
 - [`/items/categories`](#itemscategories)
 - [`/skins/resolve`](#skinsresolve)
 - [`/skins/prices`](#skinsprices)
-- [`/recipe/nested/:id`](#recipenestedid)
+- [`/recipe/nested/:ids`](#recipenestedids)
 - [`/gems/history`](#gemshistory)
 
 ### `/item/:id`
@@ -345,34 +345,37 @@ learn more about how the value of an item is calculated, [read more here](https:
 }
 ```
 
-### `/recipe/nested/:id`
+### `/recipe/nested/:ids`
 
-This endpoint returns a nested recipe for that item (if a recipe exists). 
+This endpoint returns nested recipes for the specified items (if a recipe exists for them). 
 All components that can be crafted include their respective recipe and subcomponents.
 
 **Parameters**
 
-- `id`: An item id, either in the url or as a GET/POST parameter
+- `ids`: An array or a comma separated list of one or more item ids, either in the url or as a GET/POST parameter
 
 ```js
-{
-  "id": 31083,
-  "output": 1,
-  "quantity": 1,
-  "components": [
-    {
-      "id": 20852,
-      "quantity": 1
-    },
-    {
-      "id": 13243,
-      "quantity": 5,
-      "output": 1,
-      "components": [/* ... */]
-    },
-    // ...
-  ]
-}
+[
+  {
+    "id": 31083,
+    "output": 1,
+    "quantity": 1,
+    "components": [
+      {
+        "id": 20852,
+        "quantity": 1
+      },
+      {
+        "id": 13243,
+        "quantity": 5,
+        "output": 1,
+        "components": [/* ... */]
+      },
+      // ...
+    ]
+  }
+  // ...
+]
 ```
 
 ### `/gems/history`
