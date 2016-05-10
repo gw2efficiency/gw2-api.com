@@ -1,4 +1,6 @@
 function transformPrices (item, prices) {
+  prices = filterInvalidOffers(item, prices)
+
   let transformed = {
     buy: {
       quantity: prices.buys.quantity,
@@ -22,6 +24,23 @@ function transformPrices (item, prices) {
   }
 
   return transformed
+}
+
+// Filters out invalid buy offers (below vendor price). These are
+// still in from the start of the game, and we're gonna ignore them here
+function filterInvalidOffers (item, prices) {
+  if (!item.vendor_price) {
+    return prices
+  }
+
+  // The minimum price seems to be a bit random, but this is close enough
+  let minimumPrice = item.vendor_price + Math.max(Math.ceil(item.vendor_price * 0.18), 2)
+  if (prices.buys.unit_price < minimumPrice) {
+    prices.buys.unit_price = false
+    prices.buys.quantity = 0
+  }
+
+  return prices
 }
 
 function lastPriceChange (memory, current) {

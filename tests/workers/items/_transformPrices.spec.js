@@ -54,9 +54,9 @@ describe('workers > items > transformPrices', () => {
       last_update: currentDate
     }
 
-    let item = {id: 123, name: 'Foo'}
-    let x = transformPrices.__get__('transformPrices')(item, prices)
-    expect(item).to.deep.equal({id: 123, name: 'Foo'})
+    let item = {id: 123, name: 'Foo', vendor_price: 6}
+    let x = transformPrices(item, prices)
+    expect(item).to.deep.equal({id: 123, name: 'Foo', vendor_price: 6})
     expect(x).to.deep.equal(output)
   })
 
@@ -119,7 +119,7 @@ describe('workers > items > transformPrices', () => {
       last_update: currentDate
     }
 
-    let x = transformPrices.__get__('transformPrices')(itemInput, priceInput)
+    let x = transformPrices(itemInput, priceInput)
     expect(x).to.deep.equal(expectedOutput)
   })
 
@@ -182,7 +182,7 @@ describe('workers > items > transformPrices', () => {
       last_update: currentDate
     }
 
-    let x = transformPrices.__get__('transformPrices')(itemInput, priceInput)
+    let x = transformPrices(itemInput, priceInput)
     expect(x).to.deep.equal(expectedOutput)
   })
 
@@ -249,7 +249,7 @@ describe('workers > items > transformPrices', () => {
       craftingProfit: 30803
     }
 
-    let x = transformPrices.__get__('transformPrices')(itemInput, priceInput)
+    let x = transformPrices(itemInput, priceInput)
     expect(x).to.deep.equal(expectedOutput)
   })
 
@@ -316,7 +316,7 @@ describe('workers > items > transformPrices', () => {
       craftingProfit: -10000
     }
 
-    let x = transformPrices.__get__('transformPrices')(itemInput, priceInput)
+    let x = transformPrices(itemInput, priceInput)
     expect(x).to.deep.equal(expectedOutput)
   })
 
@@ -383,7 +383,7 @@ describe('workers > items > transformPrices', () => {
       craftingProfit: -10000
     }
 
-    let x = transformPrices.__get__('transformPrices')(itemInput, priceInput)
+    let x = transformPrices(itemInput, priceInput)
     expect(x).to.deep.equal(expectedOutput)
   })
 
@@ -424,8 +424,50 @@ describe('workers > items > transformPrices', () => {
       last_update: currentDate
     }
 
-    let x = transformPrices.__get__('transformPrices')(itemInput, priceInput)
+    let x = transformPrices(itemInput, priceInput)
     expect(x).to.deep.equal(expectedOutput)
+  })
+
+  it('ignores broken buy offers', () => {
+    let currentDate = transformPrices.__get__('isoDate')()
+    let prices = {
+      buys: {
+        quantity: 123192391238123,
+        unit_price: 345
+      },
+      sells: {
+        quantity: 56,
+        unit_price: 48053
+      }
+    }
+    let output = {
+      buy: {
+        quantity: 0,
+        price: false,
+        last_change: {
+          time: currentDate,
+          quantity: 0,
+          price: 0
+        },
+        last_known: false
+      },
+      sell: {
+        quantity: 56,
+        price: 48053,
+        last_change: {
+          time: currentDate,
+          quantity: 0,
+          price: 0
+        },
+        last_known: 48053
+      },
+      last_update: currentDate
+    }
+
+    let item = {id: 123, name: 'Foo', vendor_price: 297}
+    let x = transformPrices(item, prices)
+    expect(item).to.deep.equal({id: 123, name: 'Foo', vendor_price: 297})
+    expect(x).to.deep.equal(output)
   })
 
   it('creates an legacy ISO timestamp', () => {
