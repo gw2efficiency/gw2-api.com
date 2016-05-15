@@ -22,6 +22,7 @@
     "gw2e-recipe-calculation": "^1.0.1",
     "gw2e-recipe-nesting": "^2.0.0",
     "gw2e-requester": "^1.0.0",
+    "kue": "^0.11.0",
     "mongodb": "^2.1.7",
     "node-schedule": "^1.1.0",
     "pmx": "^0.6.1",

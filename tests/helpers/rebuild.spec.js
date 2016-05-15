@@ -5,15 +5,15 @@ mongo.logger.quiet(true)
 
 const rebuild = proxyquire('../../src/helpers/rebuild.js', {
   'mongo': mongo,
-  '../workers/items/itemList.js': () => false,
-  '../workers/items/itemPrices.js': () => false,
-  '../workers/items/itemValues.js': () => false,
-  '../workers/items/lastKnownSellPrices.js': () => false,
-  '../workers/recipes/recipeList.js': () => false,
-  '../workers/recipes/craftingPrices.js': () => false,
-  '../workers/skins/skinList.js': () => false,
-  '../workers/skins/skinPrices.js': () => false,
-  '../workers/gems/gemPriceHistory.js': () => false
+  '../jobs/items/itemList.js': () => false,
+  '../jobs/items/itemPrices.js': () => false,
+  '../jobs/items/itemValues.js': () => false,
+  '../jobs/items/lastKnownSellPrices.js': () => false,
+  '../jobs/recipes/recipeList.js': () => false,
+  '../jobs/recipes/craftingPrices.js': () => false,
+  '../jobs/skins/skinList.js': () => false,
+  '../jobs/skins/skinPrices.js': () => false,
+  '../jobs/gems/gemPriceHistory.js': () => false
 })
 
 describe('helpers > rebuild', () => {

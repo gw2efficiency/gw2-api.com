@@ -31,8 +31,11 @@ node build/bin/rebuild.js
 # set the env variable "ENVIRONMENT=production"
 pm2 start build/bin/server.js --name="gw2api-server" -i 5
 
-# Start the background worker
-pm2 start build/bin/worker.js --name="gw2api-worker"
+# Start the background job scheduling
+pm2 start build/bin/scheduler.js --name="gw2api-worker"
+
+# Start the background job processing
+pm2 start build/bin/worker.js --name="gw2api-worker" -i 3
 
 # Note: Logs will be written in "~/.pm2/logs"
 ```

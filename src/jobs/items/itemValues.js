@@ -2,10 +2,13 @@ const mongo = require('../../helpers/mongo.js')
 const async = require('gw2e-async-promises')
 const accountValue = require('gw2e-account-value')
 
-async function itemValues () {
+async function itemValues (job, done) {
+  job.log(`Starting job`)
+
   let collection = mongo.collection('items')
   let attributes = {_id: 0, id: 1, sell: 1, buy: 1, crafting: 1, vendor_price: 1, value: 1}
   let items = await collection.find({lang: 'en'}, attributes).toArray()
+  job.log(`Calculating values for ${items.length} items`)
 
   let updateFunctions = items.map(item => async () => {
     let itemValue = accountValue.itemValue(item)
@@ -39,12 +42,16 @@ async function itemValues () {
 
     await collection.update({id: item.id}, {'$set': update}, {multi: true})
   })
+  job.log(`Created update functions`)
 
   await async.parallel(updateFunctions)
+  job.log(`Calculated values items`)
 
   // Get the average value for ascended boxes based on the average
   // of all ascended weapon and armor that might come out of boxes
   await ascendedBoxValues()
+  job.log(`Calculated values for ascended boxes`)
+  done()
 }
 
 async function ascendedBoxValues () {

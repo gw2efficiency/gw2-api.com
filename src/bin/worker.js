@@ -1,9 +1,19 @@
 require('babel-polyfill')
+const kue = require('kue')
+const queue = kue.createQueue()
 const mongo = require('../helpers/mongo.js')
-const schedule = require('../helpers/worker.js')
-const scheduledTasks = require('../config/schedule.js')
+const wrapJob = require('../helpers/wrapJob.js')
 
-// Connect to the database and start the scheduling
 mongo.connect().then(() => {
-  scheduledTasks.map(task => schedule(task[0], task[1]))
+  queue.process('item-list', wrapJob(require('../jobs/items/itemList.js')))
+  queue.process('item-prices', wrapJob(require('../jobs/items/itemPrices.js')))
+  queue.process('item-values', wrapJob(require('../jobs/items/itemValues.js')))
+
+  queue.process('skin-list', wrapJob(require('../jobs/skins/skinList.js')))
+  queue.process('skin-prices', wrapJob(require('../jobs/skins/skinPrices.js')))
+
+  queue.process('recipe-list', wrapJob(require('../jobs/recipes/recipeList.js')))
+  queue.process('crafting-prices', wrapJob(require('../jobs/recipes/craftingPrices.js')))
+
+  queue.process('gem-price-history', wrapJob(require('../jobs/gems/gemPriceHistory.js')))
 })

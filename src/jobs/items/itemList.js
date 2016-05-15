@@ -5,9 +5,12 @@ const transformItem = require('./_transformItem.js')
 
 const languages = ['en', 'de', 'fr', 'es']
 
-async function itemList () {
+async function itemList (job, done) {
+  job.log(`Starting job`)
+
   let itemRequests = languages.map(lang => () => api().language(lang).items().all())
   let items = await async.parallel(itemRequests)
+  job.log(`Fetched ${items[0].length} items in ${languages.length} languages`)
 
   // We save one row per item per language. This *does* take longer in
   // the worker, but it enables the server part to serve requests using nearly
@@ -21,6 +24,7 @@ async function itemList () {
   for (let key in languages) {
     let lang = languages[key]
     let languageItems = items[key]
+
     languageItems.map(item => {
       item = {...transformItem(item), lang: lang}
       updateFunctions.push(() =>
@@ -28,8 +32,11 @@ async function itemList () {
       )
     })
   }
+  job.log(`Created update functions`)
 
   await async.parallel(updateFunctions)
+  job.log(`Updated items`)
+  done()
 }
 
 module.exports = itemList

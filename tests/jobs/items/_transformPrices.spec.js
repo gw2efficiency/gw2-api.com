@@ -3,11 +3,11 @@ const expect = require('chai').expect
 const rewire = require('rewire')
 const mockdate = require('mockdate')
 
-const transformPrices = rewire('../../../src/workers/items/_transformPrices.js')
+const transformPrices = rewire('../../../src/jobs/items/_transformPrices.js')
 const mongo = require('../../../src/helpers/mongo.js')
 mongo.logger.quiet(true)
 
-describe('workers > items > transformPrices', () => {
+describe('jobs > items > transformPrices', () => {
   before(async (done) => {
     await mongo.connect('mongodb://127.0.0.1:27017/gw2api-test')
     done()

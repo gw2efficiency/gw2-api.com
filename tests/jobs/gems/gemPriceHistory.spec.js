@@ -2,11 +2,11 @@
 const expect = require('chai').expect
 const rewire = require('rewire')
 
-const gemPriceHistory = rewire('../../../src/workers/gems/gemPriceHistory.js')
+const gemPriceHistory = rewire('../../../src/jobs/gems/gemPriceHistory.js')
 const mongo = require('../../../src/helpers/mongo.js')
 mongo.logger.quiet(true)
 
-describe('workers > gems > gemPriceHistory', () => {
+describe('jobs > gems > gemPriceHistory', () => {
   before(async (done) => {
     await mongo.connect('mongodb://127.0.0.1:27017/gw2api-test')
     done()

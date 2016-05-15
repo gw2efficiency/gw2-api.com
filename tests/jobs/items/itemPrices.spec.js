@@ -2,14 +2,14 @@
 const expect = require('chai').expect
 const rewire = require('rewire')
 
-const itemPrices = rewire('../../../src/workers/items/itemPrices.js')
+const itemPrices = rewire('../../../src/jobs/items/itemPrices.js')
 const mongo = require('../../../src/helpers/mongo.js')
 mongo.logger.quiet(true)
 
 // Get the function to create iso dates form the transformation module
-const isoDate = rewire('../../../src/workers/items/_transformPrices.js').__get__('isoDate')
+const isoDate = rewire('../../../src/jobs/items/_transformPrices.js').__get__('isoDate')
 
-describe('workers > items > itemPrices', () => {
+describe('jobs > items > itemPrices', () => {
   before(async (done) => {
     await mongo.connect('mongodb://127.0.0.1:27017/gw2api-test')
     done()

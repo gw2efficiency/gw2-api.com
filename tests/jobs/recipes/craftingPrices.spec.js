@@ -2,11 +2,11 @@
 const expect = require('chai').expect
 const rewire = require('rewire')
 
-const craftingPrices = rewire('../../../src/workers/recipes/craftingPrices.js')
+const craftingPrices = rewire('../../../src/jobs/recipes/craftingPrices.js')
 const mongo = require('../../../src/helpers/mongo.js')
 mongo.logger.quiet(true)
 
-describe('workers > recipes > craftingPrices', () => {
+describe('jobs > recipes > craftingPrices', () => {
   before(async (done) => {
     await mongo.connect('mongodb://127.0.0.1:27017/gw2api-test')
     done()

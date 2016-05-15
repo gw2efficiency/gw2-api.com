@@ -2,12 +2,12 @@
 const expect = require('chai').expect
 const rewire = require('rewire')
 
-const customRecipes = rewire('../../../src/workers/recipes/_customRecipes.js')
+const customRecipes = rewire('../../../src/jobs/recipes/_customRecipes.js')
 
 const requesterMock = require('gw2e-requester/mock')
 customRecipes.__set__('requester', requesterMock)
 
-describe('workers > recipes > customRecipes', () => {
+describe('jobs > recipes > customRecipes', () => {
   it('loads and filters custom recipes', async () => {
     let input = [
       {output_item_id: -1, ingredients: [{item_id: 5}]},

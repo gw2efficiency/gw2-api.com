@@ -2,7 +2,7 @@
 const expect = require('chai').expect
 const rewire = require('rewire')
 
-const recipeList = rewire('../../../src/workers/recipes/recipeList.js')
+const recipeList = rewire('../../../src/jobs/recipes/recipeList.js')
 const mongo = require('../../../src/helpers/mongo.js')
 mongo.logger.quiet(true)
 
@@ -11,7 +11,7 @@ mongo.logger.quiet(true)
 recipeList.__set__('recipeNesting', (recipes) => recipes.map(r => ({...r, id: r.output_item_id})))
 recipeList.__set__('customRecipes', () => [{output_item_id: 1}, {output_item_id: 3}])
 
-describe('workers > recipes > recipeList', () => {
+describe('jobs > recipes > recipeList', () => {
   before(async (done) => {
     await mongo.connect('mongodb://127.0.0.1:27017/gw2api-test')
     done()

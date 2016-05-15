@@ -5,12 +5,15 @@ const recipeCalculation = require('gw2e-recipe-calculation')
 const legendaries = [30684, 30685, 30686, 30687, 30688, 30689, 30690, 30691, 30692, 30693, 30694, 30695, 30696, 30697, 30698, 30699, 30700, 30701, 30702, 30703, 30704, 71383, 72713, 76158]
 const precursors = [29166, 29167, 29168, 29169, 29170, 29171, 29172, 29173, 29174, 29175, 29176, 29177, 29178, 29179, 29180, 29181, 29182, 29183, 29184, 29185]
 
-async function craftingPrices () {
+async function craftingPrices (job, done) {
+  job.log(`Starting job`)
+
   let recipes = await mongo.collection('recipe-trees').find().toArray()
   let prices = await mongo.collection('items').find(
     {tradable: true, 'buy.price': {'$gt': 0}, 'sell.price': {'$gt': 0}},
     {_id: 0, id: 1, 'buy.price': 1, 'sell.price': 1}
   ).toArray()
+  job.log(`Calculating crafting prices for ${recipes.length} recipes`)
 
   // Build the price arrays
   let sellPrices = {}
@@ -21,14 +24,18 @@ async function craftingPrices () {
   })
   buyPrices = recipeCalculation.useVendorPrices(buyPrices)
   sellPrices = recipeCalculation.useVendorPrices(sellPrices)
+  job.log(`Generated buy and sell prices`)
 
   // Go through the recipes and update the items with
   // the cheapest crafting price
   let updateFunctions = recipes.map(recipe =>
     () => craftingPrice(recipe, buyPrices, sellPrices)
   )
+  job.log(`Generated update functions`)
 
   await async.parallel(updateFunctions)
+  job.log(`Updated crafting prices`)
+  done()
 }
 
 // Add all the crafting prices for a single item
