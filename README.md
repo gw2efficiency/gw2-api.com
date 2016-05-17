@@ -13,32 +13,36 @@
 
 - **Requirements:**
   - [MongoDB](http://mongodb.org/) as the database layer
+  - [Redis](http://redis.io/) for the priority job queue
   - A process manager to keep the processes running, in this example [pm2](https://github.com/Unitech/pm2)
   - (Optional) Some sort of caching like [Varnish](https://www.varnish-cache.org/)
 
 ```sh
-# Clone the repository and build the worker and server files
+# Clone the repository
 git clone https://github.com/gw2efficiency/gw2-api.com
 cd gw2-api.com/
+
+# Install the dependencies and build all files
 npm install
 npm run build
-
-# Start a server cluster with 5 processes
-# Note: to start the server with logging to keymetrics.io
-# set the env variable "ENVIRONMENT=production"
-pm2 start build/bin/server.js --name="gw2api-server" -i 5
-
-# Start the background job scheduling
-pm2 start build/bin/scheduler.js --name="gw2api-worker"
-
-# Start the background job processing
-pm2 start build/bin/worker.js --name="gw2api-worker" -i 3
 
 # Build the initial database using the cli tool
 node build/bin/cli.js full-rebuild
 
-# Note: Logs will be written in "~/.pm2/logs"
+# Start the job processing cluster
+pm2 start build/bin/worker.js --name="gw2api-worker" -i 3
+
+# Start the job scheduling
+pm2 start build/bin/scheduler.js --name="gw2api-worker"
+
+# Start a server cluster
+pm2 start build/bin/server.js --name="gw2api-server" -i 5
 ```
+
+If you want to start the server with logging to [keymetrics.io](https://keymetrics.io),
+set the environment variable `ENVIRONMENT=production`.
+
+Logs for all processes will be written in `~/.pm2/logs`. 
 
 ## CLI
 

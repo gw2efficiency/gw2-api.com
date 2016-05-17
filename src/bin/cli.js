@@ -14,9 +14,9 @@ commander
   .parse(process.argv)
 
 // Check if the job name is valid
-let validJobNames = jobList.map(j => j.name)
-if (!jobName || validJobNames.indexOf(jobName) === -1) {
-  let jobNames = validJobNames.map(j => '  - ' + j).join('\n')
+let jobNames = jobList.map(j => j.name)
+if (!jobName || jobNames.indexOf(jobName) === -1) {
+  jobNames = jobNames.map(j => '  - ' + j).join('\n')
   console.log(chalk.bold.red('You have to specify a valid job name:\n' + jobNames))
   process.exit()
 }
@@ -33,8 +33,10 @@ function doneMock (err, result) {
     process.exit()
   }
 
-  result = result || '(no result)'
-  console.log(chalk.green('Job finished successfully:\n' + result))
+  let output = result
+    ? 'Job finished successfully:\n' + result
+    : 'Job finished successfully'
+  console.log(chalk.green(output))
   process.exit()
 }
 

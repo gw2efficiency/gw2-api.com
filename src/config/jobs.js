@@ -28,6 +28,15 @@ const jobs = [
     schedule: '0 */5 * * * *'
   },
   {
+    name: 'item-last-known-prices',
+    path: '../jobs/items/lastKnownPrices.js',
+    data: {title: 'Load the missing last known sell prices'},
+    priority: 'medium',
+    ttl: 30 * 60 * 1000,
+    attempts: 3,
+    schedule: '0 0 5 * * *'
+  },
+  {
     name: 'recipe-list',
     path: '../jobs/recipes/recipeList.js',
     data: {title: 'Update the list of recipes'},
@@ -71,13 +80,11 @@ const jobs = [
     schedule: '* */30 * * * *'
   },
   {
-    name: 'item-last-known-prices',
-    path: '../jobs/items/lastKnownPrices.js',
-    data: {title: 'Load the missing last known sell prices'},
+    name: 'full-rebuild',
+    path: '../jobs/fullRebuild.js',
+    data: {title: 'Flush the database and completely rebuild it'},
     priority: 'medium',
-    ttl: 30 * 60 * 1000,
-    attempts: 3,
-    schedule: '0 0 5 * * *'
+    ttl: 60 * 60 * 1000
   }
 ]
 
