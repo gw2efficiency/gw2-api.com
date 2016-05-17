@@ -23,9 +23,6 @@ cd gw2-api.com/
 npm install
 npm run build
 
-# Build the initial database (this may take a few minutes)
-node build/bin/rebuild.js
-
 # Start a server cluster with 5 processes
 # Note: to start the server with logging to keymetrics.io
 # set the env variable "ENVIRONMENT=production"
@@ -37,20 +34,34 @@ pm2 start build/bin/scheduler.js --name="gw2api-worker"
 # Start the background job processing
 pm2 start build/bin/worker.js --name="gw2api-worker" -i 3
 
+# Build the initial database using the cli tool
+node build/bin/cli.js full-rebuild
+
 # Note: Logs will be written in "~/.pm2/logs"
 ```
 
-## Rebuild specific parts
+## CLI
 
-You can also rebuild specific parts of the database using the following commands:
+You can fire off any jobs using the included cli tool, either directly in the cli process
+or as usual as a queued job, which gets processed by the worker processes:
 
 ```bash
-node build/bin/rebuild.js # Full rebuild
-node build/bin/rebuild.js items # Rebuild all item specific data
-node build/bin/rebuild.js recipes # Rebuild all recipe specific data
-node build/bin/rebuild.js skins # Rebuild all skin specific data
-node build/bin/rebuild.js gems # Rebuild all gem specific data
+node build/bin/cli.js <job-name> # Execute job in this process
+node build/bin/cli.js <job-name> -q # Push the job in the queue
 ```
+
+The following jobs exist:
+
+- `full-rebuild` (clear the database and execute all jobs)
+- `item-list` (get all items)
+- `item-prices` (update the item prices)
+- `item-values` (calculate the item values)
+- `recipe-list` (get all recipes)
+- `crafting-prices` (calculate the crafting prices)
+- `skin-list` (get all skins)
+- `skin-prices` (calculate all skin prices)
+- `gem-price-history` (get the gem price history)
+- `item-last-known-prices` (get the last known sell prices, if they are missing)
 
 ## Tests
 
