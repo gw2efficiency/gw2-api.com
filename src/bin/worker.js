@@ -8,6 +8,7 @@ mongo.connect().then(() => {
   queue.process('item-list', wrapJob(require('../jobs/items/itemList.js')))
   queue.process('item-prices', wrapJob(require('../jobs/items/itemPrices.js')))
   queue.process('item-values', wrapJob(require('../jobs/items/itemValues.js')))
+  queue.process('item-last-known-prices', wrapJob(require('../jobs/items/lastKnownPrices.js')))
 
   queue.process('skin-list', wrapJob(require('../jobs/skins/skinList.js')))
   queue.process('skin-prices', wrapJob(require('../jobs/skins/skinPrices.js')))
