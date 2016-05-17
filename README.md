@@ -33,9 +33,12 @@ node build/bin/cli.js full-rebuild
 pm2 start build/bin/worker.js --name="gw2api-worker" -i 3
 
 # Start the job scheduling
-pm2 start build/bin/scheduler.js --name="gw2api-worker"
+pm2 start build/bin/scheduler.js --name="gw2api-scheduler"
 
-# Start a server cluster
+# Start the job monitoring interface (port 3000)
+KUE_USER='user' KUE_PASSWORD='password' pm2 start build/bin/kue.js --name="gw2api-kue"
+
+# Start a server cluster for API routes (port 8080)
 pm2 start build/bin/server.js --name="gw2api-server" -i 5
 ```
 

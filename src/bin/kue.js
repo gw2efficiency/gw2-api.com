@@ -1,0 +1,10 @@
+const kue = require('kue')
+const express = require('express')
+const logger = require('../helpers/logger.js')
+const auth = require('basic-auth-connect')
+
+const app = express()
+kue.createQueue()
+app.use(auth(process.env.KUE_USER, process.env.KUE_PASSWORD))
+app.use('/', kue.app)
+app.listen(3000, () => logger.info('Server listening on port 3000'))
