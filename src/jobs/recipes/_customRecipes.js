@@ -1,12 +1,5 @@
 const requester = require('gw2e-requester')
-
-// These are the recipes that are blacklisted. These are usually circular dependencies,
-// but also include some recipes that are not really done and distort the value of items
-const outputBlacklist = [
-  38014, 36060, 36061, 38115, 38116, 38117, 38118, 38119,
-  39120, 39121, 39122, 39123, 39124, 39125, 39126, 39127,
-  41886, 47909, 37070, 43992
-]
+const recipeBlacklist = require('../../static/recipeBlacklist.js')
 
 async function customRecipes () {
   let recipes = await requester.single('https://raw.githubusercontent.com/queicherius/gw2-mystic-forge-recipes/master/recipes.json')
@@ -41,7 +34,7 @@ async function customRecipes () {
     }
 
     // Remove blacklisted items (usually circular dependencies)
-    if (outputBlacklist.indexOf(recipe.output_item_id) !== -1) {
+    if (recipeBlacklist.indexOf(recipe.output_item_id) !== -1) {
       return false
     }
 

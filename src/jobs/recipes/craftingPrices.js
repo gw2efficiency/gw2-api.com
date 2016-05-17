@@ -1,9 +1,8 @@
 const mongo = require('../../helpers/mongo.js')
 const async = require('gw2e-async-promises')
 const recipeCalculation = require('gw2e-recipe-calculation')
-
-const legendaries = [30684, 30685, 30686, 30687, 30688, 30689, 30690, 30691, 30692, 30693, 30694, 30695, 30696, 30697, 30698, 30699, 30700, 30701, 30702, 30703, 30704, 71383, 72713, 76158]
-const precursors = [29166, 29167, 29168, 29169, 29170, 29171, 29172, 29173, 29174, 29175, 29176, 29177, 29178, 29179, 29180, 29181, 29182, 29183, 29184, 29185]
+const legendaries = require('../../static/legendaries.js')
+const precursors = require('../../static/precursors.js')
 
 async function craftingPrices (job, done) {
   job.log(`Starting job`)
