@@ -16,7 +16,7 @@ async function autocomplete (request, response) {
   }
 
   let mongoQuery = {
-    name: {'$regex': escapeRegex(query), '$options': 'i'},
+    name: {$regex: escapeRegex(query), $options: 'i'},
     lang: lang
   }
 

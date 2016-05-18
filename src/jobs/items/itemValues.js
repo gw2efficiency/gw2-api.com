@@ -41,7 +41,7 @@ async function itemValues (job, done) {
       valueIsVendor: itemValue === item.vendor_price
     }
 
-    await collection.update({id: item.id}, {'$set': update}, {multi: true})
+    await collection.update({id: item.id}, {$set: update}, {multi: true})
   })
   job.log(`Created update functions`)
 
@@ -87,7 +87,7 @@ async function ascendedBoxValues () {
       'category.0': 4,
       'category.1': {$in: [0, 1]},
       lang: config.server.defaultLanguage,
-      name: {'$regex': '(chest|hoard)', '$options': 'i'}
+      name: {$regex: '(chest|hoard)', $options: 'i'}
     },
     {_id: 0, id: 1}
   ).toArray()

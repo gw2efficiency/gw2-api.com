@@ -6,7 +6,7 @@ async function skinPrices (job, done) {
 
   let skins = (await mongo.collection('cache').find({id: 'skinsToItems'}).limit(1).next()).content
   let items = await mongo.collection('items').find(
-    {lang: config.server.defaultLanguage, value: {'$ne': null}, valueIsVendor: false},
+    {lang: config.server.defaultLanguage, value: {$ne: null}, valueIsVendor: false},
     {_id: 0, id: 1, value: 1}
   ).toArray()
   job.log(`Calculating prices of ${Object.keys(skins).length} skins using ${items.length} items`)

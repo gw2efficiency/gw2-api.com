@@ -22,12 +22,12 @@ async function query (request, response) {
 
   // Only get items matching the categories
   if (categories.length > 0) {
-    mongoQuery['category'] = {'$in': allowedCategories(categories)}
+    mongoQuery['category'] = {$in: allowedCategories(categories)}
   }
 
   // Only get items matching the rarities
   if (rarities.length > 0) {
-    mongoQuery['rarity'] = {'$in': rarities}
+    mongoQuery['rarity'] = {$in: rarities}
   }
 
   // Only get craftable items
@@ -91,11 +91,11 @@ function nameQueries (includeName, excludeName) {
   let queries = []
 
   if (includeName !== undefined) {
-    queries.push({name: {'$regex': escapeRegex(includeName), '$options': 'i'}})
+    queries.push({name: {$regex: escapeRegex(includeName), $options: 'i'}})
   }
 
   if (excludeName !== undefined) {
-    queries.push({name: {'$regex': `^(?:(?!${escapeRegex(excludeName)}).)*$`, '$options': 'i'}})
+    queries.push({name: {$regex: `^(?:(?!${escapeRegex(excludeName)}).)*$`, $options: 'i'}})
   }
 
   return queries

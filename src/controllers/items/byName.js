@@ -11,7 +11,7 @@ async function byName (request, response) {
   let names = multiParameter(request.params.names)
 
   let items = await mongo.collection('items')
-    .find({name: {'$in': names}, lang: lang}, {_id: 0, lang: 0, valueIsVendor: 0})
+    .find({name: {$in: names}, lang: lang}, {_id: 0, lang: 0, valueIsVendor: 0})
     .toArray()
 
   response.send(items)

@@ -9,7 +9,7 @@ async function craftingPrices (job, done) {
 
   let recipes = await mongo.collection('recipe-trees').find().toArray()
   let prices = await mongo.collection('items').find(
-    {tradable: true, 'buy.price': {'$gt': 0}, 'sell.price': {'$gt': 0}},
+    {tradable: true, 'buy.price': {$gt: 0}, 'sell.price': {$gt: 0}},
     {_id: 0, id: 1, 'buy.price': 1, 'sell.price': 1}
   ).toArray()
   job.log(`Calculating crafting prices for ${recipes.length} recipes`)
@@ -49,7 +49,7 @@ async function craftingPrice (recipe, buyPrices, sellPrices) {
     item.craftingWithoutPrecursors = calculateCraftingPrice(recipe, buyPrices, sellPrices, precursors)
   }
 
-  await mongo.collection('items').update({id: recipe.id}, {'$set': item}, {multi: true})
+  await mongo.collection('items').update({id: recipe.id}, {$set: item}, {multi: true})
 }
 
 // Actually calculate the crafting price for a recipe

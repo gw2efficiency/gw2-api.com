@@ -28,7 +28,7 @@ async function itemList (job, done) {
     languageItems.map(item => {
       item = {...transformItem(item), lang: lang}
       updateFunctions.push(() =>
-        collection.update({id: item.id, lang: lang}, {'$set': item}, {upsert: true})
+        collection.update({id: item.id, lang: lang}, {$set: item}, {upsert: true})
       )
     })
   }

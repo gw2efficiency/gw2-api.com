@@ -32,8 +32,8 @@ async function loadRecipeList (job, done) {
   // Update the craftable flag for items
   let itemCollection = mongo.collection('items')
   let craftableIds = recipes.map(r => r.id)
-  await itemCollection.update({id: {'$nin': craftableIds}}, {'$set': {craftable: false}}, {multi: true})
-  await itemCollection.update({id: {'$in': craftableIds}}, {'$set': {craftable: true}}, {multi: true})
+  await itemCollection.update({id: {$nin: craftableIds}}, {$set: {craftable: false}}, {multi: true})
+  await itemCollection.update({id: {$in: craftableIds}}, {$set: {craftable: true}}, {multi: true})
   job.log(`Updated item "craftable" attribute`)
   done()
 }

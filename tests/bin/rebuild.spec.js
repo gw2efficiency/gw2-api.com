@@ -29,7 +29,7 @@ describe('bin > rebuild', function () {
     proxyquire('../../src/bin/rebuild.js', {
       '../helpers/rebuild.js': rebuildSpy,
       '../helpers/logger.js': loggerMock,
-      'exit': () => false
+      exit: () => false
     })
 
     setTimeout(() => {
@@ -45,7 +45,7 @@ describe('bin > rebuild', function () {
     proxyquire('../../src/bin/rebuild.js', {
       '../helpers/rebuild.js': rebuildSpy,
       '../helpers/logger.js': loggerMock,
-      'exit': () => false
+      exit: () => false
     })
 
     setTimeout(() => {
@@ -61,7 +61,7 @@ describe('bin > rebuild', function () {
     proxyquire('../../src/bin/rebuild.js', {
       '../helpers/rebuild.js': rebuildSpy,
       '../helpers/logger.js': loggerMock,
-      'exit': () => false
+      exit: () => false
     })
 
     setTimeout(() => {
@@ -78,7 +78,7 @@ describe('bin > rebuild', function () {
         throw new Error('Oops.')
       },
       '../helpers/logger.js': loggerMock,
-      'exit': () => false
+      exit: () => false
     })
 
     setTimeout(() => {

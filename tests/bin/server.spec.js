@@ -31,7 +31,7 @@ describe('bin > server', () => {
 
     let logSpy = sinon.spy()
     proxyquire('../../src/bin/server.js', {
-      'pmx': {init: logSpy}
+      pmx: {init: logSpy}
     })
 
     expect(logSpy.called).to.equal(true)

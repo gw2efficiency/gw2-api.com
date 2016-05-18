@@ -6,7 +6,7 @@ async function byIds (request, response) {
   let ids = multiParameter(request.params.ids, true)
 
   let items = await mongo.collection('items')
-    .find({id: {'$in': ids}, lang: lang}, {_id: 0, lang: 0, valueIsVendor: 0})
+    .find({id: {$in: ids}, lang: lang}, {_id: 0, lang: 0, valueIsVendor: 0})
     .toArray()
 
   response.send(items)

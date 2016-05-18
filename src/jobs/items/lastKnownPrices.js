@@ -8,7 +8,7 @@ async function lastKnownPrices (job, done) {
   job.log(`Starting job`)
 
   let items = await mongo.collection('items').find(
-    {lang: config.server.defaultLanguage, 'tradable': true, 'sell.quantity': 0, 'sell.last_known': false},
+    {lang: config.server.defaultLanguage, tradable: true, 'sell.quantity': 0, 'sell.last_known': false},
     {_id: 0, id: 1, name: 1}
   ).toArray()
   job.log(`Getting last known sell prices for ${items.length} items`)

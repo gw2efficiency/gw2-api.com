@@ -4,7 +4,7 @@ const mongo = require('../../src/helpers/mongo.js')
 mongo.logger.quiet(true)
 
 const rebuild = proxyquire('../../src/helpers/rebuild.js', {
-  'mongo': mongo,
+  mongo: mongo,
   '../jobs/items/itemList.js': () => false,
   '../jobs/items/itemPrices.js': () => false,
   '../jobs/items/itemValues.js': () => false,
