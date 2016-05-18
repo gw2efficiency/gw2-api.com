@@ -77,7 +77,7 @@ const jobs = [
     priority: 'medium',
     ttl: 5 * 60 * 1000,
     attempts: 3,
-    schedule: '* */30 * * * *'
+    schedule: '0 */30 * * * *'
   },
   {
     name: 'full-rebuild',
