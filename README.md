@@ -42,9 +42,6 @@ KUE_USER='user' KUE_PASSWORD='password' pm2 start build/bin/kue.js --name="gw2ap
 pm2 start build/bin/server.js --name="gw2api-server" -i 5
 ```
 
-If you want to start the server with logging to [keymetrics.io](https://keymetrics.io),
-set the environment variable `ENVIRONMENT=production`.
-
 Logs for all processes will be written in `~/.pm2/logs`. 
 
 ## CLI
@@ -69,6 +66,20 @@ The following jobs exist:
 - `skin-prices` (calculate all skin prices)
 - `gem-price-history` (get the gem price history)
 - `item-last-known-prices` (get the last known sell prices, if they are missing)
+
+## Running in production
+
+When running the servers in production, use the `NODE_ENV` environment variable
+to set the environment to `production`. Note that this will load the 
+`config/environment.production.js` configuration, so you will have to copy the default 
+`config/environment.js` and make sure the values match your setup.
+
+```bash
+NODE_ENV=production pm2 start build/bin/worker.js --name="gw2api-worker" -i 3
+NODE_ENV=production pm2 start build/bin/scheduler.js --name="gw2api-scheduler"
+NODE_ENV=production pm2 start build/bin/kue.js --name="gw2api-kue"
+NODE_ENV=production pm2 start build/bin/server.js --name="gw2api-server" -i 5
+```
 
 ## Tests
 

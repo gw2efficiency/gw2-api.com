@@ -1,9 +1,11 @@
+const config = require('../config/application.js')
+
 function invalidParameters (response) {
   return response.send(400, {text: 'invalid request parameters'})
 }
 
 function requestLanguage (params) {
-  return ['de', 'en', 'fr', 'es'].indexOf(params.lang) !== -1 ? params.lang : 'en'
+  return config.server.languages.indexOf(params.lang) !== -1 ? params.lang : config.server.defaultLanguage
 }
 
 function multiParameter (param, integer = false, symbol = ',') {

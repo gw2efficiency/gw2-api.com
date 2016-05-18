@@ -1,13 +1,14 @@
 const mongo = require('../../helpers/mongo.js')
 const async = require('gw2e-async-promises')
 const accountValue = require('gw2e-account-value')
+const config = require('../../config/application.js')
 
 async function itemValues (job, done) {
   job.log(`Starting job`)
 
   let collection = mongo.collection('items')
   let attributes = {_id: 0, id: 1, sell: 1, buy: 1, crafting: 1, vendor_price: 1, value: 1}
-  let items = await collection.find({lang: 'en'}, attributes).toArray()
+  let items = await collection.find({lang: config.server.defaultLanguage}, attributes).toArray()
   job.log(`Calculating values for ${items.length} items`)
 
   let updateFunctions = items.map(item => async () => {
@@ -61,7 +62,7 @@ async function ascendedBoxValues () {
       $match: {
         rarity: 6,
         craftable: true,
-        lang: 'en',
+        lang: config.server.defaultLanguage,
         'category.0': {$in: [0, 14]},
         valueIsVendor: false,
         name: {$regex: '(\'s|wupwup|Veldrunner|Zintl|Veldrunner|Angchu)', $options: 'i'},
@@ -85,7 +86,7 @@ async function ascendedBoxValues () {
       rarity: 6,
       'category.0': 4,
       'category.1': {$in: [0, 1]},
-      lang: 'en',
+      lang: config.server.defaultLanguage,
       name: {'$regex': '(chest|hoard)', '$options': 'i'}
     },
     {_id: 0, id: 1}

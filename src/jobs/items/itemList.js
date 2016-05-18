@@ -2,8 +2,8 @@ const mongo = require('../../helpers/mongo.js')
 const api = require('../../helpers/api.js')
 const async = require('gw2e-async-promises')
 const transformItem = require('./_transformItem.js')
-
-const languages = ['en', 'de', 'fr', 'es']
+const config = require('../../config/application.js')
+const languages = config.gw2api.languages
 
 async function itemList (job, done) {
   job.log(`Starting job`)

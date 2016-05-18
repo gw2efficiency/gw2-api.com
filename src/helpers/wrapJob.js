@@ -1,6 +1,7 @@
 function wrapJob (callback) {
   if (!callback) {
     console.error(`Callback is missing for wrapping job!`)
+    return
   }
 
   // Overwrite the job logging function to include timings,

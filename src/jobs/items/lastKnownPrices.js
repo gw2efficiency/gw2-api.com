@@ -1,5 +1,6 @@
 const mongo = require('../../helpers/mongo.js')
 const requester = require('gw2e-requester')
+const config = require('../../config/application.js')
 
 // Find all entries in the database where the last sell price is not known
 // and search through gw2spidy to see if they have any old prices for it
@@ -7,7 +8,7 @@ async function lastKnownPrices (job, done) {
   job.log(`Starting job`)
 
   let items = await mongo.collection('items').find(
-    {lang: 'en', 'tradable': true, 'sell.quantity': 0, 'sell.last_known': false},
+    {lang: config.server.defaultLanguage, 'tradable': true, 'sell.quantity': 0, 'sell.last_known': false},
     {_id: 0, id: 1, name: 1}
   ).toArray()
   job.log(`Getting last known sell prices for ${items.length} items`)

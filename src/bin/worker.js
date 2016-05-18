@@ -1,5 +1,5 @@
 require('babel-polyfill')
-const kue = require('kue')
+const kue = require('../helpers/kue.js')
 const queue = kue.createQueue()
 const mongo = require('../helpers/mongo.js')
 const wrapJob = require('../helpers/wrapJob.js')
@@ -10,4 +10,6 @@ mongo.connect().then(() => {
     let jobFunction = require(job.path)
     queue.process(job.name, wrapJob(jobFunction))
   })
+
+  console.log(`${jobList.length} jobs loaded, waiting for queued entries`)
 })

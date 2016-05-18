@@ -11,7 +11,7 @@ async function autocomplete (request, response) {
   let query = request.params.q.toLowerCase()
   let craftable = parseInt(request.params.craftable, 10) === 1
 
-  if (query.length < 3) {
+  if (query.length < 2) {
     return response.send([])
   }
 

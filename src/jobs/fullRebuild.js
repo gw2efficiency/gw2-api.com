@@ -1,13 +1,13 @@
 const mongo = require('../helpers/mongo.js')
-const itemList = require('../jobs/items/itemList.js')
-const itemPrices = require('../jobs/items/itemPrices.js')
-const itemValues = require('../jobs/items/itemValues.js')
-const lastKnownSellPrices = require('../jobs/items/lastKnownPrices.js')
-const recipeList = require('../jobs/recipes/recipeList.js')
-const craftingPrices = require('../jobs/recipes/craftingPrices.js')
-const skinList = require('../jobs/skins/skinList.js')
-const skinPrices = require('../jobs/skins/skinPrices.js')
-const gemPriceHistory = require('../jobs/gems/gemPriceHistory.js')
+const itemList = require('./items/itemList.js')
+const itemPrices = require('./items/itemPrices.js')
+const itemValues = require('./items/itemValues.js')
+const lastKnownSellPrices = require('./items/lastKnownPrices.js')
+const recipeList = require('./recipes/recipeList.js')
+const craftingPrices = require('./recipes/craftingPrices.js')
+const skinList = require('./skins/skinList.js')
+const skinPrices = require('./skins/skinPrices.js')
+const gemPriceHistory = require('./gems/gemPriceHistory.js')
 
 const doneMock = () => false
 

@@ -1,11 +1,12 @@
 const mongo = require('../../helpers/mongo.js')
+const config = require('../../config/application.js')
 
 async function skinPrices (job, done) {
   job.log(`Starting job`)
 
   let skins = (await mongo.collection('cache').find({id: 'skinsToItems'}).limit(1).next()).content
   let items = await mongo.collection('items').find(
-    {lang: 'en', value: {'$ne': null}, valueIsVendor: false},
+    {lang: config.server.defaultLanguage, value: {'$ne': null}, valueIsVendor: false},
     {_id: 0, id: 1, value: 1}
   ).toArray()
   job.log(`Calculating prices of ${Object.keys(skins).length} skins using ${items.length} items`)

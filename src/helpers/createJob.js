@@ -1,4 +1,4 @@
-const kue = require('kue')
+const kue = require('./kue.js')
 const queue = kue.createQueue()
 const schedule = require('node-schedule')
 

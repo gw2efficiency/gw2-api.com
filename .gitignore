@@ -3,4 +3,4 @@ node_modules/
 .idea/
 build/
 .DS_Store
-newrelic.js
+config/environment.production.js

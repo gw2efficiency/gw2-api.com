@@ -2,6 +2,7 @@ const mongo = require('../../helpers/mongo.js')
 const {multiParameter} = require('../../helpers/controllers.js')
 const categoryMap = require('../../static/categories.js')
 const escapeRegex = require('escape-string-regexp')
+const config = require('../../config/application.js')
 
 // Generate a mapping from category id => subcategories
 let categoryIdMap = {}
@@ -17,7 +18,7 @@ async function query (request, response) {
   let includeName = request.params.include_name
   let output = request.params.output
 
-  let mongoQuery = {lang: 'en'}
+  let mongoQuery = {lang: config.server.defaultLanguage}
 
   // Only get items matching the categories
   if (categories.length > 0) {
