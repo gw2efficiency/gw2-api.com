@@ -60,8 +60,8 @@ function lastPriceChange (memory, current) {
 }
 
 function lastKnown (prices, item, type) {
-  if (prices[type + 's'].unit_price) {
-    return prices[type + 's'].unit_price
+  if (prices[`${type}s`].unit_price) {
+    return prices[`${type}s`].unit_price
   }
 
   if (item[type] && item[type].price) {
@@ -77,7 +77,7 @@ function lastKnown (prices, item, type) {
 
 function isoDate (date) {
   date = date ? new Date(date) : new Date()
-  return date.toISOString().slice(0, 19) + '+0000'
+  return `${date.toISOString().slice(0, 19)}+0000`
 }
 
 module.exports = transformPrices

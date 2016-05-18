@@ -21,7 +21,7 @@ server.use(restify.queryParser())
 server.use(restify.bodyParser())
 setupRoutes(server, routes)
 setupErrorHandling(server)
-server.listen(config.server.port, () => logger.info('Server listening on port ' + config.server.port))
+server.listen(config.server.port, () => logger.info(`Server listening on port ${config.server.port}`))
 
 // Export the server for testing purposes
 module.exports = server

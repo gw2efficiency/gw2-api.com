@@ -16,8 +16,8 @@ commander
 // Check if the job name is valid
 let jobNames = jobList.map(j => j.name)
 if (!jobName || jobNames.indexOf(jobName) === -1) {
-  jobNames = jobNames.map(j => '  - ' + j).join('\n')
-  console.log(chalk.bold.red('You have to specify a valid job name:\n' + jobNames))
+  jobNames = jobNames.map(j => `  - ${j}`).join('\n')
+  console.log(chalk.bold.red(`You have to specify a valid job name:\n${jobNames}`))
   process.exit()
 }
 
@@ -29,12 +29,12 @@ console.log(chalk.green(`${verb} job "${job.data.title}" [${job.name}]`))
 // log all results or errors out to the user
 function doneMock (err, result) {
   if (err) {
-    console.log(chalk.bold.red('An error occurred in the job:\n' + err))
+    console.log(chalk.bold.red(`An error occurred in the job:\n${err}`))
     process.exit()
   }
 
   let output = result
-    ? 'Job finished successfully:\n' + result
+    ? `Job finished successfully:\n${result}`
     : 'Job finished successfully'
   console.log(chalk.green(output))
   process.exit()
@@ -44,7 +44,7 @@ function doneMock (err, result) {
 if (commander.queue) {
   createJob({
     name: job.name,
-    data: {title: '[CLI] ' + job.data.title},
+    data: {title: `[CLI] ${job.data.title}`},
     priority: 'high',
     callback: doneMock
   })
@@ -59,6 +59,6 @@ if (!commander.queue) {
 
   mongo.connect().then(() => {
     jobFunction(jobMock, doneMock)
-      .catch(err => console.log(chalk.bold.red('An error occurred in the job:\n' + err)))
+      .catch(err => console.log(chalk.bold.red(`An error occurred in the job:\n${err}`)))
   })
 }

@@ -34,7 +34,7 @@ async function loadPrice (id) {
   // Go through all pages and find the first entry, where the
   // quantity indicates that the item was in the tradingpost
   while (page <= lastPage) {
-    let url = 'http://www.gw2spidy.com/api/v0.9/json/listings/' + id + '/sell/' + page
+    let url = `http://www.gw2spidy.com/api/v0.9/json/listings/${id}/sell/${page}`
     let pageContent = await requester.single(url)
     lastPage = page.last_page
     let price = pageContent.results.find(c => c.quantity > 0)

@@ -95,7 +95,7 @@ function nameQueries (includeName, excludeName) {
   }
 
   if (excludeName !== undefined) {
-    queries.push({name: {'$regex': '^(?:(?!' + escapeRegex(excludeName) + ').)*$', '$options': 'i'}})
+    queries.push({name: {'$regex': `^(?:(?!${escapeRegex(excludeName)}).)*$`, '$options': 'i'}})
   }
 
   return queries
