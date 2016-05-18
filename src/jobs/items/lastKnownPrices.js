@@ -13,7 +13,7 @@ async function lastKnownPrices (job, done) {
   ).toArray()
   job.log(`Getting last known sell prices for ${items.length} items`)
 
-  for (var i in items) {
+  for (let i in items) {
     let item = items[i]
     let price = await loadPrice(item.id)
     await mongo.collection('items').update(

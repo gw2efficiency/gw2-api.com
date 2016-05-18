@@ -39,7 +39,7 @@ async function craftingPrices (job, done) {
 
 // Add all the crafting prices for a single item
 async function craftingPrice (recipe, buyPrices, sellPrices) {
-  var item = {
+  let item = {
     crafting: calculateCraftingPrice(recipe, buyPrices, sellPrices)
   }
 

@@ -3,7 +3,7 @@ const logger = require('./logger.js')
 function setupRoutes (server, routes) {
   server.get('/', (req, res, next) => res.redirect('https://github.com/gw2efficiency/gw2-api.com/', next))
 
-  for (var url in routes) {
+  for (let url in routes) {
     let callback = routes[url]
     server.get(url, wrapRequest(callback))
     server.post(url, wrapRequest(callback))
