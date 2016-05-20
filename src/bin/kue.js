@@ -9,3 +9,5 @@ kue.createQueue()
 app.use(auth(config.kue.username, config.kue.password))
 app.use('/', kue.app)
 app.listen(config.kue.port, () => logger.info(`Server listening on port ${config.kue.port}`))
+
+module.exports = app

@@ -7,3 +7,5 @@ const jobList = require('../config/jobs.js')
 jobList
   .filter(job => job.schedule)
   .map(job => createJob(job))
+
+module.exports = jobList

@@ -8,7 +8,7 @@ const queue = kue.createQueue()
 const createJob = rewire('../../src/helpers/createJob.js')
 
 const getJobs = function (type, state, cb) {
-  kue.Job.rangeByType(type, state, 0, -1, 'asc', cb);
+  kue.Job.rangeByType(type, state, 0, -1, 'asc', cb)
 }
 
 const consoleMock = {log: sinon.spy(), error: sinon.spy()}
@@ -31,6 +31,7 @@ describe('helpers > createJob', function () {
     })
 
     getJobs('test', 'inactive', (err, jobs) => {
+      expect(err).to.equal(null)
       expect(consoleMock.log.callCount).to.equal(1)
       expect(jobs.length).to.equal(1)
       done()
@@ -46,6 +47,7 @@ describe('helpers > createJob', function () {
 
     setTimeout(() => {
       getJobs('test', 'inactive', (err, jobs) => {
+        expect(err).to.equal(null)
         expect(consoleMock.log.callCount).to.equal(4)
         expect(jobs.length).to.equal(3)
         done()
