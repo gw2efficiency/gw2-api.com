@@ -1,10 +1,14 @@
 /* eslint-env node, mocha */
 const expect = require('chai').expect
+const sinon = require('sinon')
 const rewire = require('rewire')
 
 const gemPriceHistory = rewire('../../../src/jobs/gems/gemPriceHistory.js')
 const mongo = require('../../../src/helpers/mongo.js')
 mongo.logger.quiet(true)
+
+const jobMock = {log: () => false}
+const doneMock = sinon.spy()
 
 describe('jobs > gems > gemPriceHistory', () => {
   before(async (done) => {
@@ -14,6 +18,7 @@ describe('jobs > gems > gemPriceHistory', () => {
 
   beforeEach(async (done) => {
     await mongo.collection('cache').deleteMany({})
+    doneMock.reset()
     done()
   })
 
@@ -25,7 +30,8 @@ describe('jobs > gems > gemPriceHistory', () => {
       })
     })
 
-    await gemPriceHistory()
+    await gemPriceHistory(jobMock, doneMock)
+    expect(doneMock.called).to.equal(true)
 
     let content = (await mongo.collection('cache').find({id: 'gemPriceHistory'}).limit(1).next()).content
     expect(content).to.deep.equal({

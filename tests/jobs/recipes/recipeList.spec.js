@@ -1,10 +1,14 @@
 /* eslint-env node, mocha */
 const expect = require('chai').expect
+const sinon = require('sinon')
 const rewire = require('rewire')
 
 const recipeList = rewire('../../../src/jobs/recipes/recipeList.js')
 const mongo = require('../../../src/helpers/mongo.js')
 mongo.logger.quiet(true)
+
+const jobMock = {log: () => false}
+const doneMock = sinon.spy()
 
 // Overwrite the nesting so we don't have the overhead of nesting while
 // still being able to insert by item id into mongodb
@@ -18,6 +22,7 @@ describe('jobs > recipes > recipeList', () => {
   })
 
   beforeEach(async (done) => {
+    doneMock.reset()
     await mongo.collection('recipe-trees').deleteMany({})
     await mongo.collection('items').deleteMany({})
     done()
@@ -32,7 +37,8 @@ describe('jobs > recipes > recipeList', () => {
       })
     }))
 
-    await recipeList()
+    await recipeList(jobMock, doneMock)
+    expect(doneMock.called).to.equal(true)
 
     let expectedRecipes = [
       {id: 1, output_item_id: 1},

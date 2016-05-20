@@ -1,10 +1,14 @@
 /* eslint-env node, mocha */
 const expect = require('chai').expect
+const sinon = require('sinon')
 const rewire = require('rewire')
 
 const itemList = rewire('../../../src/jobs/items/itemList.js')
 const mongo = require('../../../src/helpers/mongo.js')
 mongo.logger.quiet(true)
+
+const jobMock = {log: () => false}
+const doneMock = sinon.spy()
 
 // Overwrite the item transformer for easier testing
 itemList.__set__('transformItem', x => x)
@@ -17,6 +21,7 @@ describe('jobs > items > itemList', () => {
 
   beforeEach(async (done) => {
     await mongo.collection('items').deleteMany({})
+    doneMock.reset()
     done()
   })
 
@@ -29,7 +34,8 @@ describe('jobs > items > itemList', () => {
       })
     }))
 
-    await itemList()
+    await itemList(jobMock, doneMock)
+    expect(doneMock.called).to.equal(true)
 
     let items = await mongo.collection('items').find({}, {_id: 0}).sort({lang: 1}).toArray()
     expect(items).to.deep.equal([
@@ -58,7 +64,8 @@ describe('jobs > items > itemList', () => {
       })
     }))
 
-    await itemList()
+    await itemList(jobMock, doneMock)
+    expect(doneMock.called).to.equal(true)
 
     let items = await mongo.collection('items').find({lang: 'en'}, {_id: 0, lang: 0}).sort({id: 1}).toArray()
     expect(items).to.deep.equal([

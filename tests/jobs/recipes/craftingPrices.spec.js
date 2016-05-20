@@ -1,10 +1,14 @@
 /* eslint-env node, mocha */
 const expect = require('chai').expect
+const sinon = require('sinon')
 const rewire = require('rewire')
 
 const craftingPrices = rewire('../../../src/jobs/recipes/craftingPrices.js')
 const mongo = require('../../../src/helpers/mongo.js')
 mongo.logger.quiet(true)
+
+const jobMock = {log: () => false}
+const doneMock = sinon.spy()
 
 describe('jobs > recipes > craftingPrices', () => {
   before(async (done) => {
@@ -13,6 +17,7 @@ describe('jobs > recipes > craftingPrices', () => {
   })
 
   beforeEach(async (done) => {
+    doneMock.reset()
     await mongo.collection('recipe-trees').deleteMany({})
     await mongo.collection('items').deleteMany({})
 
@@ -68,7 +73,8 @@ describe('jobs > recipes > craftingPrices', () => {
   })
 
   it('calculates the crafting prices for normal recipes', async () => {
-    await craftingPrices()
+    await craftingPrices(jobMock, doneMock)
+    expect(doneMock.called).to.equal(true)
 
     let output = await mongo.collection('items')
       .find({id: 1}, {_id: 0})
@@ -84,7 +90,8 @@ describe('jobs > recipes > craftingPrices', () => {
   })
 
   it('calculates the crafting prices for recipes with output > 1', async () => {
-    await craftingPrices()
+    await craftingPrices(jobMock, doneMock)
+    expect(doneMock.called).to.equal(true)
 
     let output = await mongo.collection('items')
       .find({id: 3}, {_id: 0})
@@ -100,7 +107,8 @@ describe('jobs > recipes > craftingPrices', () => {
   })
 
   it('calculates the crafting prices for recipes with output < 1', async () => {
-    await craftingPrices()
+    await craftingPrices(jobMock, doneMock)
+    expect(doneMock.called).to.equal(true)
 
     let output = await mongo.collection('items')
       .find({id: 99}, {_id: 0})
@@ -116,7 +124,8 @@ describe('jobs > recipes > craftingPrices', () => {
   })
 
   it('calculates the crafting prices for legendaries', async () => {
-    await craftingPrices()
+    await craftingPrices(jobMock, doneMock)
+    expect(doneMock.called).to.equal(true)
 
     let output = await mongo.collection('items')
       .find({id: 30686}, {_id: 0})

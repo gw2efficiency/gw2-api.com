@@ -1,10 +1,14 @@
 /* eslint-env node, mocha */
 const expect = require('chai').expect
+const sinon = require('sinon')
 const rewire = require('rewire')
 
 const itemPrices = rewire('../../../src/jobs/items/itemPrices.js')
 const mongo = require('../../../src/helpers/mongo.js')
 mongo.logger.quiet(true)
+
+const jobMock = {log: () => false}
+const doneMock = sinon.spy()
 
 // Get the function to create iso dates form the transformation module
 const isoDate = rewire('../../../src/jobs/items/_transformPrices.js').__get__('isoDate')
@@ -17,6 +21,7 @@ describe('jobs > items > itemPrices', () => {
 
   beforeEach(async (done) => {
     await mongo.collection('items').deleteMany({})
+    doneMock.reset()
     done()
   })
 
@@ -56,7 +61,8 @@ describe('jobs > items > itemPrices', () => {
       })
     }))
 
-    await itemPrices()
+    await itemPrices(jobMock, doneMock)
+    expect(doneMock.called).to.equal(true)
 
     let items = await mongo.collection('items')
       .find({lang: 'en'}, {_id: 0, lang: 0})

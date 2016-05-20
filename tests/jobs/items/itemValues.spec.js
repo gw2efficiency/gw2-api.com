@@ -1,10 +1,14 @@
 /* eslint-env node, mocha */
 const expect = require('chai').expect
+const sinon = require('sinon')
 const rewire = require('rewire')
 
 const itemValues = rewire('../../../src/jobs/items/itemValues.js')
 const mongo = require('../../../src/helpers/mongo.js')
 mongo.logger.quiet(true)
+
+const jobMock = {log: () => false}
+const doneMock = sinon.spy()
 
 describe('jobs > items > itemValues', () => {
   before(async (done) => {
@@ -14,6 +18,7 @@ describe('jobs > items > itemValues', () => {
 
   beforeEach(async (done) => {
     await mongo.collection('items').deleteMany({})
+    doneMock.reset()
     done()
   })
 
@@ -28,7 +33,8 @@ describe('jobs > items > itemValues', () => {
       {id: 73476, lang: 'en'}
     ])
 
-    await itemValues()
+    await itemValues(jobMock, doneMock)
+    expect(doneMock.called).to.equal(true)
 
     let items = await mongo.collection('items')
       .find({lang: 'en'}, {_id: 0, lang: 0, valueIsVendor: 0})
@@ -125,7 +131,8 @@ describe('jobs > items > itemValues', () => {
       {id: 4, rarity: 6, category: [4, 1], lang: 'en', sell: {price: 1}, name: 'Worldboss Hoard'}
     ])
 
-    await itemValues()
+    await itemValues(jobMock, doneMock)
+    expect(doneMock.called).to.equal(true)
 
     let items = await mongo.collection('items')
       .find({lang: 'en', id: {$in: [1, 2, 3, 4]}}, {_id: 0, id: 1, value: 1})

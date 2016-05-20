@@ -1,10 +1,14 @@
 /* eslint-env node, mocha */
 const expect = require('chai').expect
+const sinon = require('sinon')
 const rewire = require('rewire')
 
 const skinList = rewire('../../../src/jobs/skins/skinList.js')
 const mongo = require('../../../src/helpers/mongo.js')
 mongo.logger.quiet(true)
+
+const jobMock = {log: () => false}
+const doneMock = sinon.spy()
 
 describe('jobs > skins > skinList', () => {
   before(async (done) => {
@@ -13,6 +17,7 @@ describe('jobs > skins > skinList', () => {
   })
 
   beforeEach(async (done) => {
+    doneMock.reset()
     await mongo.collection('cache').deleteMany({})
     await mongo.collection('items').deleteMany({})
     done()
@@ -39,7 +44,8 @@ describe('jobs > skins > skinList', () => {
       })
     }))
 
-    await skinList()
+    await skinList(jobMock, doneMock)
+    expect(doneMock.called).to.equal(true)
 
     let content = (await mongo.collection('cache')
       .find({id: 'skinsToItems'})

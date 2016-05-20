@@ -26,15 +26,15 @@ describe('bin > server', () => {
     expect(routesSpy.calledTwice).to.equal(true)
   })
 
-  it('starts logging if in a production environment', () => {
-    process.env.ENVIRONMENT = 'production'
+  it('starts logging if the config is set', () => {
+    let config = {server: {port: 8080}, keymetrics: {logging: true}}
 
     let logSpy = sinon.spy()
     proxyquire('../../src/bin/server.js', {
-      pmx: {init: logSpy}
+      pmx: {init: logSpy},
+      '../config/application.js': config
     })
 
     expect(logSpy.called).to.equal(true)
-    process.env.ENVIRONMENT = 'development'
   })
 })

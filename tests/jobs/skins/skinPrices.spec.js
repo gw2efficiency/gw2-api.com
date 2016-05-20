@@ -1,10 +1,14 @@
 /* eslint-env node, mocha */
 const expect = require('chai').expect
+const sinon = require('sinon')
 const rewire = require('rewire')
 
 const skinPrices = rewire('../../../src/jobs/skins/skinPrices.js')
 const mongo = require('../../../src/helpers/mongo.js')
 mongo.logger.quiet(true)
+
+const jobMock = {log: () => false}
+const doneMock = sinon.spy()
 
 describe('jobs > skins > skinPrices', () => {
   before(async (done) => {
@@ -13,6 +17,7 @@ describe('jobs > skins > skinPrices', () => {
   })
 
   beforeEach(async (done) => {
+    doneMock.reset()
     await mongo.collection('cache').deleteMany({})
     await mongo.collection('items').deleteMany({})
     done()
@@ -42,7 +47,8 @@ describe('jobs > skins > skinPrices', () => {
       }
     })
 
-    await skinPrices()
+    await skinPrices(jobMock, doneMock)
+    expect(doneMock.called).to.equal(true)
 
     let prices = (await mongo.collection('cache')
       .find({id: 'skinPrices'})
