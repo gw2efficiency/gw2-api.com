@@ -2,7 +2,7 @@
 const expect = require('chai').expect
 const proxyquire = require('proxyquire').noCallThru()
 const scheduler = proxyquire('../../src/bin/scheduler.js', {
-  '../config/jobs.js': []
+  '../config/jobs.js': [{schedule: '0 0 0 0 10 10', data: {title: 'Test'}}]
 })
 
 describe('bin > scheduler', () => {
