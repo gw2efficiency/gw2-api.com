@@ -83,7 +83,8 @@ NODE_ENV=production pm2 start build/bin/server.js --name="gw2api-server" -i 5
 
 ## Tests
 
-**Note:** Requires a running instance of mongodb and will execute on a test database
+**Note:** Requires a running instance of mongodb and will execute on a test database. Also
+requires a running instance of redis and will **flush all existing jobs**.
 
 ```
 npm test
