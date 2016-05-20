@@ -1,7 +1,8 @@
 require('babel-polyfill')
+const config = require('../config/application.js')
 
 // If we are on the production environment, enable logging
-if (process.env.ENVIRONMENT === 'production') {
+if (config.keymetrics.logging) {
   require('pmx').init({http: true})
 }
 
@@ -20,7 +21,7 @@ server.use(restify.queryParser())
 server.use(restify.bodyParser())
 setupRoutes(server, routes)
 setupErrorHandling(server)
-server.listen(8080, () => logger.info('Server listening on port 8080'))
+server.listen(config.server.port, () => logger.info(`Server listening on port ${config.server.port}`))
 
 // Export the server for testing purposes
 module.exports = server

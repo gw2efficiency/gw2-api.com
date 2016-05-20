@@ -3,7 +3,7 @@ const logger = require('./logger.js')
 function setupRoutes (server, routes) {
   server.get('/', (req, res, next) => res.redirect('https://github.com/gw2efficiency/gw2-api.com/', next))
 
-  for (var url in routes) {
+  for (let url in routes) {
     let callback = routes[url]
     server.get(url, wrapRequest(callback))
     server.post(url, wrapRequest(callback))
@@ -42,13 +42,13 @@ function setDefaultResponseHeaders (response) {
 
 function setupErrorHandling (server) {
   server.on('NotFound', (req, res) => {
-    logger.info('Failed Route: ' + req.path() + ' (route not found)')
+    logger.info(`Failed Route: ${req.path()} (route not found)`)
     setDefaultResponseHeaders(res)
     res.send(404, {text: 'endpoint not found'})
   })
 
   server.on('MethodNotAllowed', (req, res) => {
-    logger.info('Failed Route: ' + req.path() + ' (method not allowed)')
+    logger.info(`Failed Route: ${req.path()} (method not allowed)`)
     setDefaultResponseHeaders(res)
     res.send(405, {text: 'method not allowed'})
   })
@@ -57,7 +57,7 @@ function setupErrorHandling (server) {
 }
 
 function handleUncaughtException (req, res, route, err) {
-  logger.error('Failed Route: ' + req.path() + '\n' + err.stack)
+  logger.error(`Failed Route: ${req.path()}\n${err.stack}`)
   setDefaultResponseHeaders(res)
   res.send(500, {text: 'internal error'})
 }

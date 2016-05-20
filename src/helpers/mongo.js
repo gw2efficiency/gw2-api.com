@@ -1,11 +1,10 @@
 const mongodb = require('mongodb').MongoClient
 const logger = require('./logger.js')
-
-const defaultUrl = 'mongodb://127.0.0.1:27017/gw2api'
+const config = require('../config/application.js')
 let database
 
 function connect (url) {
-  url = url || defaultUrl
+  url = url || config.mongo.url
 
   return new Promise((resolve, reject) => {
     mongodb.connect(url, (err, db) => {
@@ -15,7 +14,7 @@ function connect (url) {
       }
 
       database = db
-      logger.info('Connection established to ' + url)
+      logger.info(`Connection established to ${url}`)
       database.on('close', () => logger.error('Connection to mongodb closed'))
       database.on('reconnect', () => logger.info('Connection to mongodb reestablished'))
 

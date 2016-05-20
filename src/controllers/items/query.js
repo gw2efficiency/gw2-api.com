@@ -2,6 +2,7 @@ const mongo = require('../../helpers/mongo.js')
 const {multiParameter} = require('../../helpers/controllers.js')
 const categoryMap = require('../../static/categories.js')
 const escapeRegex = require('escape-string-regexp')
+const config = require('../../config/application.js')
 
 // Generate a mapping from category id => subcategories
 let categoryIdMap = {}
@@ -17,16 +18,16 @@ async function query (request, response) {
   let includeName = request.params.include_name
   let output = request.params.output
 
-  let mongoQuery = {lang: 'en'}
+  let mongoQuery = {lang: config.server.defaultLanguage}
 
   // Only get items matching the categories
   if (categories.length > 0) {
-    mongoQuery['category'] = {'$in': allowedCategories(categories)}
+    mongoQuery['category'] = {$in: allowedCategories(categories)}
   }
 
   // Only get items matching the rarities
   if (rarities.length > 0) {
-    mongoQuery['rarity'] = {'$in': rarities}
+    mongoQuery['rarity'] = {$in: rarities}
   }
 
   // Only get craftable items
@@ -90,11 +91,11 @@ function nameQueries (includeName, excludeName) {
   let queries = []
 
   if (includeName !== undefined) {
-    queries.push({name: {'$regex': escapeRegex(includeName), '$options': 'i'}})
+    queries.push({name: {$regex: escapeRegex(includeName), $options: 'i'}})
   }
 
   if (excludeName !== undefined) {
-    queries.push({name: {'$regex': '^(?:(?!' + escapeRegex(excludeName) + ').)*$', '$options': 'i'}})
+    queries.push({name: {$regex: `^(?:(?!${escapeRegex(excludeName)}).)*$`, $options: 'i'}})
   }
 
   return queries

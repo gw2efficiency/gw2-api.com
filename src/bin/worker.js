@@ -1,9 +1,15 @@
 require('babel-polyfill')
+const kue = require('../helpers/kue.js')
+const queue = kue.createQueue()
 const mongo = require('../helpers/mongo.js')
-const schedule = require('../helpers/worker.js')
-const scheduledTasks = require('../config/schedule.js')
+const wrapJob = require('../helpers/wrapJob.js')
+const jobList = require('../config/jobs.js')
 
-// Connect to the database and start the scheduling
 mongo.connect().then(() => {
-  scheduledTasks.map(task => schedule(task[0], task[1]))
+  jobList.map(job => {
+    let jobFunction = require(job.path)
+    queue.process(job.name, wrapJob(jobFunction))
+  })
+
+  console.log(`${jobList.length} jobs loaded, waiting for queued entries`)
 })

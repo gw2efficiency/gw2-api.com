@@ -13,45 +13,78 @@
 
 - **Requirements:**
   - [MongoDB](http://mongodb.org/) as the database layer
+  - [Redis](http://redis.io/) for the priority job queue
   - A process manager to keep the processes running, in this example [pm2](https://github.com/Unitech/pm2)
   - (Optional) Some sort of caching like [Varnish](https://www.varnish-cache.org/)
 
 ```sh
-# Clone the repository and build the worker and server files
+# Clone the repository
 git clone https://github.com/gw2efficiency/gw2-api.com
 cd gw2-api.com/
+
+# Install the dependencies and build all files
 npm install
 npm run build
 
-# Build the initial database (this may take a few minutes)
-node build/bin/rebuild.js
+# Build the initial database using the cli tool
+node build/bin/cli.js full-rebuild
 
-# Start a server cluster with 5 processes
-# Note: to start the server with logging to keymetrics.io
-# set the env variable "ENVIRONMENT=production"
+# Start the job processing cluster
+pm2 start build/bin/worker.js --name="gw2api-worker" -i 3
+
+# Start the job scheduling
+pm2 start build/bin/scheduler.js --name="gw2api-scheduler"
+
+# Start the job monitoring interface (port 3000)
+KUE_USER='user' KUE_PASSWORD='password' pm2 start build/bin/kue.js --name="gw2api-kue"
+
+# Start a server cluster for API routes (port 8080)
 pm2 start build/bin/server.js --name="gw2api-server" -i 5
-
-# Start the background worker
-pm2 start build/bin/worker.js --name="gw2api-worker"
-
-# Note: Logs will be written in "~/.pm2/logs"
 ```
 
-## Rebuild specific parts
+Logs for all processes will be written in `~/.pm2/logs`. 
 
-You can also rebuild specific parts of the database using the following commands:
+## CLI
+
+You can fire off any jobs using the included cli tool, either directly in the cli process
+or as usual as a queued job, which gets processed by the worker processes:
 
 ```bash
-node build/bin/rebuild.js # Full rebuild
-node build/bin/rebuild.js items # Rebuild all item specific data
-node build/bin/rebuild.js recipes # Rebuild all recipe specific data
-node build/bin/rebuild.js skins # Rebuild all skin specific data
-node build/bin/rebuild.js gems # Rebuild all gem specific data
+node build/bin/cli.js <job-name> # Execute job in this process
+node build/bin/cli.js <job-name> -q # Push the job in the queue
+```
+
+The following jobs exist:
+
+- `full-rebuild` (clear the database and execute all jobs)
+- `item-list` (get all items)
+- `item-prices` (update the item prices)
+- `item-values` (calculate the item values)
+- `recipe-list` (get all recipes)
+- `crafting-prices` (calculate the crafting prices)
+- `skin-list` (get all skins)
+- `skin-prices` (calculate all skin prices)
+- `gem-price-history` (get the gem price history)
+- `item-last-known-prices` (get the last known sell prices, if they are missing)
+
+## Running in production
+
+When running the servers in production, use the `NODE_ENV` environment variable
+to set the environment to `production`. Note that this will load the 
+`config/environment.production.js` configuration, so you will have to copy the default 
+`config/environment.js` and make sure the values match your setup.
+
+```bash
+NODE_ENV=production pm2 start build/bin/worker.js --name="gw2api-worker" -i 3
+NODE_ENV=production pm2 start build/bin/scheduler.js --name="gw2api-scheduler"
+NODE_ENV=production pm2 start build/bin/kue.js --name="gw2api-kue"
+NODE_ENV=production pm2 start build/bin/server.js --name="gw2api-server" -i 5
 ```
 
 ## Tests
 
-**Note:** Requires a running instance of mongodb and will execute on a test database
+**Note:** Requires a running instance of mongodb and will execute on a test database. Also
+requires a running instance of redis and will **flush all existing jobs**.
 
 ```
 npm test
