@@ -12,6 +12,13 @@ async function itemList (job, done) {
   let items = await async.parallel(itemRequests)
   job.log(`Fetched ${items[0].length} items in ${languages.length} languages`)
 
+  // Transform the API items into the structure we expect
+  languages.map((lang, i) => {
+    items[i] = items[i].map(item => ({...transformItem(item), lang: lang}))
+  })
+  items = items.reduce((x, y) => x.concat(y), [])
+  job.log(`Transformed ${items.length} items`)
+
   // We save one row per item per language. This *does* take longer in
   // the worker, but it enables the server part to serve requests using nearly
   // no processing power, since it doesn't have to transform languages to
@@ -19,19 +26,9 @@ async function itemList (job, done) {
   // using aggregates, but that's also processing for every request instead of a
   // little overhead when adding new items.
   let collection = mongo.collection('items')
-  let updateFunctions = []
-
-  for (let key in languages) {
-    let lang = languages[key]
-    let languageItems = items[key]
-
-    languageItems.map(item => {
-      item = {...transformItem(item), lang: lang}
-      updateFunctions.push(() =>
-        collection.update({id: item.id, lang: lang}, {$set: item}, {upsert: true})
-      )
-    })
-  }
+  let updateFunctions = items.map(item =>
+    () => collection.update({id: item.id, lang: item.lang}, {$set: item}, {upsert: true})
+  )
   job.log(`Created update functions`)
 
   await async.parallel(updateFunctions)
