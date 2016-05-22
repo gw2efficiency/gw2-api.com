@@ -12,7 +12,7 @@
 ## Install
 
 - **Requirements:**
-  - [MongoDB](http://mongodb.org/) as the database layer
+  - [MongoDB](http://mongodb.org/) as the database layer (use wiredTiger!)
   - [Redis](http://redis.io/) for the priority job queue
   - A process manager to keep the processes running, in this example [pm2](https://github.com/Unitech/pm2)
   - (Optional) Some sort of caching like [Varnish](https://www.varnish-cache.org/)
