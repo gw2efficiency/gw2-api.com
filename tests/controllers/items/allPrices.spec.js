@@ -19,7 +19,7 @@ describe('controllers > items > allPrices', () => {
   })
 
   it('returns the prices of all tradable items', async () => {
-    await mongo.collection('items').insert([
+    await mongo.collection('items').insertMany([
       {id: 1, lang: 'en', tradable: true, buy: {price: 0}, sell: {price: 123}},
       {id: 2, lang: 'en', tradable: true, buy: {price: 456}, sell: {price: 0}},
       {id: 3, lang: 'en', tradable: true},

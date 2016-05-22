@@ -21,7 +21,7 @@ describe('jobs > recipes > craftingPrices', () => {
     await mongo.collection('recipe-trees').deleteMany({})
     await mongo.collection('items').deleteMany({})
 
-    await mongo.collection('recipe-trees').insert([
+    await mongo.collection('recipe-trees').insertMany([
       {
         id: 30686,
         quantity: 1,
@@ -58,7 +58,7 @@ describe('jobs > recipes > craftingPrices', () => {
       }
     ])
 
-    await mongo.collection('items').insert([
+    await mongo.collection('items').insertMany([
       {id: 30686},
       {id: 1},
       {id: 3},

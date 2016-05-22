@@ -19,7 +19,7 @@ describe('controllers > items > allValues', () => {
   })
 
   it('returns the values of all items that have a value', async () => {
-    await mongo.collection('items').insert([
+    await mongo.collection('items').insertMany([
       {id: 1, lang: 'en', value: 123},
       {id: 2, lang: 'en', value: 456},
       {id: 3, lang: 'en'},

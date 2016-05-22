@@ -20,7 +20,7 @@ describe('controllers > skins > prices', () => {
 
   it('returns the list of skin prices', async () => {
     let content = {1: 123, 2: 456}
-    await mongo.collection('cache').insert({id: 'skinPrices', content: content})
+    await mongo.collection('cache').insertOne({id: 'skinPrices', content: content})
 
     let response = {send: sinon.spy()}
     await prices(null, response)

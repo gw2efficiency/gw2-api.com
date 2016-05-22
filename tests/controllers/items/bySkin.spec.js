@@ -19,7 +19,7 @@ describe('controllers > items > bySkin', () => {
   })
 
   it('returns all items unlocking the skin', async () => {
-    await mongo.collection('items').insert([
+    await mongo.collection('items').insertMany([
       {id: 1, skins: [42], lang: 'en'},
       {id: 2, lang: 'en'},
       {id: 3, skins: [123], lang: 'en'},

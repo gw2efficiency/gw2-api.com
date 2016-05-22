@@ -23,7 +23,7 @@ describe('jobs > items > itemValues', () => {
   })
 
   it('calculates the item values', async () => {
-    await mongo.collection('items').insert([
+    await mongo.collection('items').insertMany([
       {id: 1, lang: 'en', sell: {price: 123}},
       {id: 2, lang: 'en', buy: {price: 456}, value: 456},
       {id: 38506, lang: 'en', buy: {price: 555}, value: 10},
@@ -52,7 +52,7 @@ describe('jobs > items > itemValues', () => {
   })
 
   it('calculates the item values for ascended boxes', async () => {
-    await mongo.collection('items').insert([
+    await mongo.collection('items').insertMany([
       {
         id: 123,
         name: 'wupwup item',

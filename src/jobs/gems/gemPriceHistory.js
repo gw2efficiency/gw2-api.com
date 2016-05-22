@@ -11,7 +11,7 @@ async function gemPriceHistory (job, done) {
   }
   job.log(`Fetched the gem price history`)
 
-  await mongo.collection('cache').update(
+  await mongo.collection('cache').updateOne(
     {id: 'gemPriceHistory'},
     {id: 'gemPriceHistory', content: prices},
     {upsert: true}

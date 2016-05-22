@@ -3,6 +3,7 @@ const api = require('../../helpers/api.js')
 const async = require('gw2e-async-promises')
 const recipeNesting = require('gw2e-recipe-nesting')
 const customRecipes = require('./_customRecipes.js')
+const config = require('../../config/application.js')
 
 async function loadRecipeList (job, done) {
   job.log(`Starting job`)
@@ -23,17 +24,17 @@ async function loadRecipeList (job, done) {
   // Create and execute the recipe updates
   let collection = mongo.collection('recipe-trees')
   let updateFunctions = []
-  recipes.map(recipe => updateFunctions.push(() => collection.update({id: recipe.id}, recipe, {upsert: true})))
+  recipes.map(recipe => updateFunctions.push(() => collection.updateOne({id: recipe.id}, recipe, {upsert: true})))
   job.log(`Generated update functions`)
 
-  await async.parallel(updateFunctions)
+  await async.parallel(updateFunctions, config.mongo.parallelWriteLimit)
   job.log(`Updated recipe trees`)
 
   // Update the craftable flag for items
   let itemCollection = mongo.collection('items')
   let craftableIds = recipes.map(r => r.id)
-  await itemCollection.update({id: {$nin: craftableIds}}, {$set: {craftable: false}}, {multi: true})
-  await itemCollection.update({id: {$in: craftableIds}}, {$set: {craftable: true}}, {multi: true})
+  await itemCollection.updateMany({id: {$nin: craftableIds}}, {$set: {craftable: false}})
+  await itemCollection.updateMany({id: {$in: craftableIds}}, {$set: {craftable: true}})
   job.log(`Updated item "craftable" attribute`)
   done()
 }

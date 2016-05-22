@@ -11,41 +11,15 @@ async function itemValues (job, done) {
   let items = await collection.find({lang: config.server.defaultLanguage}, attributes).toArray()
   job.log(`Calculating values for ${items.length} items`)
 
-  let updateFunctions = items.map(item => async () => {
-    let itemValue = accountValue.itemValue(item)
+  items = items.map(item => calculateItemValue(item, items)).filter(item => item)
+  job.log(`Calculated new values for ${items.length} items`)
 
-    // If the value is not set or the value is the vendor price,
-    // check if we can inherit the value from somewhere else
-    if (!itemValue || itemValue === item.vendor_price) {
-      let inheritedItem = accountValue.itemInherits(item.id)
-
-      // This item inherits the value of an other item
-      if (inheritedItem && inheritedItem.id) {
-        let valueItem = items.find(i => i.id === inheritedItem.id)
-        itemValue = accountValue.itemValue(valueItem) * inheritedItem.count + (inheritedItem.gold || 0)
-      }
-
-      // This item has a hardcoded gold value
-      if (inheritedItem && !inheritedItem.id) {
-        itemValue = inheritedItem.gold
-      }
-    }
-
-    // Don't update the value if it's still the same
-    if (itemValue === item.value) {
-      return
-    }
-
-    let update = {
-      value: itemValue,
-      valueIsVendor: itemValue === item.vendor_price
-    }
-
-    await collection.update({id: item.id}, {$set: update}, {multi: true})
-  })
+  let updateFunctions = items.map(item =>
+    () => collection.updateMany({id: item.id}, {$set: item})
+  )
   job.log(`Created update functions`)
 
-  await async.parallel(updateFunctions)
+  await async.parallel(updateFunctions, config.mongo.parallelWriteLimit)
   job.log(`Calculated values items`)
 
   // Get the average value for ascended boxes based on the average
@@ -53,6 +27,38 @@ async function itemValues (job, done) {
   await ascendedBoxValues()
   job.log(`Calculated values for ascended boxes`)
   done()
+}
+
+function calculateItemValue (item, items) {
+  let itemValue = accountValue.itemValue(item)
+
+  // If the value is not set or the value is the vendor price,
+  // check if we can inherit the value from somewhere else
+  if (!itemValue || itemValue === item.vendor_price) {
+    let inheritedItem = accountValue.itemInherits(item.id)
+
+    // This item inherits the value of an other item
+    if (inheritedItem && inheritedItem.id) {
+      let valueItem = items.find(i => i.id === inheritedItem.id)
+      itemValue = accountValue.itemValue(valueItem) * inheritedItem.count + (inheritedItem.gold || 0)
+    }
+
+    // This item has a hardcoded gold value
+    if (inheritedItem && !inheritedItem.id) {
+      itemValue = inheritedItem.gold
+    }
+  }
+
+  // Don't update the value if it's still the same
+  if (itemValue === item.value) {
+    return false
+  }
+
+  return {
+    id: item.id,
+    value: itemValue,
+    valueIsVendor: itemValue === item.vendor_price
+  }
 }
 
 async function ascendedBoxValues () {
@@ -93,7 +99,7 @@ async function ascendedBoxValues () {
   ).toArray()
 
   // Update all ascended boxes with the average price
-  await collection.update({id: {$in: ids.map(i => i.id)}}, {$set: {value: ascendedAverage}}, {multi: true})
+  await collection.updateMany({id: {$in: ids.map(i => i.id)}}, {$set: {value: ascendedAverage}})
 }
 
 module.exports = itemValues

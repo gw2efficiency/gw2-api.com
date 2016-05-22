@@ -28,7 +28,7 @@ async function skinPrices (job, done) {
   }
   job.log(`Calculated prices of ${Object.keys(skins).length} skins`)
 
-  await mongo.collection('cache').update(
+  await mongo.collection('cache').updateOne(
     {id: 'skinPrices'},
     {id: 'skinPrices', content: skins},
     {upsert: true}
