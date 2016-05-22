@@ -19,7 +19,7 @@ async function itemValues (job, done) {
   )
   job.log(`Created update functions`)
 
-  await async.parallel(updateFunctions)
+  await async.parallel(updateFunctions, config.mongo.parallelWriteLimit)
   job.log(`Calculated values items`)
 
   // Get the average value for ascended boxes based on the average

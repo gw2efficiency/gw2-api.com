@@ -3,6 +3,7 @@ const async = require('gw2e-async-promises')
 const recipeCalculation = require('gw2e-recipe-calculation')
 const legendaries = require('../../static/legendaries.js')
 const precursors = require('../../static/precursors.js')
+const config = require('../../config/application.js')
 
 async function craftingPrices (job, done) {
   job.log(`Starting job`)
@@ -21,7 +22,7 @@ async function craftingPrices (job, done) {
   )
   job.log(`Generated update functions`)
 
-  await async.parallel(updateFunctions)
+  await async.parallel(updateFunctions, config.mongo.parallelWriteLimit)
   job.log(`Updated crafting prices`)
   done()
 }

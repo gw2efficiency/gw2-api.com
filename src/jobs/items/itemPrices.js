@@ -19,7 +19,7 @@ async function itemPrices (job, done) {
   )
   job.log(`Created update functions`)
 
-  await async.parallel(updateFunctions)
+  await async.parallel(updateFunctions, config.mongo.parallelWriteLimit)
   job.log(`Updated item prices`)
   done()
 }

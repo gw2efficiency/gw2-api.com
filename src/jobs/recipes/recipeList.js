@@ -3,6 +3,7 @@ const api = require('../../helpers/api.js')
 const async = require('gw2e-async-promises')
 const recipeNesting = require('gw2e-recipe-nesting')
 const customRecipes = require('./_customRecipes.js')
+const config = require('../../config/application.js')
 
 async function loadRecipeList (job, done) {
   job.log(`Starting job`)
@@ -26,7 +27,7 @@ async function loadRecipeList (job, done) {
   recipes.map(recipe => updateFunctions.push(() => collection.updateOne({id: recipe.id}, recipe, {upsert: true})))
   job.log(`Generated update functions`)
 
-  await async.parallel(updateFunctions)
+  await async.parallel(updateFunctions, config.mongo.parallelWriteLimit)
   job.log(`Updated recipe trees`)
 
   // Update the craftable flag for items
