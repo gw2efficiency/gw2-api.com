@@ -16,10 +16,9 @@ async function lastKnownPrices (job, done) {
   for (let i in items) {
     let item = items[i]
     let price = await loadPrice(item.id)
-    await mongo.collection('items').update(
+    await mongo.collection('items').updateMany(
       {id: item.id},
-      {$set: {'sell.last_known': price}},
-      {multi: true}
+      {$set: {'sell.last_known': price}}
     )
   }
 

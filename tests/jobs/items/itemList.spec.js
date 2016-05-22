@@ -47,7 +47,7 @@ describe('jobs > items > itemList', () => {
   })
 
   it('doesn\'t overwrite the items', async () => {
-    await mongo.collection('items').insert([
+    await mongo.collection('items').insertMany([
       {id: 1, name: 'Fiz', lang: 'en', someKey: 'someValue'},
       {id: 2, name: 'Herp', lang: 'en'}
     ])

@@ -25,7 +25,7 @@ describe('controllers > recipes > nested', () => {
       {id: 2, ingredients: [4, 5, 6]},
       {id: 3, ingredients: [4, 5, 6]}
     ]
-    await mongo.collection('recipe-trees').insert(recipes)
+    await mongo.collection('recipe-trees').insertMany(recipes)
 
     let response = {send: sinon.spy()}
     await nested({params: {ids: [2, 3]}}, response)

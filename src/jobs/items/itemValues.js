@@ -41,7 +41,7 @@ async function itemValues (job, done) {
       valueIsVendor: itemValue === item.vendor_price
     }
 
-    await collection.update({id: item.id}, {$set: update}, {multi: true})
+    await collection.updateMany({id: item.id}, {$set: update})
   })
   job.log(`Created update functions`)
 
@@ -93,7 +93,7 @@ async function ascendedBoxValues () {
   ).toArray()
 
   // Update all ascended boxes with the average price
-  await collection.update({id: {$in: ids.map(i => i.id)}}, {$set: {value: ascendedAverage}}, {multi: true})
+  await collection.updateMany({id: {$in: ids.map(i => i.id)}}, {$set: {value: ascendedAverage}})
 }
 
 module.exports = itemValues

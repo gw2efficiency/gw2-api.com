@@ -27,7 +27,7 @@ async function itemList (job, done) {
   // little overhead when adding new items.
   let collection = mongo.collection('items')
   let updateFunctions = items.map(item =>
-    () => collection.update({id: item.id, lang: item.lang}, {$set: item}, {upsert: true})
+    () => collection.updateOne({id: item.id, lang: item.lang}, {$set: item}, {upsert: true})
   )
   job.log(`Created update functions`)
 

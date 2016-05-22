@@ -20,7 +20,7 @@ describe('controllers > gems > history', () => {
 
   it('returns the gem history', async () => {
     let content = {gold: [1, 2, 3], gems: [4, 5, 6]}
-    await mongo.collection('cache').insert({id: 'gemPriceHistory', content: content})
+    await mongo.collection('cache').insertOne({id: 'gemPriceHistory', content: content})
 
     let response = {send: sinon.spy()}
     await history(null, response)

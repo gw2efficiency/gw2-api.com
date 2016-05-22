@@ -23,7 +23,7 @@ describe('jobs > items > lastKnownPrices', () => {
   })
 
   it('loads the missing item prices', async () => {
-    await mongo.collection('items').insert([
+    await mongo.collection('items').insertMany([
       {id: 1, name: 'Fiz', lang: 'en', tradable: true, sell: {quantity: 0, last_known: false}}
     ])
 

@@ -16,7 +16,7 @@ describe('controllers > items > query', () => {
   beforeEach(async (done) => {
     await mongo.collection('items').deleteMany({})
 
-    await mongo.collection('items').insert([
+    await mongo.collection('items').insertMany([
       {id: 1, name: 'Foo', lang: 'en', rarity: 0, category: [14, 2], buy: {price: 0}, sell: {price: 123}},
       {id: 2, name: 'Bar', lang: 'en', rarity: 1, category: [2], buy: {price: 123}, sell: {price: 456}},
       {id: 3, name: 'FooBar', lang: 'en', rarity: 2, craftable: true},

@@ -22,7 +22,7 @@ async function skinList (job, done) {
   skins.map(skin => skinsToItems[skin.id] = skin.items)
   job.log(`Resolved skins to items`)
 
-  await mongo.collection('cache').update(
+  await mongo.collection('cache').updateOne(
     {id: 'skinsToItems'},
     {id: 'skinsToItems', content: skinsToItems},
     {upsert: true}

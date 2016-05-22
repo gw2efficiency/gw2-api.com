@@ -28,7 +28,7 @@ describe('jobs > items > itemPrices', () => {
   it('loads the item prices', async () => {
     let currentDate = isoDate()
 
-    await mongo.collection('items').insert([
+    await mongo.collection('items').insertMany([
       {id: 1, name: 'Test Item', lang: 'en', tradable: true},
       {id: 2, name: 'Another test item', tradable: false, lang: 'en'}
     ])

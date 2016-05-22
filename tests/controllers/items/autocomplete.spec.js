@@ -16,7 +16,7 @@ describe('controllers > items > autocomplete', () => {
   beforeEach(async (done) => {
     await mongo.collection('items').deleteMany({})
 
-    await mongo.collection('items').insert([
+    await mongo.collection('items').insertMany([
       {id: 1, name: 'Foo', lang: 'en', craftable: true},
       {id: 2, name: 'Bar', lang: 'en', craftable: false},
       {id: 3, name: 'FooBar', lang: 'en', craftable: true},

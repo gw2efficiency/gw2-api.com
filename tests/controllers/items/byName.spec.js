@@ -19,7 +19,7 @@ describe('controllers > items > byName', () => {
   })
 
   it('returns all exact name matches', async () => {
-    await mongo.collection('items').insert([
+    await mongo.collection('items').insertMany([
       {id: 1, name: 'Foo', lang: 'en', tradable: false},
       {id: 2, name: 'Bar', lang: 'en', tradable: true},
       {id: 3, name: 'FooBar', lang: 'en', tradable: true}

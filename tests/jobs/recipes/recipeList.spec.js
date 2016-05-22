@@ -29,7 +29,7 @@ describe('jobs > recipes > recipeList', () => {
   })
 
   it('loads the recipe list', async () => {
-    await mongo.collection('items').insert([{id: 1}, {id: 9001}])
+    await mongo.collection('items').insertMany([{id: 1}, {id: 9001}])
 
     recipeList.__set__('api', () => ({
       recipes: () => ({

@@ -49,7 +49,7 @@ async function craftingPrice (recipe, buyPrices, sellPrices) {
     item.craftingWithoutPrecursors = calculateCraftingPrice(recipe, buyPrices, sellPrices, precursors)
   }
 
-  await mongo.collection('items').update({id: recipe.id}, {$set: item}, {multi: true})
+  await mongo.collection('items').updateMany({id: recipe.id}, {$set: item})
 }
 
 // Actually calculate the crafting price for a recipe

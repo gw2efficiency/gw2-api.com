@@ -20,7 +20,7 @@ describe('controllers > skins > resolve', () => {
 
   it('returns the list of skins to items', async () => {
     let content = {1: [1, 2], 2: [3, 4]}
-    await mongo.collection('cache').insert({id: 'skinsToItems', content: content})
+    await mongo.collection('cache').insertOne({id: 'skinsToItems', content: content})
 
     let response = {send: sinon.spy()}
     await resolve(null, response)

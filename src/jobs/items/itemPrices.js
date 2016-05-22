@@ -20,7 +20,7 @@ async function itemPrices (job, done) {
     }
 
     item = transformPrices(item, price)
-    await collection.update({id: price.id}, {$set: item}, {multi: true})
+    await collection.updateMany({id: price.id}, {$set: item})
   })
   job.log(`Created update functions`)
 

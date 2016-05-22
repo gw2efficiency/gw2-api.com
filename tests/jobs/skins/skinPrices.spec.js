@@ -24,7 +24,7 @@ describe('jobs > skins > skinPrices', () => {
   })
 
   it('calculates the skin prices', async () => {
-    await mongo.collection('items').insert([
+    await mongo.collection('items').insertMany([
       {id: 1, tradable: true, lang: 'en', value: 123, valueIsVendor: false},
       {id: 2, tradable: true, lang: 'en', value: 456, valueIsVendor: false},
       {id: 3, tradable: true, lang: 'en', value: 789, valueIsVendor: true},
@@ -32,7 +32,7 @@ describe('jobs > skins > skinPrices', () => {
       {id: 5, tradable: true, lang: 'en', value: 999, valueIsVendor: false},
       {id: 6, tradable: true, lang: 'en', value: 500, valueIsVendor: false}
     ])
-    await mongo.collection('cache').insert({
+    await mongo.collection('cache').insertOne({
       id: 'skinsToItems',
       content: {
         71: [1],

@@ -24,7 +24,7 @@ describe('jobs > skins > skinList', () => {
   })
 
   it('loads the skins and resolves into items', async () => {
-    await mongo.collection('items').insert([
+    await mongo.collection('items').insertMany([
       {id: 1000, lang: 'en', skins: [1, 4]},
       {id: 2000, lang: 'en', skins: [2]},
       {id: 3000, lang: 'en', skins: [2]},
