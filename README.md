@@ -29,8 +29,8 @@ npm run build
 # Build the initial database using the cli tool
 node build/bin/cli.js full-rebuild
 
-# Start the job processing cluster
-pm2 start build/bin/worker.js --name="gw2api-worker" -i 3
+# Start the job worker process
+pm2 start build/bin/worker.js --name="gw2api-worker"
 
 # Start the job scheduling
 pm2 start build/bin/scheduler.js --name="gw2api-scheduler"
@@ -39,7 +39,7 @@ pm2 start build/bin/scheduler.js --name="gw2api-scheduler"
 pm2 start build/bin/kue.js --name="gw2api-kue"
 
 # Start a server cluster for API routes (port 8080)
-pm2 start build/bin/server.js --name="gw2api-server" -i 5
+pm2 start build/bin/server.js --name="gw2api-server" -i 3
 ```
 
 Logs for all processes will be written in `~/.pm2/logs`. 
@@ -75,10 +75,10 @@ to set the environment to `production`. Note that this will load the
 `config/environment.js` and make sure the values match your setup.
 
 ```bash
-NODE_ENV=production pm2 start build/bin/worker.js --name="gw2api-worker" -i 3
+NODE_ENV=production pm2 start build/bin/worker.js --name="gw2api-worker"
 NODE_ENV=production pm2 start build/bin/scheduler.js --name="gw2api-scheduler"
 NODE_ENV=production pm2 start build/bin/kue.js --name="gw2api-kue"
-NODE_ENV=production pm2 start build/bin/server.js --name="gw2api-server" -i 5
+NODE_ENV=production pm2 start build/bin/server.js --name="gw2api-server" -i 3
 ```
 
 ## Tests
