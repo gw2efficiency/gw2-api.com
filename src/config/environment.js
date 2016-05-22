@@ -19,7 +19,7 @@ const environment = {
     url: 'mongodb://127.0.0.1:27017/gw2api',
     // parallel write limit, between 50 and 500 is the most efficient
     // "false" to disable any write limits (NOT ENCOURAGED)
-    parallelWriteLimit: 100
+    parallelWriteLimit: 250
   },
   redis: {
     // redis connection settings, you can see all options here:

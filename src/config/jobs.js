@@ -9,7 +9,7 @@ const jobs = [
     priority: 'medium',
     ttl: 10 * 60 * 1000,
     attempts: 3,
-    schedule: '0 0 2 * * *'
+    schedule: '0 2 2 * * *'
   },
   {
     name: 'item-prices',
@@ -34,7 +34,7 @@ const jobs = [
     priority: 'medium',
     ttl: 30 * 60 * 1000,
     attempts: 3,
-    schedule: '0 0 5 * * *'
+    schedule: '0 2 5 * * *'
   },
   {
     name: 'recipe-list',
@@ -43,7 +43,7 @@ const jobs = [
     priority: 'medium',
     ttl: 10 * 60 * 1000,
     attempts: 3,
-    schedule: '0 0 4 * * *'
+    schedule: '0 2 4 * * *'
   },
   {
     name: 'crafting-prices',
@@ -60,7 +60,7 @@ const jobs = [
     priority: 'medium',
     ttl: 10 * 60 * 1000,
     attempts: 3,
-    schedule: '0 0 3 * * *'
+    schedule: '0 2 3 * * *'
   },
   {
     name: 'skin-prices',
