@@ -30,7 +30,8 @@ describe('jobs > skins > skinPrices', () => {
       {id: 3, tradable: true, lang: 'en', value: 789, valueIsVendor: true},
       {id: 4, tradable: true, lang: 'en'},
       {id: 5, tradable: true, lang: 'en', value: 999, valueIsVendor: false},
-      {id: 6, tradable: true, lang: 'en', value: 500, valueIsVendor: false}
+      {id: 6, tradable: true, lang: 'en', value: 500, valueIsVendor: false},
+      {id: 7, tradable: true, lang: 'en', value: 500, buy: {price: 500}, valueIsVendor: false}
     ])
     await mongo.collection('cache').insertOne({
       id: 'skinsToItems',
@@ -43,7 +44,8 @@ describe('jobs > skins > skinPrices', () => {
         76: [5, 2],
         77: [20319],
         78: [5, 1337],
-        79: [3, 5, 6]
+        79: [3, 5, 6],
+        80: [7, 5]
       }
     })
 
@@ -60,7 +62,8 @@ describe('jobs > skins > skinPrices', () => {
       75: 123,
       76: 456,
       78: 999,
-      79: 500
+      79: 500,
+      80: 999
     })
   })
 })
