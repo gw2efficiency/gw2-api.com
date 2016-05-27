@@ -293,5 +293,30 @@ module.exports = [
   78065, // Super Rock
   78043, // Super Small Rock
   78084, // Super King Frog
-  78095 // Super Rock Ramp
+  78095, // Super Rock Ramp
+
+  // Guild blueprints
+  70532, // Guild Flame Ram Blueprint
+  70605, // Guild Trebuchet Blueprints
+  70754, // Guild Arrow Cart Blueprints
+  72157, // Guild Ballista Blueprints
+  77175, // Guild Siege Golem Blueprints
+
+  // Guild schematics
+  70804, // Schematic: Assault Roller
+  70948, // Schematic: Sabotage Depot
+  71305, // Schematic: Presence of the Keep
+  71709, // Schematic: Speedy Dolyaks
+  71954, // Schematic: Minor Supply Drop
+  72640, // Schematic: Invulnerable Dolyaks
+  72797, // Schematic: Chilling Fog
+  72828, // Schematic: Airship Defense
+  73938, // Schematic: Centaur Banner
+  74432, // Schematic: Watchtower
+  74600, // Schematic: Emergency Waypoint
+  75699, // Schematic: Armored Dolyaks
+  75761, // Schematic: Iron Guards
+  75772, // Schematic: Turtle Banner
+  75812, // Schematic: Cloaking Waters
+  76657 // Schematic: Hardened Gates
 ]
