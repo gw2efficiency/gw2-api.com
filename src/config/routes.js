@@ -12,6 +12,7 @@ const routes = {
   '/items/autocomplete': require('../controllers/items/autocomplete.js'),
   '/items/by-name': require('../controllers/items/byName.js'),
   '/items/by-skin': require('../controllers/items/bySkin.js'),
+  '/items/by-crafting-profit': require('../controllers/items/byCraftingProfit.js'),
   '/items/query': require('../controllers/items/query.js'),
   '/items/:ids': require('../controllers/items/byIds.js'),
   '/skins/resolve': require('../controllers/skins/resolve.js'),

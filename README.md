@@ -100,6 +100,7 @@ npm test
 - [`/items/autocomplete`](#itemsautocomplete)
 - [`/items/by-name`](#itemsby-name)
 - [`/items/by-skin`](#itemsby-skin)
+- [`/items/by-crafting-profit`](#itemsby-crafting-profit)
 - [`/items/query`](#itemsquery)
 - [`/items/categories`](#itemscategories)
 - [`/skins/resolve`](#skinsresolve)
@@ -282,6 +283,28 @@ This endpoint returns an array of all item ids matching the skin id.
   125,
   // ...
 ]
+```
+
+### `/items/by-crafting-profit`
+
+This endpoint returns an array of all craftable items, ordered by crafting profit.
+
+**Parameters**
+
+- `page`: The page number to enumerate through the pages (50 items per page)
+
+```js
+{
+  totalResults: 1234,
+  results: [
+    {
+      "id": 123, 
+      "name": "Zho's Mask", 
+      // like /item/:id ...
+    },
+    // ...
+  ]
+}
 ```
 
 ### `/items/query`
