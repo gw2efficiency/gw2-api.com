@@ -16,6 +16,7 @@ async function loadRecipeList (job, done) {
   // Filter the recipes so we don't work with duplicates
   let recipeIds = recipes.map(r => r.output_item_id)
   recipes = recipes.filter((value, index, self) => recipeIds.indexOf(value.output_item_id) === index)
+  job.log(`Filtered ${recipes.length} unique recipes`)
 
   // Convert the recipes into trees
   recipes = recipeNesting(recipes)
