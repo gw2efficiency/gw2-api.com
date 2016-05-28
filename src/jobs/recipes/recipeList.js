@@ -54,6 +54,9 @@ async function getGuildIngredients () {
     .filter(u => u.costs[0].type === 'Item')
     .map(u => decorationsMap[u.id] = u.costs[0].item_id)
 
+  // Hard-code some decorations because the API doesn't link them
+  decorationsMap[459] = 75659
+
   return decorationsMap
 }
 

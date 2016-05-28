@@ -74,6 +74,6 @@ describe('jobs > recipes > recipeList', () => {
     }))
 
     let ingredients = await recipeList.__get__('getGuildIngredients')()
-    expect(ingredients).to.deep.equal({5: 123})
+    expect(ingredients).to.deep.equal({5: 123, 459: 75659})
   })
 })
