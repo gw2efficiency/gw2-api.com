@@ -8,6 +8,10 @@ const config = require('../../config/application.js')
 async function loadRecipeList (job, done) {
   job.log(`Starting job`)
 
+  // Download the official decorations as a map of upgrade_id to item_id
+  let decorations = await getGuildIngredients()
+  job.log(`Fetched ${Object.keys(decorations).length} guild ingredients`)
+
   // Download the official recipes and attach the custom one's
   let recipes = await api().recipes().all()
   recipes = recipes.concat(await customRecipes())
@@ -19,7 +23,7 @@ async function loadRecipeList (job, done) {
   job.log(`Filtered ${recipes.length} unique recipes`)
 
   // Convert the recipes into trees
-  recipes = recipeNesting(recipes)
+  recipes = recipeNesting(recipes, decorations)
   job.log(`Nested all recipe trees`)
 
   // Create and execute the recipe updates
@@ -38,6 +42,19 @@ async function loadRecipeList (job, done) {
   await itemCollection.updateMany({id: {$in: craftableIds}}, {$set: {craftable: true}})
   job.log(`Updated item "craftable" attribute`)
   done()
+}
+
+async function getGuildIngredients () {
+  let upgrades = await api().guild().upgrades().all()
+  let decorationsMap = {}
+
+  upgrades
+    .filter(u => u.type === 'Decoration')
+    .filter(u => u.costs.length === 1)
+    .filter(u => u.costs[0].type === 'Item')
+    .map(u => decorationsMap[u.id] = u.costs[0].item_id)
+
+  return decorationsMap
 }
 
 module.exports = loadRecipeList

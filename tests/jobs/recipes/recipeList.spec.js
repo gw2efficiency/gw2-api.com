@@ -30,6 +30,7 @@ describe('jobs > recipes > recipeList', () => {
 
   it('loads the recipe list', async () => {
     await mongo.collection('items').insertMany([{id: 1}, {id: 9001}])
+    let tmp = recipeList.__get__('getGuildIngredients')
 
     recipeList.__set__('api', () => ({
       recipes: () => ({
@@ -39,6 +40,7 @@ describe('jobs > recipes > recipeList', () => {
 
     await recipeList(jobMock, doneMock)
     expect(doneMock.called).to.equal(true)
+    recipeList.__set__('getGuildIngredients', tmp)
 
     let expectedRecipes = [
       {id: 1, output_item_id: 1},
@@ -55,5 +57,22 @@ describe('jobs > recipes > recipeList', () => {
       .find({}, {_id: 0})
       .sort({id: 1}).toArray()
     expect(items).to.deep.equal([{id: 1, craftable: true}, {id: 9001, craftable: false}])
+  })
+
+  it('loads the guild ingredients', async () => {
+    recipeList.__set__('api', () => ({
+      guild: () => ({
+        upgrades: () => ({
+          all: () => [
+            {type: 'Something'},
+            {id: 4, type: 'Decoration', costs: [{type: 'Item', item_id: 456}, {type: 'Item', item_id: 789}]},
+            {id: 5, type: 'Decoration', costs: [{type: 'Item', item_id: 123}]}
+          ]
+        })
+      })
+    }))
+
+    let ingredients = await recipeList.__get__('getGuildIngredients')()
+    expect(ingredients).to.deep.equal({5: 123})
   })
 })
