@@ -211,7 +211,6 @@ module.exports = [
   75685, // Potted Reaching Blue Fern
   74705, // Basic Torch [precaution]
   72530, // Potted Bamboo Cluster
-  12147, // Mushroom
   71278, // Basic Boulder [precaution]
   72758, // Potted Paddlefrond
   72198, // Immense Lion Statue
