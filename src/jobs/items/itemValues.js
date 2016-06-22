@@ -61,6 +61,9 @@ function calculateItemValue (item, items) {
   }
 }
 
+// Blacklist ascended boxes that don't reward ascended gear
+const ascendedBoxBlacklist = [77886, 68326]
+
 async function ascendedBoxValues () {
   let collection = mongo.collection('items')
   let ascendedAverage = await collection.aggregate([
@@ -92,6 +95,7 @@ async function ascendedBoxValues () {
       rarity: 6,
       'category.0': 4,
       'category.1': {$in: [0, 1]},
+      'id': {$not: {$in: ascendedBoxBlacklist}},
       lang: config.server.defaultLanguage,
       name: {$regex: '(chest|hoard)', $options: 'i'}
     },

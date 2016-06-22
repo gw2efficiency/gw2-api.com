@@ -128,21 +128,23 @@ describe('jobs > items > itemValues', () => {
       {id: 1, rarity: 6, category: [4, 0], lang: 'en', sell: {price: 1}, name: 'Wupwup Chest'},
       {id: 2, rarity: 6, category: [4, 0], lang: 'en', sell: {price: 1}, name: 'Recipe for something'},
       {id: 3, rarity: 6, category: [4, 1], lang: 'en', sell: {price: 1}, name: 'Another Chest'},
-      {id: 4, rarity: 6, category: [4, 1], lang: 'en', sell: {price: 1}, name: 'Worldboss Hoard'}
+      {id: 4, rarity: 6, category: [4, 1], lang: 'en', sell: {price: 1}, name: 'Worldboss Hoard'},
+      {id: 77886, rarity: 6, category: [4, 0], lang: 'en', sell: {price: 1}, name: 'Chest of Insignia'}
     ])
 
     await itemValues(jobMock, doneMock)
     expect(doneMock.called).to.equal(true)
 
     let items = await mongo.collection('items')
-      .find({lang: 'en', id: {$in: [1, 2, 3, 4]}}, {_id: 0, id: 1, value: 1})
+      .find({lang: 'en', id: {$in: [1, 2, 3, 4, 77886]}}, {_id: 0, id: 1, value: 1})
       .sort({id: 1}).toArray()
 
     expect(items).to.deep.equal([
       {id: 1, value: 150},
       {id: 2, value: 1},
       {id: 3, value: 150},
-      {id: 4, value: 150}
+      {id: 4, value: 150},
+      {id: 77886, value: 1}
     ])
   })
 })
