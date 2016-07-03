@@ -63,6 +63,7 @@ function calculateItemValue (item, items) {
 
 // Blacklist ascended boxes that don't reward ascended gear
 const ascendedBoxBlacklist = [77886, 68326]
+const raidAscended = require('../../static/raidAscended.js')
 
 async function ascendedBoxValues () {
   let collection = mongo.collection('items')
@@ -90,7 +91,7 @@ async function ascendedBoxValues () {
   ascendedAverage = Math.round(ascendedAverage.average)
 
   // Find ascended boxes ids (we are filtering out the recipes here)
-  let ids = await collection.find(
+  const ascendedBoxes = await collection.find(
     {
       rarity: 6,
       'category.0': 4,
@@ -102,8 +103,23 @@ async function ascendedBoxValues () {
     {_id: 0, id: 1}
   ).toArray()
 
+  // Find ascended items that cant be crafted, just add ascended box average for that
+  const ascendedItems = await collection.find(
+    {
+      lang: config.server.defaultLanguage,
+      name: {$in: raidAscended}
+    },
+    {_id: 0, id: 1}
+  ).toArray()
+
+  // Concat ids to update together
+  const updateIds = [].concat(
+    ascendedBoxes.map(i => i.id),
+    ascendedItems.map(i => i.id)
+  )
+
   // Update all ascended boxes with the average price
-  await collection.updateMany({id: {$in: ids.map(i => i.id)}}, {$set: {value: ascendedAverage}})
+  await collection.updateMany({id: {$in: updateIds}}, {$set: {value: ascendedAverage}})
 }
 
 module.exports = itemValues
