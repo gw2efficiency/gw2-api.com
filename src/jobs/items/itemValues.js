@@ -1,6 +1,6 @@
 const mongo = require('../../helpers/mongo.js')
 const async = require('gw2e-async-promises')
-const accountValue = require('gw2e-account-value')
+const valueCalculation = require('gw2e-item-value')
 const config = require('../../config/application.js')
 
 async function itemValues (job, done) {
@@ -30,17 +30,17 @@ async function itemValues (job, done) {
 }
 
 function calculateItemValue (item, items) {
-  let itemValue = accountValue.itemValue(item)
+  let itemValue = valueCalculation.itemValue(item)
 
   // If the value is not set or the value is the vendor price,
   // check if we can inherit the value from somewhere else
   if (!itemValue || itemValue === item.vendor_price) {
-    let inheritedItem = accountValue.itemInherits(item.id)
+    let inheritedItem = valueCalculation.itemInherits(item.id)
 
     // This item inherits the value of an other item
     if (inheritedItem && inheritedItem.id) {
       let valueItem = items.find(i => i.id === inheritedItem.id)
-      itemValue = accountValue.itemValue(valueItem) * inheritedItem.count + (inheritedItem.gold || 0)
+      itemValue = valueCalculation.itemValue(valueItem) * inheritedItem.count + (inheritedItem.gold || 0)
     }
 
     // This item has a hardcoded gold value
