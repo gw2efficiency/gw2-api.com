@@ -5,9 +5,11 @@
 
 > Proxy-layer server for the official GuildWars 2 API.
 
-:construction: Please note that this is not versioned and stuff may change without notice. :construction:
+## NO MAINTENANCE INTENDED
 
-*This is part of [gw2efficiency](https://gw2efficiency.com). Please report all issues in [the central repository](https://github.com/gw2efficiency/issues/issues).*
+In the old days, before the official API, you could get item and price data by requesting a session token from the official login page and then using the urls the tradingpost used ingame as a unofficial API. This project originated when I wanted to this data for a tradingpost section on [gw2efficiency.com](https://gw2efficiency.com/), but I was not satisfied with the existing solutions (mainly because of cache time, update frequency and data format).
+
+Now, most of this code is integrated into the internal API of [gw2efficiency.com](https://gw2efficiency.com/) directly and this code is not longer maintained (even tho it may remain usable). This repository is mainly online for historical reasons.
 
 ## Install
 
@@ -457,35 +459,6 @@ This endpoint returns price history data for gold to gems conversion.
     // ...
   ]
 ```
-
-## History and reasoning of this module
-
-> You can find the old PHP version before the rewrite under the [v0.1 release tag](https://github.com/queicherius/gw2-api/tree/v0.1).
-
-**Past**
-
-In the old days, before the official API, you could get item and price data
-by requesting a session token from the official login page and then using the urls the tradingpost
-used ingame as a unofficial API. 
-
-This project originated when
-I wanted to this data for a tradingpost section on [gw2efficiency.com](https://gw2efficiency.com/), but I was not satisfied with the existing solutions (mainly because of cache time, update frequency and data format).
-
-**Present**
-
-Now, [gw2efficiency.com](https://gw2efficiency.com/) still depends on this project and gets item data 
-from [gw2-api.com](https://gw2-api.com), even tho the official API has gotten many more endpoints and
-a lot of things could be requested directly from it. Sadly in the way this page was written in PHP, 
-it takes way too many resources to serve the millions of requests it gets every day. 
-
-To fix this, and to extract re-usable modules that can get used for [gw2efficiency.com](https://gw2efficiency.com/) 
-as well, this project has been rewritten in node.js with resource management and performance in mind.
-
-**Future**
-
-In the future, [gw2-api.com](https://gw2-api.com) will stay online for a while, but it will not be used 
-in production anymore. Instead, it will be integrated into the API of
-[gw2efficiency.com](https://gw2efficiency.com/) directly.
 
 ## Licence
 
