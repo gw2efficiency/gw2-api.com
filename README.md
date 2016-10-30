@@ -5,11 +5,15 @@
 
 > Proxy-layer server for the official GuildWars 2 API.
 
-## NO MAINTENANCE INTENDED
+---
+
+# NO LONGER MAINTAINED, MAY BREAK AT ANY POINT
 
 In the old days, before the official API, you could get item and price data by requesting a session token from the official login page and then using the urls the tradingpost used ingame as a unofficial API. This project originated when I wanted to this data for a tradingpost section on [gw2efficiency.com](https://gw2efficiency.com/), but I was not satisfied with the existing solutions (mainly because of cache time, update frequency and data format).
 
-Now, most of this code is integrated into the internal API of [gw2efficiency.com](https://gw2efficiency.com/) directly and this code is not longer maintained (even tho it may remain usable). This repository is mainly online for historical reasons.
+Now, most of this code is integrated into the internal API of [gw2efficiency.com](https://gw2efficiency.com/) directly and this code is **not** longer maintained (even tho it may remain usable). This repository is mainly online for historical reasons.
+
+---
 
 ## Install
 
